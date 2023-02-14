@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:layout_gravity="bottom"
+    tools:context=".Settings">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:text="settings"
+            android:textAlignment="center"
+            android:background="@color/clear"
+            android:fontFamily="@font/staystrong"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TableRow>
+                    <ImageButton
+                        android:id="@+id/TaskDays"
+                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:background="@color/clear"
+                        android:layout_marginStart="8dp"
+                        android:onClick="NewTaskFragment"
+                        android:src="@drawable/newtask"
+                        android:text="@string/newTask" />
+
+                    <ImageButton
+                        android:id="@+id/AddTasks"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:background="@color/clear"
+                        android:onClick="EditTaskFragment"
+                        android:text="@string/editTask"
+                        android:src="@drawable/edittask"/>
+
+                    <ImageButton
+                        android:id="@+id/GeneralSettings"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@color/clear"
+                        android:onClick="GeneralFragment"
+                        android:text="@string/generalSettings"
+                        android:src="@drawable/otheredit"/>
+                </TableRow>
+
+            </TableLayout>
+
+        <FrameLayout
+            android:id="@+id/FragmentHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            >
+
+            <!-- Loads fragments -->
+
+        </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <TableRow>
+
+                <Button
+                    android:id="@+id/Save"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/save"
+                    android:onClick="taskSettings"
+                    />
+
+                <Button
+                    android:id="@+id/Back"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/back"
+                    />
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+</LinearLayout>

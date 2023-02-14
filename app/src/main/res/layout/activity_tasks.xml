@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Tasks"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="24dp"
+    android:orientation="vertical">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/yearsGoals"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:background="@color/clear"
+            android:onClick="YearTasks"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+        </Button>
+
+        <TextView
+            android:id="@+id/progressTitle"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:text="@string/progressTitle"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/DailyTitle"
+                    android:layout_width="117dp"
+                    android:layout_height="24dp"
+                    android:text="@string/dailyTitle"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/YesterdayTitle"
+                    android:layout_width="117dp"
+                    android:layout_height="24dp"
+                    android:text="@string/yesterdayTitle"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toEndOf="@+id/DailyTitle"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/TotalTitle"
+                    android:layout_width="117dp"
+                    android:layout_height="24dp"
+                    android:text="@string/totalTitle"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toEndOf="@+id/YesterdayTitle"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/DailyProgress"
+                    android:layout_width="117dp"
+                    android:layout_height="24dp"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/YesterdayProgress"
+                    android:layout_width="117dp"
+                    android:layout_height="24dp"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toEndOf="@+id/DailyProgress"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/TotalProgress"
+                    android:layout_width="117dp"
+                    android:layout_height="24dp"
+                    android:textAlignment="center"
+                    app:layout_constraintStart_toEndOf="@+id/YesterdayProgress"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </TableRow>
+        </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/morningRoutine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent">
+            <!-- dynamically made backend -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dailyRoutine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent">
+            <!-- dynamically made backend -->
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/temporaryRoutine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent">
+            <!-- dynamically made backend -->
+        </LinearLayout>
+</LinearLayout>
