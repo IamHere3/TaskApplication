@@ -240,8 +240,6 @@ public class Tasks extends SaveClass {
                         {
                             CheckedTasks = CheckedTasks - 1;
                         }
-                        Toast toast2 = Toast.makeText(this, "week id = " + String.valueOf(entry[0]), Toast.LENGTH_SHORT);
-                        toast2.show();
                         SaveBoolData(entry[0], ((CheckBox) v).isChecked());
                         updateProgress();
                     });
@@ -284,8 +282,6 @@ public class Tasks extends SaveClass {
                         {
                             CheckedTasks = CheckedTasks - 1;
                         }
-                        Toast toast2 = Toast.makeText(this, "day id = " + String.valueOf(entry[0]), Toast.LENGTH_SHORT);
-                        toast2.show();
                         SaveBoolData(entry[0], ((CheckBox) v).isChecked());
                         updateProgress();
                     });
@@ -507,7 +503,7 @@ public class Tasks extends SaveClass {
 
     //endregion
 
-    private void savedDailyTasks(boolean reset, int day, String[] allTasks, String[] WeeklyTemporaryTasks, String[] DayTempTasks) {
+    private void savedDailyTasks(boolean reset, int day, String[] allTasks, String[] DayTempTasks, String[]  WeeklyTemporaryTasks) {
 
         // Resets daily task value if no checkboxes are checked
         boolean ErrorHandling = true;
@@ -604,16 +600,12 @@ public class Tasks extends SaveClass {
                 int resID = getResources().getIdentifier(entry[3], "id", getPackageName());
 
                 if (CheckBoxValue) {
-                        Toast toast = Toast.makeText(this, "week day checked", Toast.LENGTH_SHORT);
-                        toast.show();
                         CheckedTasks++;
                         final CheckBox cBox = findViewById(resID);
                         cBox.setChecked(true);
 
                         ErrorHandling = false;
                     } else {
-                        Toast toast = Toast.makeText(this, "week day not checked", Toast.LENGTH_SHORT);
-                        toast.show();
                         final CheckBox cBox = findViewById(resID);
                         cBox.setChecked(false);
                 }

@@ -270,11 +270,6 @@ public class Settings extends SaveClass {
         boolean tomorrowTaskValue = tomorrowTaskR.isChecked();
         boolean weeklyTaskValue = weeklyTaskR.isChecked();
 
-        // Gets spare ID (if one is available)
-        Set<String> SpareIDs = LoadSharedStrArray("SpareID", new HashSet<>());
-
-        int nID = SpareIDs.size();
-
         String holderID = "";
 
         // Error catching
@@ -285,70 +280,13 @@ public class Settings extends SaveClass {
             return;
         }
 
-        //region settingTaskID
-        if(nID > 0)
-        {
-            // Depending on API level one of which will run
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                holderID = SpareIDs.stream().findFirst().get();
-            }
-            else
-            {
-                boolean firstID = false;
-                for(String ID : SpareIDs)
-                {
-                    if(!firstID)
-                    {
-                        holderID = ID;
-                        firstID = true;
-                    }
-                }
-            }
+        // Setting task ID
+        newTaskNameID = RandomStringGeneration();
 
-            // Updates ID string
-            HashSet<String> newSpareID = new HashSet<>();
-            boolean firstID = true;
-
-            for(String ID : SpareIDs)
-            {
-                if(firstID)
-                {
-                    firstID = false;
-                }
-                else
-                {
-                    newSpareID.add(ID);
-                }
-            }
-
-            // Saves new spareID string
-            if(nID < 2)
-            {
-                SaveSharedStrArray("SpareID", new HashSet<>());
-            }
-            else
-            {
-                SaveSharedStrArray("SpareID", newSpareID);
-            }
-        }
-        else
-        {
-            newTaskNameID = RandomStringGeneration();
-            Toast toast = Toast.makeText(this, "new ID system = " + newTaskNameID, Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
-        //endregion
-
-        // Checks if their is a old ID which can be used
-        if(!holderID.equals(""))
-        {
-            totalCount = Integer.parseInt(holderID);
-        }
-        else
-        {
-            totalCount = totalCount + 1;
-        }
+        // Setting item ID
+        Random random = new Random();
+        int randomTop = 10000;
+        totalCount = random.nextInt(randomTop);
 
         // Sets new task values
         if (hobbyValue) {
@@ -434,6 +372,8 @@ public class Settings extends SaveClass {
         }
         else if (weeklyTaskValue)
         {
+            Boolean daySelect = false;
+
             CheckBox Mon = findViewById(MonID);
             CheckBox Tue = findViewById(TueID);
             CheckBox Wed = findViewById(WedID);
@@ -458,6 +398,8 @@ public class Settings extends SaveClass {
 
                 SaveSharedStrArray("MonTask", MonTasks);
 
+                daySelect = true;
+
                 Toast toast = Toast.makeText(this, "Weekly task saved for Monday", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -468,6 +410,8 @@ public class Settings extends SaveClass {
                 MonTasks.add(newStringTask);
 
                 SaveSharedStrArray("TueTask", MonTasks);
+
+                daySelect = true;
 
                 Toast toast = Toast.makeText(this, "Weekly task saved for Tuesday", Toast.LENGTH_SHORT);
                 toast.show();
@@ -480,6 +424,8 @@ public class Settings extends SaveClass {
 
                 SaveSharedStrArray("WedTask", MonTasks);
 
+                daySelect = true;
+
                 Toast toast = Toast.makeText(this, "Weekly task saved for Wednesday", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -490,6 +436,8 @@ public class Settings extends SaveClass {
                 MonTasks.add(newStringTask);
 
                 SaveSharedStrArray("ThrTask", MonTasks);
+
+                daySelect = true;
 
                 Toast toast = Toast.makeText(this, "Weekly task saved for Thursday", Toast.LENGTH_SHORT);
                 toast.show();
@@ -502,6 +450,8 @@ public class Settings extends SaveClass {
 
                 SaveSharedStrArray("FriTask", MonTasks);
 
+                daySelect = true;
+
                 Toast toast = Toast.makeText(this, "Weekly task saved for Friday", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -512,6 +462,8 @@ public class Settings extends SaveClass {
                 MonTasks.add(newStringTask);
 
                 SaveSharedStrArray("SatTask", MonTasks);
+
+                daySelect = true;
 
                 Toast toast = Toast.makeText(this, "Weekly task saved for Saturday", Toast.LENGTH_SHORT);
                 toast.show();
@@ -524,10 +476,13 @@ public class Settings extends SaveClass {
 
                 SaveSharedStrArray("SunTask", MonTasks);
 
+                daySelect = true;
+
                 Toast toast = Toast.makeText(this, "Weekly task saved for Sunday", Toast.LENGTH_SHORT);
                 toast.show();
             }
-            else
+
+            if(!daySelect)
             {
                 Toast toast = Toast.makeText(this, "Please select day", Toast.LENGTH_LONG);
                 toast.show();
@@ -586,24 +541,6 @@ public class Settings extends SaveClass {
                 }
                 else
                 {
-                    SharedPreferences StringSharedPref = getSharedPreferences(entry[0], MODE_PRIVATE);
-                    StringSharedPref.edit().clear().apply();
-
-                    Set<String> IDHolder = new HashSet<>();
-
-                    Set<String> SpareID = LoadSharedStrArray("SpareID", new HashSet<>());
-
-                    int totalID = SpareID.size();
-
-                    if(totalID > 0)
-                    {
-                        IDHolder.addAll(SpareID);
-                    }
-
-                    IDHolder.add(entry[3]);
-
-                    SaveSharedStrArray("SpareID", IDHolder);
-
                     boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
 
                     if(CheckBoxValue)
@@ -648,24 +585,6 @@ public class Settings extends SaveClass {
                 }
                 else
                 {
-                    SharedPreferences StringSharedPref = getSharedPreferences(entry[0], MODE_PRIVATE);
-                    StringSharedPref.edit().clear().apply();
-
-                    Set<String> IDHolder = new HashSet<>();
-
-                    Set<String> SpareID = LoadSharedStrArray("SpareID", new HashSet<>());
-
-                    int totalID = SpareID.size();
-
-                    if(totalID > 0)
-                    {
-                        IDHolder.addAll(SpareID);
-                    }
-
-                    IDHolder.add(entry[3]);
-
-                    SaveSharedStrArray("SpareID", IDHolder);
-
                     boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
 
                     if(CheckBoxValue)
@@ -713,24 +632,6 @@ public class Settings extends SaveClass {
                 }
                 else
                 {
-                    SharedPreferences StringSharedPref = getSharedPreferences(entry[0], MODE_PRIVATE);
-                    StringSharedPref.edit().clear().apply();
-
-                    Set<String> IDHolder = new HashSet<>();
-
-                    Set<String> SpareID = LoadSharedStrArray("SpareID", new HashSet<>());
-
-                    int totalID = SpareID.size();
-
-                    if(totalID > 0)
-                    {
-                        IDHolder.addAll(SpareID);
-                    }
-
-                    IDHolder.add(entry[3]);
-
-                    SaveSharedStrArray("SpareID", IDHolder);
-
                     boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
 
                     if(CheckBoxValue)
@@ -787,25 +688,6 @@ public class Settings extends SaveClass {
                 }
                 else
                 {
-                    SharedPreferences StringSharedPref = getSharedPreferences(entry[0], MODE_PRIVATE);
-                    StringSharedPref.edit().clear().apply();
-
-                    // Saves task deleted ID to be used in the future
-                    Set<String> IDHolder = new HashSet<>();
-
-                    Set<String> SpareID = LoadSharedStrArray("SpareID", new HashSet<>());
-
-                    int totalID = SpareID.size();
-
-                    if(totalID > 0)
-                    {
-                        IDHolder.addAll(SpareID);
-                    }
-
-                    IDHolder.add(entry[3]);
-
-                    SaveSharedStrArray("SpareID", IDHolder);
-
                     // Removes checked value of task
                     boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
 
