@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -332,10 +333,9 @@ public class Settings extends SaveClass {
         }
         else
         {
-            // Creates new ID
-            byte[] array = new byte[8];
-            new Random().nextBytes(array);
-            newTaskNameID = new String(array, StandardCharsets.UTF_8);
+            newTaskNameID = RandomStringGeneration();
+            Toast toast = Toast.makeText(this, "new ID system = " + newTaskNameID, Toast.LENGTH_SHORT);
+            toast.show();
         }
 
         //endregion
@@ -983,5 +983,107 @@ public class Settings extends SaveClass {
                 return "SatTask";
         }
         return null;
+    }
+
+    // Random string generation
+    private String RandomStringGeneration()
+    {
+        StringBuilder randomString = new StringBuilder();
+        int topNumber = 27;
+        int rand;
+
+        int i = 0;
+        while(i < 8)
+        {
+            i++;
+
+            Random Random = new Random();
+            rand = Random.nextInt(topNumber);
+
+            switch (rand)
+            {
+                case(1):
+                    randomString.append("a");
+                    break;
+                case(2):
+                    randomString.append("b");
+                    break;
+                case(3):
+                    randomString.append("c");
+                    break;
+                case(4):
+                    randomString.append("d");
+                    break;
+                case(5):
+                    randomString.append("e");
+                    break;
+                case(6):
+                    randomString.append("f");
+                    break;
+                case(7):
+                    randomString.append("g");
+                    break;
+                case(8):
+                    randomString.append("h");
+                    break;
+                case(9):
+                    randomString.append("i");
+                    break;
+                case(10):
+                    randomString.append("j");
+                    break;
+                case(11):
+                    randomString.append("k");
+                    break;
+                case(12):
+                    randomString.append("l");
+                    break;
+                case(13):
+                    randomString.append("m");
+                    break;
+                case(14):
+                    randomString.append("n");
+                    break;
+                case(15):
+                    randomString.append("o");
+                    break;
+                case(16):
+                    randomString.append("p");
+                    break;
+                case(17):
+                    randomString.append("q");
+                    break;
+                case(18):
+                    randomString.append("r");
+                    break;
+                case(19):
+                    randomString.append("s");
+                    break;
+                case(20):
+                    randomString.append("t");
+                    break;
+                case(21):
+                    randomString.append("u");
+                    break;
+                case(22):
+                    randomString.append("v");
+                    break;
+                case(23):
+                    randomString.append("w");
+                    break;
+                case(24):
+                    randomString.append("x");
+                    break;
+                case(25):
+                    randomString.append("y");
+                    break;
+                case(26):
+                    randomString.append("z");
+                    break;
+                default:
+                    randomString.append("U");
+            }
+        }
+        return randomString.toString();
     }
 }

@@ -22,14 +22,13 @@ import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class YearGoals extends AppCompatActivity {
+public class YearGoals extends SaveClass {
 
     public static final String Shared_Pref = "sharedPref";
 
@@ -101,9 +100,7 @@ public class YearGoals extends AppCompatActivity {
                     Set<String> yearGoals = LoadSharedStrArray("YearGoals", new HashSet<>());
 
                     // create new ID
-                    byte[] array = new byte[8];
-                    new Random().nextBytes(array);
-                    IDHolder = new String(array, StandardCharsets.UTF_8);
+                    IDHolder = RandomStringGeneration();
 
                     String NewEntry = IDHolder + "," + yearValue;
 
@@ -114,8 +111,6 @@ public class YearGoals extends AppCompatActivity {
                     popUpWin.dismiss();
                 }
             });
-
-            // "wake,Get Up (before 7.30),0,1"
 
             popUpWin.setBackgroundDrawable(new ColorDrawable(Color.GRAY));
 
@@ -136,16 +131,16 @@ public class YearGoals extends AppCompatActivity {
 
             String[] entry = goal.split(",");
 
-            boolean YearGoals = LoadSharedBoolean(entry[1], false);
+            boolean YearGoals = LoadSharedBoolean(entry[0], false);
 
             TextView GoalREntry = new TextView(this);
-            GoalREntry.setText(entry[2]);
+            GoalREntry.setText(entry[1]);
             GoalREntry.setGravity(Gravity.CENTER);
             GoalREntry.setTextSize(20);
 
             CheckBox complete = new CheckBox(this);
             complete.setGravity(Gravity.END);
-            complete.setOnClickListener(v -> SaveBoolData(entry[1], ((CheckBox) v).isChecked()));
+            complete.setOnClickListener(v -> SaveBoolData(entry[0], ((CheckBox) v).isChecked()));
 
             complete.setChecked(YearGoals);
 
@@ -153,57 +148,6 @@ public class YearGoals extends AppCompatActivity {
             GoalEntry.addView(GoalREntry);
             yearlyGoalTable.addView(GoalEntry);
         }
-    }
-
-    /*
-    public void saveValue()
-    {
-        EditText yearEntry = findViewById(R.id.yearGoalEdit);
-        String yearValue = yearEntry.getText().toString();
-
-        // save new yearly goal
-        Set<String> yearGoals = LoadSharedStrArray("YearGoals", new HashSet<>());
-
-        int number = yearGoals.size() + 1;
-
-        String NewEntry = String.valueOf(number) + "," + "yearValue";
-
-        yearGoals.add(NewEntry);
-
-        // SaveSharedStrArray("YearGoals", yearGoals);
-    }
-     */
-
-    private Set<String> LoadSharedStrArray(String valueName, Set<String> value) {
-        SharedPreferences sharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
-
-        return sharedPref.getStringSet(valueName, value);
-    }
-
-    private boolean LoadSharedBoolean(String valueName, Boolean value) {
-        SharedPreferences sharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
-
-        return sharedPref.getBoolean(valueName, value);
-    }
-
-    private void SaveSharedStrArray(String valueName, Set<String> value)
-    {
-        // Updates daily progression and new checkbox value
-        SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
-        SharedPreferences.Editor editor = UpdateSharedPref.edit();
-
-        editor.putStringSet(valueName, value);
-        editor.apply();
-    }
-
-    private void SaveBoolData(String valueName, Boolean Value) {
-
-        // Updates daily progression and new checkbox value
-        SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
-        SharedPreferences.Editor editor = UpdateSharedPref.edit();
-
-        editor.putBoolean(valueName, Value);
-        editor.apply();
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
@@ -221,5 +165,108 @@ public class YearGoals extends AppCompatActivity {
         });
 
         return builder.create();
+    }
+
+
+    // Random string generation
+    private String RandomStringGeneration()
+    {
+        StringBuilder randomString = new StringBuilder();
+        int topNumber = 27;
+        int rand;
+
+        int i = 0;
+        while(i < 8)
+        {
+            i++;
+
+            Random Random = new Random();
+            rand = Random.nextInt(topNumber);
+
+            switch (rand)
+            {
+                case(1):
+                    randomString.append("a");
+                    break;
+                case(2):
+                    randomString.append("b");
+                    break;
+                case(3):
+                    randomString.append("c");
+                    break;
+                case(4):
+                    randomString.append("d");
+                    break;
+                case(5):
+                    randomString.append("e");
+                    break;
+                case(6):
+                    randomString.append("f");
+                    break;
+                case(7):
+                    randomString.append("g");
+                    break;
+                case(8):
+                    randomString.append("h");
+                    break;
+                case(9):
+                    randomString.append("i");
+                    break;
+                case(10):
+                    randomString.append("j");
+                    break;
+                case(11):
+                    randomString.append("k");
+                    break;
+                case(12):
+                    randomString.append("l");
+                    break;
+                case(13):
+                    randomString.append("m");
+                    break;
+                case(14):
+                    randomString.append("n");
+                    break;
+                case(15):
+                    randomString.append("o");
+                    break;
+                case(16):
+                    randomString.append("p");
+                    break;
+                case(17):
+                    randomString.append("q");
+                    break;
+                case(18):
+                    randomString.append("r");
+                    break;
+                case(19):
+                    randomString.append("s");
+                    break;
+                case(20):
+                    randomString.append("t");
+                    break;
+                case(21):
+                    randomString.append("u");
+                    break;
+                case(22):
+                    randomString.append("v");
+                    break;
+                case(23):
+                    randomString.append("w");
+                    break;
+                case(24):
+                    randomString.append("x");
+                    break;
+                case(25):
+                    randomString.append("y");
+                    break;
+                case(26):
+                    randomString.append("z");
+                    break;
+                default:
+                    randomString.append("U");
+            }
+        }
+        return randomString.toString();
     }
 }

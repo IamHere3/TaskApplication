@@ -92,7 +92,7 @@ public class NewTask extends Fragment {
         selectDynamicTaskRow.setLayoutParams(rowPram);
 
         TextView selectTaskTitle = new TextView(activity);
-        selectTaskTitle.setText(R.string.dynamicCheckBox);
+        selectTaskTitle.setText(R.string.hobbyCheckBox);
 
         CheckBox dynamicToggle = new CheckBox(activity);
         dynamicToggle.setId(hobbyTask);
@@ -136,25 +136,33 @@ public class NewTask extends Fragment {
         RadioGroup taskDayGroup = new RadioGroup(activity);
         taskDayGroup.setOrientation(LinearLayout.VERTICAL);
 
+        // PermanentTag
+        TextView PermanentTag = new TextView(activity);
+        PermanentTag.setText(R.string.taskLengthPermanent);
+
         // Permanent
         RadioButton permanentTaskRadio = new RadioButton(activity);
         permanentTaskRadio.setText(R.string.taskLengthPermanent);
         permanentTaskRadio.setId(permanentTask);
 
-        // ONE DAY OPTION
-        RadioButton onDayTaskRadio = new RadioButton(activity);
-        onDayTaskRadio.setId(dayTask);
-        onDayTaskRadio.setText(R.string.taskOneDay);
-
-        // TOMORROW ONE DAY OPTION
-        RadioButton tomorrowTaskRadio = new RadioButton(activity);
-        tomorrowTaskRadio.setId(tomorrowTask);
-        tomorrowTaskRadio.setText(R.string.taskTomorrow);
-
         // Once day a week - popup? set day
         RadioButton weeklyTaskRadio = new RadioButton(activity);
         weeklyTaskRadio.setId(weeklyTask);
         weeklyTaskRadio.setText(R.string.taskWeekly);
+
+        // Temporary text view
+        TextView TemporaryTag = new TextView(activity);
+        TemporaryTag.setText(R.string.taskLengthOneDay);
+
+        // One day option
+        RadioButton onDayTaskRadio = new RadioButton(activity);
+        onDayTaskRadio.setId(dayTask);
+        onDayTaskRadio.setText(R.string.taskOneDay);
+
+        // Tomorrow one day option
+        RadioButton tomorrowTaskRadio = new RadioButton(activity);
+        tomorrowTaskRadio.setId(tomorrowTask);
+        tomorrowTaskRadio.setText(R.string.taskTomorrow);
 
         taskLengthGroupOne = new RadioGroup(activity);
         taskLengthGroupOne.setOrientation(LinearLayout.VERTICAL);
@@ -165,9 +173,11 @@ public class NewTask extends Fragment {
         taskLengthGroupTwo.setId(taskLengthGroupTwoID);
 
         // apply radio buttons to radio group
+        taskLengthGroupOne.addView(PermanentTag);
         taskLengthGroupOne.addView(permanentTaskRadio);
         taskLengthGroupOne.addView(weeklyTaskRadio);
 
+        taskLengthGroupTwo.addView(TemporaryTag);
         taskLengthGroupTwo.addView(onDayTaskRadio);
         taskLengthGroupTwo.addView(tomorrowTaskRadio);
 

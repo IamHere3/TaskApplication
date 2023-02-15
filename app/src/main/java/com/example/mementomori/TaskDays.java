@@ -91,7 +91,7 @@ public class TaskDays extends Fragment {
         selectTaskDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-               //update edit data
+               // Update edit data
                activity.updateTaskInfo(position);
             }
 

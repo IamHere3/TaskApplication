@@ -52,7 +52,7 @@ public class Tasks extends SaveClass {
         int day = calendar.get(Calendar.DAY_OF_WEEK);
 
         // Retrieves weekly repeatable tasks
-        Set<String> currentDay = weekDay(day);
+        String[] currentDay = weekDay(day);
 
         // Checks for new day
         if (savedDay != day) {
@@ -68,9 +68,6 @@ public class Tasks extends SaveClass {
         String[] arrayMorningRoutine = setMorningRoutine.toArray(new String[0]);
         String[] arrayDayRoutine = setDayRoutine.toArray(new String[0]);
         String[] arrayTempRoutine = setTempRoutine.toArray(new String[0]);
-
-        // Gets size temporary array
-        int TempSize = arrayTempRoutine.length;
 
         // Retrieves containers
         LinearLayout morningCheckboxes = findViewById(R.id.morningRoutine);
@@ -144,7 +141,6 @@ public class Tasks extends SaveClass {
                 SaveBoolData(entry[0], ((CheckBox) v).isChecked());
                 updateProgress();
             });
-
             morningCheckboxes.addView(checkBox);
         }
 
@@ -195,11 +191,11 @@ public class Tasks extends SaveClass {
             dailyCheckboxes.addView(checkBox);
         }
 
-        // Appears that unless put in a int the value comeback is 0 for the if statement below
-        assert currentDay != null;
-        int holder = currentDay.size();
 
-        if (TempSize > 0 || holder > 0) {
+        assert currentDay != null;
+
+        // TempSize = DayTask CurrentDay = WeekdayTask
+        if (arrayTempRoutine.length > 0 || currentDay.length > 0) {
             // Temporary tasks title
             TextView TempTaskTitle = new TextView(this);
             TempTaskTitle.setText(R.string.TempTaskTitle);
@@ -209,12 +205,10 @@ public class Tasks extends SaveClass {
             temporaryCheckboxes.addView(TempTaskTitle);
 
             // If weekly task
-            if(currentDay.size() > 0)
+            if(currentDay.length > 0)
             {
-                String[] weekDayTask = currentDay.toArray(new String[0]);
-
                 // Checkbox creation for weekly tasks
-                for(String WeekTask : weekDayTask)
+                for(String WeekTask : currentDay)
                 {
                     NumberOfTasks++;
                     String[] entry = WeekTask.split(",");
@@ -246,6 +240,8 @@ public class Tasks extends SaveClass {
                         {
                             CheckedTasks = CheckedTasks - 1;
                         }
+                        Toast toast2 = Toast.makeText(this, "week id = " + String.valueOf(entry[0]), Toast.LENGTH_SHORT);
+                        toast2.show();
                         SaveBoolData(entry[0], ((CheckBox) v).isChecked());
                         updateProgress();
                     });
@@ -255,7 +251,9 @@ public class Tasks extends SaveClass {
             }
 
             // Checkbox creation for daily tasks
-            if(TempSize > 0) {
+            if(arrayTempRoutine.length > 0)
+            {
+                // Checkbox creation for daily tasks
                 for (String TempEnt : arrayTempRoutine) {
                     NumberOfTasks++;
                     String[] entry = TempEnt.split(",");
@@ -277,8 +275,6 @@ public class Tasks extends SaveClass {
                     checkBox.setLayoutParams(params);
                     checkBox.setGravity(Gravity.CENTER);
 
-                    checkBox.setTag(entry[0]);
-
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
@@ -288,6 +284,8 @@ public class Tasks extends SaveClass {
                         {
                             CheckedTasks = CheckedTasks - 1;
                         }
+                        Toast toast2 = Toast.makeText(this, "day id = " + String.valueOf(entry[0]), Toast.LENGTH_SHORT);
+                        toast2.show();
                         SaveBoolData(entry[0], ((CheckBox) v).isChecked());
                         updateProgress();
                     });
@@ -300,24 +298,23 @@ public class Tasks extends SaveClass {
 
         //region $NewDayActions
 
-        // Combine day tasks
+        // Combine permanent tasks
         String[] allTasks = new String[arrayMorningRoutine.length + arrayDayRoutine.length];
 
         System.arraycopy(arrayMorningRoutine, 0, allTasks, 0, arrayMorningRoutine.length);
         System.arraycopy(arrayDayRoutine, 0, allTasks, arrayMorningRoutine.length, arrayDayRoutine.length);
-        // System.arraycopy(arrayTempRoutine, 0, allTasks, allTasks.length, arrayTempRoutine.length);
 
         // Updates progression, tasks and hobbies based on day
         if (savedDay == day) {
             // Sets up if box was ticked
-            savedDailyTasks(false, allTasks, arrayTempRoutine);
+            savedDailyTasks(false, day, allTasks, arrayTempRoutine, currentDay);
         } else {
             // Reads progression
             int oldTotalTask = LoadSharedInt("TotalTasks", 0);
             int oldTotalTasksComplete = LoadSharedInt("TotalComplete", 0);
 
-            // Counts total old daily tasks + completed tasks and resets
-            savedDailyTasks(true, allTasks, arrayTempRoutine);
+            // Counts total old daily tasks + completed tasks + resets tasks
+            savedDailyTasks(true, day, allTasks, arrayTempRoutine, currentDay);
 
             // Works out overall percentage of yesterday
             double dailyTasksPD = Math.round((float) TotalTasksComplete / (float) DayTotalTasks * 100d);
@@ -510,7 +507,7 @@ public class Tasks extends SaveClass {
 
     //endregion
 
-    private void savedDailyTasks(boolean reset, String[] allTasks, String[] TempTasks) {
+    private void savedDailyTasks(boolean reset, int day, String[] allTasks, String[] WeeklyTemporaryTasks, String[] DayTempTasks) {
 
         // Resets daily task value if no checkboxes are checked
         boolean ErrorHandling = true;
@@ -544,39 +541,82 @@ public class Tasks extends SaveClass {
         }
 
         // Temporary Tasks
-        for (String day : TempTasks) {
+        for (String daily : DayTempTasks) {
 
-            String[] entry = day.split(",");
+            String[] entry = daily.split(",");
 
             DayTotalTasks++;
 
             boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
             int resID = getResources().getIdentifier(entry[3], "id", getPackageName());
 
-            if (CheckBoxValue)
-            {
+            if (CheckBoxValue) {
                 // If new day
-                if (reset)
-                {
+                if (reset) {
                     TotalTasksComplete++;
 
                     // Removes entry
                     SharedPreferences oldRemoval = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
                     oldRemoval.edit().remove(entry[0]).apply();
-                }
-                else
-                {
+                } else {
                     CheckedTasks++;
                     final CheckBox cBox = findViewById(resID);
                     cBox.setChecked(true);
 
                     ErrorHandling = false;
                 }
-            }
-            else
-            {
+            } else {
                 final CheckBox cBox = findViewById(resID);
                 cBox.setChecked(false);
+            }
+        }
+
+        if (reset) {
+
+            day = day - 1;
+            String[] yesterday = weekDay(day);
+
+            // Yesterdays tasks
+            assert yesterday != null;
+            for (String oldWeekly : yesterday) {
+
+                String[] entry = oldWeekly.split(",");
+
+                DayTotalTasks++;
+
+                boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
+
+                if (CheckBoxValue) {
+                    TotalTasksComplete++;
+                    SaveBoolData(entry[0], false);
+                } else {
+                    CheckedTasks++;
+                }
+            }
+        } else {
+            // Main tasks
+            for (String currentWeekly : WeeklyTemporaryTasks) {
+
+                String[] entry = currentWeekly.split(",");
+                DayTotalTasks++;
+
+                boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
+                int resID = getResources().getIdentifier(entry[3], "id", getPackageName());
+
+                if (CheckBoxValue) {
+                        Toast toast = Toast.makeText(this, "week day checked", Toast.LENGTH_SHORT);
+                        toast.show();
+                        CheckedTasks++;
+                        final CheckBox cBox = findViewById(resID);
+                        cBox.setChecked(true);
+
+                        ErrorHandling = false;
+                    } else {
+                        Toast toast = Toast.makeText(this, "week day not checked", Toast.LENGTH_SHORT);
+                        toast.show();
+                        final CheckBox cBox = findViewById(resID);
+                        cBox.setChecked(false);
+                }
             }
         }
 
@@ -620,30 +660,37 @@ public class Tasks extends SaveClass {
         SaveSharedStrArray("DayTask", TomorrowTasks);
     }
 
-    private Set<String> weekDay(int day)
+    private String[] weekDay(int day)
     {
         switch (day)
         {
             case(1) :
-                return LoadSharedStrArray("SunTask", new HashSet<>());
+                 Set<String> Sun = LoadSharedStrArray("SunTask", new HashSet<>());
+                 return Sun.toArray(new String[0]);
 
             case(2) :
-                return LoadSharedStrArray("MonTask", new HashSet<>());
+                Set<String> Mon = LoadSharedStrArray("MonTask", new HashSet<>());
+                return Mon.toArray(new String[0]);
 
             case(3) :
-                return LoadSharedStrArray("TueTask", new HashSet<>());
+                Set<String> Tue = LoadSharedStrArray("TueTask", new HashSet<>());
+                return Tue.toArray(new String[0]);
 
             case(4) :
-                return LoadSharedStrArray("WedTask", new HashSet<>());
+                Set<String> Wed = LoadSharedStrArray("WedTask", new HashSet<>());
+                return Wed.toArray(new String[0]);
 
             case(5) :
-                return LoadSharedStrArray("ThrTask", new HashSet<>());
+                Set<String> Thr = LoadSharedStrArray("ThrTask", new HashSet<>());
+                return Thr.toArray(new String[0]);
 
             case(6) :
-                return LoadSharedStrArray("FriTask", new HashSet<>());
+                Set<String> Fri = LoadSharedStrArray("FriTask", new HashSet<>());
+                return Fri.toArray(new String[0]);
 
             case(7) :
-                return LoadSharedStrArray("SatTask", new HashSet<>());
+                Set<String> Sat =  LoadSharedStrArray("SatTask", new HashSet<>());
+                return Sat.toArray(new String[0]);
         }
         return null;
     }

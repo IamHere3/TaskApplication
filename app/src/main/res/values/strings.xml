@@ -57,21 +57,23 @@
     <!-- create task -->
     <string name="taskName">Task name</string>
     <string name="hobbyTask">Add hobby task</string>
-    <string name="dynamicCheckBox">Set object as dynamic</string>
+    <string name="hobbyCheckBox">Overwrites task name</string>
     <string name="saveTask">Name ID</string>
     <string name="task">Set object as dynamic</string>
     <string name="taskType">Set task type</string>
 
     <!-- option holder  -->
     <string name="themeName">Edit theme</string>
-    <string name="deleteHobby">delete selected hobby</string>
+    <string name="deleteHobby">Delete selected hobby</string>
     <string name="newHobby">Add a new hobby</string>
     <string name="Author">Author</string>
 
     <!-- task length types -->
     <string name="taskLength">How long task will be around for</string>
-    <string name="taskLengthPermanent">Permanent</string>
-    <string name="taskOneDay">One day</string>
+    <string name="taskLengthOneDay">Day length</string>
+    <string name="taskLengthPermanent">Permanent length</string>
+    <string name="taskPermanent">Permanent</string>
+    <string name="taskOneDay">Today</string>
     <string name="taskTomorrow">Tomorrow</string>
     <string name="taskWeekly">Weekly Repeat</string>
     <string name="taskMonthly">Monthly Repeat</string>
@@ -88,7 +90,7 @@
     <string name="back">Back</string>
     <string name="save">Save</string>
 
-    <string name="textDay">select day for repeating task</string>
+    <string name="textDay">Select day for repeating task</string>
     <string name="title_activity_year_goals">YearGoals</string>
 
     <string name="next">Next</string>
