@@ -99,33 +99,43 @@
             </TableRow>
         </TableLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:id="@+id/morningRoutineScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:id="@+id/morningRoutine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent">
-            <!-- dynamically made backend -->
-        </LinearLayout>
+            android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/dailyRoutine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent">
-            <!-- dynamically made backend -->
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/morningRoutine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent">
+                <!-- dynamically made backend -->
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/temporaryRoutine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent">
-            <!-- dynamically made backend -->
+            <LinearLayout
+                android:id="@+id/dailyRoutine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent">
+                <!-- dynamically made backend -->
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/temporaryRoutine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="parent">
+                <!-- dynamically made backend -->
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -62,17 +63,16 @@ public class NewTask extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_days, container, false);
 
-        // import json array
+        // Import json array
         Settings activity = (Settings) getActivity();
 
-        TableRow.LayoutParams rowPram = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams rowPram = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
         TableLayout tableLayout = view.findViewById(R.id.tableFragment);
+        // Calling in a layout by ID caused a error which could not be fixed
+        TableRow BaseLayout = new TableRow(activity);
 
-        // edit task
-        TableRow editTaskRow = new TableRow(activity);
-        editTaskRow.setLayoutParams(rowPram);
-
+        // Edit task
         TextView editText = new TextView(activity);
         editText.setText(R.string.taskName);
 
@@ -82,11 +82,10 @@ public class NewTask extends Fragment {
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(2);
-        editEntry.setMaxLines(2);
 
         // apply
-        editTaskRow.addView(editText);
-        editTaskRow.addView(editEntry);
+        BaseLayout.addView(editText);
+        BaseLayout.addView(editEntry);
 
         TableRow selectDynamicTaskRow = new TableRow(activity);
         selectDynamicTaskRow.setLayoutParams(rowPram);
@@ -249,7 +248,7 @@ public class NewTask extends Fragment {
         DaysFour.addView(Sun);
 
         // apply rows
-        tableLayout.addView(editTaskRow);
+        tableLayout.addView(BaseLayout);
         tableLayout.addView(selectDynamicTaskRow);
         tableLayout.addView(TaskTypeRow);
         tableLayout.addView(taskLength);
@@ -259,15 +258,11 @@ public class NewTask extends Fragment {
         tableLayout.addView(DaysTwo);
         tableLayout.addView(DaysThree);
         tableLayout.addView(DaysFour);
+
+
+
         return view;
     }
-
-    private View.OnClickListener test = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-        }
-    };
 
     private RadioGroup.OnCheckedChangeListener taskLengthGroupOneListener = new RadioGroup.OnCheckedChangeListener() {
         @Override

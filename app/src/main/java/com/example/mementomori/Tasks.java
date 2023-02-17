@@ -6,6 +6,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 
 import android.view.Window;
@@ -43,6 +44,10 @@ public class Tasks extends SaveClass {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         setContentView(R.layout.activity_tasks);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        // height adjusted for existing elements
+        int height = displayMetrics.heightPixels - 40;
 
         // Gets saved and current day
         int savedDay = LoadSharedInt("Day", 0);
@@ -92,16 +97,24 @@ public class Tasks extends SaveClass {
         //region $checkbox creation
 
         // Creates Layout parameters
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.height = 64;
-        params.width = 550;
-        params.gravity = Gravity.CENTER;
+        // Checkboxes
+        LinearLayout.LayoutParams CheckParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        CheckParams.leftMargin = 60;
+        CheckParams.rightMargin = 40;
+        CheckParams.gravity = Gravity.START;
+
+        // TextView
+        LinearLayout.LayoutParams TitleParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        TitleParams.leftMargin = 120;
+        TitleParams.bottomMargin = 20;
+        TitleParams.topMargin = 20;
+        TitleParams.gravity = Gravity.START;
 
         // Morning title
         TextView MorningTitle = new TextView(this);
         MorningTitle.setText(R.string.r_mor);
         MorningTitle.setTextSize(20);
-        MorningTitle.setGravity(Gravity.CENTER);
+        MorningTitle.setLayoutParams(TitleParams);
 
         morningCheckboxes.addView(MorningTitle);
 
@@ -121,8 +134,7 @@ public class Tasks extends SaveClass {
             checkBox.setId(Integer.parseInt(entry[3]));
 
             // Sets Location on screen
-            checkBox.setLayoutParams(params);
-            checkBox.setGravity(Gravity.CENTER);
+            checkBox.setLayoutParams(CheckParams);
 
             // Sets text
             checkBox.setText(entry[1]);
@@ -148,7 +160,7 @@ public class Tasks extends SaveClass {
         TextView DailyTitle = new TextView(this);
         DailyTitle.setText(R.string.r_dai);
         DailyTitle.setTextSize(20);
-        DailyTitle.setGravity(Gravity.CENTER);
+        DailyTitle.setLayoutParams(TitleParams);
 
         dailyCheckboxes.addView(DailyTitle);
 
@@ -168,12 +180,13 @@ public class Tasks extends SaveClass {
             checkBox.setId(Integer.parseInt(entry[3]));
 
             // Sets Location on screen
-            checkBox.setLayoutParams(params);
-            checkBox.setGravity(Gravity.CENTER);
+            checkBox.setLayoutParams(CheckParams);
 
             // Sets text
             checkBox.setText(entry[1]);
             checkBox.setTextSize(20);
+
+            //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 
             checkBox.setOnClickListener(v -> {
                 if(((CheckBox) v).isChecked())
@@ -200,7 +213,7 @@ public class Tasks extends SaveClass {
             TextView TempTaskTitle = new TextView(this);
             TempTaskTitle.setText(R.string.TempTaskTitle);
             TempTaskTitle.setTextSize(20);
-            TempTaskTitle.setGravity(Gravity.CENTER);
+            TempTaskTitle.setLayoutParams(TitleParams);
 
             temporaryCheckboxes.addView(TempTaskTitle);
 
@@ -224,12 +237,13 @@ public class Tasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
 
                     // Sets Location on screen
-                    checkBox.setLayoutParams(params);
-                    checkBox.setGravity(Gravity.CENTER);
+                    checkBox.setLayoutParams(CheckParams);
 
                     // Sets text
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
@@ -270,8 +284,9 @@ public class Tasks extends SaveClass {
                     checkBox.setTextSize(20);
 
                     // location on screen
-                    checkBox.setLayoutParams(params);
-                    checkBox.setGravity(Gravity.CENTER);
+                    checkBox.setLayoutParams(CheckParams);
+
+                    //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
@@ -336,6 +351,10 @@ public class Tasks extends SaveClass {
             editor.putInt("TotalComplete", newTotalTasksComplete);
             editor.putInt("YesterdayProgression", (int) dailyTasksPD);
             editor.apply();
+
+
+            // edits scroll view layout
+
         }
 
         // endregion

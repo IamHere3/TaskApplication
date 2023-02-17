@@ -28,6 +28,7 @@ public class SaveClass extends AppCompatActivity {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
 
+        editor.remove(valueName);
         editor.putBoolean(valueName, Value);
         editor.apply();
     }
@@ -37,6 +38,7 @@ public class SaveClass extends AppCompatActivity {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
 
+        editor.remove(valueName);
         editor.putInt(valueName, Value);
         editor.apply();
     }
@@ -46,6 +48,7 @@ public class SaveClass extends AppCompatActivity {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
 
+        editor.remove(valueName);
         editor.putString(valueName, Value);
         editor.apply();
     }
@@ -55,6 +58,7 @@ public class SaveClass extends AppCompatActivity {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
 
+        editor.remove(valueName);
         editor.putStringSet(valueName, value);
         editor.apply();
     }

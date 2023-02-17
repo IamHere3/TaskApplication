@@ -64,7 +64,7 @@
 
     <!-- option holder  -->
     <string name="themeName">Edit theme</string>
-    <string name="deleteHobby">Delete selected hobby</string>
+    <string name="deleteHobby">Delete hobby</string>
     <string name="newHobby">Add a new hobby</string>
     <string name="Author">Author</string>
 
@@ -107,8 +107,4 @@
     <string name="conformation">Conformation removal of all year goals</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
-    <!-- placeholder -->
-    <string name="first_fragment_label">why am I here, only to suffer</string>
-    <string name="second_fragment_label">life is pain and misery with the warm embrace of death at the end</string>
 </resources>

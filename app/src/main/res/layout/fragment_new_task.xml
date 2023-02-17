@@ -6,10 +6,19 @@
     tools:context=".NewTask">
 
     <LinearLayout
-        android:id="@+id/NewTask"
+        android:id="@+id/newTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/taskName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
         <TableLayout
             android:id="@+id/tableFragment"
             android:layout_width="wrap_content"

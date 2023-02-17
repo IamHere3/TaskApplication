@@ -7,6 +7,10 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class TaskDays extends Fragment {
@@ -52,17 +57,27 @@ public class TaskDays extends Fragment {
 
         // import json array
         Settings activity = (Settings) getActivity();
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
         assert activity != null;
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        // Screen width
+        // Adjusted screen width (40px of padding in fragment holder) - textview (200ish)
+        int width = displayMetrics.widthPixels - 300;
+
+
         String[] importedMorningData = activity.importMorningData();
         String[] importedDailyData = activity.importDayData();
         String[] importedTotalData = activity.importTotalData();
 
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.taskFragment);
+        TableRow.LayoutParams rowPram = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
-        TableRow.LayoutParams rowPram = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-        TableLayout.LayoutParams tablePram = new TableLayout.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
+        TableLayout.LayoutParams tablePram = new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
+
 
         TableLayout tableLayout = (TableLayout) view.findViewById(R.id.tableFragment);
+        tableLayout.setLayoutParams(tablePram);
 
         TableRow selectTaskRow = new TableRow(activity);
         selectTaskRow.setLayoutParams(rowPram);
@@ -72,13 +87,20 @@ public class TaskDays extends Fragment {
 
         ArrayList<String> spinnerArray = new ArrayList<String>();
 
-
         for(String entryTotal : importedTotalData)
         {
             String[] entry = entryTotal.split(",");
 
-            spinnerArray.add(entry[1]);
-            // spinnerArray.add(Integer.parseInt(entry[3]), entry[1]);
+            String entryHolder = entry[1];
+
+            int StrLength = entry[1].length();
+
+            if (StrLength > 18)
+            {
+                entryHolder = entry[1].substring(0, 18) + "...";
+            }
+
+            spinnerArray.add(entryHolder);
         }
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
@@ -87,6 +109,8 @@ public class TaskDays extends Fragment {
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
         selectTaskDropdown.setId(spinId);
+        // Adds some px as interestingly the spinner and editText appears to have different lengths (perhaps) due to drop down button of spinner
+        selectTaskDropdown.setMinimumWidth(width + 60);
 
         selectTaskDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -115,6 +139,10 @@ public class TaskDays extends Fragment {
         EditText editEntry = new EditText(activity);
         editEntry.setText(R.string.holderText);
         editEntry.setId(entryId);
+        editEntry.setSingleLine(false);
+        editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        editEntry.setLines(5);
+        editEntry.setMaxWidth(width);
 
         // apply
         editTaskRow.addView(editText);

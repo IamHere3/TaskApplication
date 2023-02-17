@@ -1,14 +1,16 @@
 package com.example.mementomori;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,26 +24,21 @@ import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class YearGoals extends SaveClass {
-
-    public static final String Shared_Pref = "sharedPref";
-
-    PopupWindow popUpWin;
-
-    String IDHolder;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_year_goals);
 
-        LinearLayout goalHolder = findViewById(R.id.yearlyGoals);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        int width = displayMetrics.widthPixels;
 
         TableLayout yearlyGoalTable = findViewById(R.id.yearlyGoalHolder);
 
@@ -50,22 +47,14 @@ public class YearGoals extends SaveClass {
 
         LayoutInflater inflater = (LayoutInflater) YearGoals.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        /*
-        LayoutInflater inflater = LayoutInflater.from(this);
-        */
-
-        ViewGroup rootView = (ViewGroup) findViewById(R.id.yearsGoals);
-
         View layout = inflater.inflate(R.layout.popupwindow, null);
 
         EditText yearEntry = layout.findViewById(R.id.yearGoalEdit);
 
-        // popUpWin = new PopupWindow(this);
-
-        // devices screen density
+        // Devices screen density
         float density=YearGoals.this.getResources().getDisplayMetrics().density;
 
-        // create focusable popupWindow
+        // Create focusable popupWindow
         final PopupWindow popUpWin = new PopupWindow(layout, (int)density*240, (int)density*285, true);
 
         ResetGoalsButton.setOnClickListener(view -> {
@@ -73,12 +62,11 @@ public class YearGoals extends SaveClass {
             AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
 
             dialog.show();
-            // ResetYearGoalsDialog.onCreateDialog();
         });
 
         addGoalButton.setOnClickListener(view -> {
 
-            // button to close popup window
+            // Button to close popup window
             ((Button) layout.findViewById(R.id.back)).setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -88,7 +76,7 @@ public class YearGoals extends SaveClass {
                 }
             });
 
-            // button to save yearly goal
+            // Button to save yearly goal
             ((Button) layout.findViewById(R.id.save)).setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -96,19 +84,25 @@ public class YearGoals extends SaveClass {
                 {
                     String yearValue = yearEntry.getText().toString();
 
-                    // save new yearly goal
-                    Set<String> yearGoals = LoadSharedStrArray("YearGoals", new HashSet<>());
+                    // Save new yearly goal
+                    Set<String> yearGoals = LoadSharedStrArray("goal", new HashSet<>());
 
-                    // create new ID
-                    IDHolder = RandomStringGeneration();
+                    // Create new ID
+                    String IDHolder = RandomStringGeneration();
 
                     String NewEntry = IDHolder + "," + yearValue;
 
                     yearGoals.add(NewEntry);
 
-                    SaveSharedStrArray("YearGoals", yearGoals);
+                    SaveSharedStrArray("goal", yearGoals);
 
                     popUpWin.dismiss();
+
+                    Intent intent = new Intent(YearGoals.this, YearGoals.class);
+                    startActivity(intent);
+                    finish();
+                    // Stops page slide in when restarting activiy
+                    overridePendingTransition(0, 0);
                 }
             });
 
@@ -120,8 +114,7 @@ public class YearGoals extends SaveClass {
 
         });
 
-
-        Set<String> yearGoals = LoadSharedStrArray("YearGoals", new HashSet<>());
+        Set<String> yearGoals = LoadSharedStrArray("goal", new HashSet<>());
         String[] yearGoalsArray = yearGoals.toArray(new String[0]);
 
         for(String goal : yearGoalsArray)
@@ -133,10 +126,45 @@ public class YearGoals extends SaveClass {
 
             boolean YearGoals = LoadSharedBoolean(entry[0], false);
 
+            String test = entry[1];
+
+            StringBuilder holder = new StringBuilder();
+
+            int LineCount = 0;
+
+            // Custom new line creator
+            if(test.length() > 25)
+            {
+                int i = 0;
+                int n = 0;
+                int t = 0;
+                while(i < 1)
+                {
+                    t = t + 25;
+                    if(test.length() < t)
+                    {
+                        t = test.length();
+                        i++;
+                    }
+
+                    holder.append(test.substring(n, t)).append("\n");
+                    n = n + 25;
+                    LineCount++;
+                }
+                test = holder.toString();
+            }
+            else
+            {
+                LineCount++;
+            }
+
             TextView GoalREntry = new TextView(this);
-            GoalREntry.setText(entry[1]);
+            GoalREntry.setText(test);
             GoalREntry.setGravity(Gravity.CENTER);
             GoalREntry.setTextSize(20);
+            GoalREntry.setSingleLine(false);
+            GoalREntry.setEllipsize(TextUtils.TruncateAt.END);
+            GoalREntry.setLines(LineCount);
 
             CheckBox complete = new CheckBox(this);
             complete.setGravity(Gravity.END);

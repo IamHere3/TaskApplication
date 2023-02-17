@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,13 @@ public class general_settings extends Fragment {
         Settings activity = (Settings) getActivity();
         assert activity != null;
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        // Screen width
+        // Adjusted screen width (40px of padding in fragment holder) - textview (200ish)
+        int width = displayMetrics.widthPixels - 300;
+
         String currentTheme = activity.importTheme();
         String[] hobby = activity.importHobbies();
 
@@ -56,6 +65,7 @@ public class general_settings extends Fragment {
         EditText editCurrentTheme = new EditText(activity);
         editCurrentTheme.setText(currentTheme);
         editCurrentTheme.setId(themeID);
+        editCurrentTheme.setLines(2);
 
         themeRow.addView(editTheme);
         themeRow.addView(editCurrentTheme);
@@ -64,8 +74,24 @@ public class general_settings extends Fragment {
 
         // Hobbies List
         Spinner HobbyList = new Spinner(activity);
+        HobbyList.setMinimumWidth(width - 50);
 
-        ArrayList<String> hobbySpinnerArray = new ArrayList<String>(Arrays.asList(hobby));
+        ArrayList<String> hobbySpinnerArray = new ArrayList<String>();
+
+        for(String entryTotal : hobby)
+        {
+            String entryHolder = entryTotal;
+
+            int StrLength = entryTotal.length();
+
+            if (StrLength > 12)
+            {
+                entryHolder = entryTotal.substring(0, 12) + "...";
+            }
+
+            hobbySpinnerArray.add(entryHolder);
+        }
+
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, hobbySpinnerArray);
 
         HobbyList.setAdapter(spinnerArrayAdapter);
@@ -98,15 +124,28 @@ public class general_settings extends Fragment {
         TextView newHobby = new TextView(activity);
         newHobby.setText(R.string.newHobby);
 
+        TableRow hobbyNewEntry = new TableRow(activity);
+
         EditText newHobbyText = new EditText(activity);
         newHobbyText.setId(newHobbyID);
+        newHobbyText.setSingleLine(false);
+        newHobbyText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        newHobbyText.setLines(3);
+
+        hobbyNewEntry.addView(newHobbyText);
+
+        TableRow.LayoutParams newHobbyParams = (TableRow.LayoutParams) newHobbyText.getLayoutParams();
+        newHobbyParams.span = 2;
+
+        newHobbyText.setLayoutParams(newHobbyParams);
 
         hobbyNew.addView(newHobby);
-        hobbyNew.addView(newHobbyText);
+
 
         optionHolder.addView(themeRow);
         optionHolder.addView(hobbyRow);
         optionHolder.addView(hobbyNew);
+        optionHolder.addView(hobbyNewEntry);
 
         return view;
     }
