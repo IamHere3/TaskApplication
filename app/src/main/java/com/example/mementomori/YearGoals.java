@@ -101,7 +101,7 @@ public class YearGoals extends SaveClass {
                     Intent intent = new Intent(YearGoals.this, YearGoals.class);
                     startActivity(intent);
                     finish();
-                    // Stops page slide in when restarting activiy
+                    // Stops page slide in when restarting activity
                     overridePendingTransition(0, 0);
                 }
             });
@@ -124,16 +124,16 @@ public class YearGoals extends SaveClass {
 
             String[] entry = goal.split(",");
 
-            boolean YearGoals = LoadSharedBoolean(entry[0], false);
+            boolean GoalsValue = LoadSharedBoolean(entry[0], false);
 
-            String test = entry[1];
+            String GoalText = entry[1];
 
             StringBuilder holder = new StringBuilder();
 
             int LineCount = 0;
 
             // Custom new line creator
-            if(test.length() > 25)
+            if(GoalText.length() > 25)
             {
                 int i = 0;
                 int n = 0;
@@ -141,17 +141,17 @@ public class YearGoals extends SaveClass {
                 while(i < 1)
                 {
                     t = t + 25;
-                    if(test.length() < t)
+                    if(GoalText.length() < t)
                     {
-                        t = test.length();
+                        t = GoalText.length();
                         i++;
                     }
 
-                    holder.append(test.substring(n, t)).append("\n");
+                    holder.append(GoalText.substring(n, t)).append("\n");
                     n = n + 25;
                     LineCount++;
                 }
-                test = holder.toString();
+                GoalText = holder.toString();
             }
             else
             {
@@ -159,7 +159,7 @@ public class YearGoals extends SaveClass {
             }
 
             TextView GoalREntry = new TextView(this);
-            GoalREntry.setText(test);
+            GoalREntry.setText(GoalText);
             GoalREntry.setGravity(Gravity.CENTER);
             GoalREntry.setTextSize(20);
             GoalREntry.setSingleLine(false);
@@ -170,7 +170,7 @@ public class YearGoals extends SaveClass {
             complete.setGravity(Gravity.END);
             complete.setOnClickListener(v -> SaveBoolData(entry[0], ((CheckBox) v).isChecked()));
 
-            complete.setChecked(YearGoals);
+            complete.setChecked(GoalsValue);
 
             GoalEntry.addView(complete);
             GoalEntry.addView(GoalREntry);

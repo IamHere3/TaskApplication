@@ -2,43 +2,14 @@
     <string name="app_name">App of quotes</string>
     <string name="Phrase">Phrase</string>
     <string name="Translation">Translation</string>
-    <!-- https://www.youtube.com/watch?v=NVGuFdX5guE -->
-    <string name="SeasonalTheme">Season of Commitment</string>
+    <string name="TaskApp">App of quotes</string>
 
-    <string name="Memento">Memento Mori</string>
-    <string name="MementoE">Remember you are mortal</string>
-
-    <string name="Vincit">Vincit Qui Se Vincit</string>
-    <string name="VincitE">He conquers who conquers himself</string>
-
-    <string name="Tempus">Tempus Edax Rerum</string>
-    <string name="TempusE">time, devourer of all things</string>
-
-    <string name="Valar">Valar Monghulis</string>
-    <string name="ValarE">All men must die</string>
-
-    <!-- Secound fragment -->
-
-    <!-- titles -->
+    <!-- Titles -->
     <string name="r_mor">Morning Routine</string>
     <string name="r_dai">Daily Routine</string>
+    <string name="r_day">Day Tasks</string>
 
-    <!-- morning tasks -->
-    <string name="m_wake">Get Up (before 7.30)</string>
-    <string name="m_shower">Shower</string>
-    <string name="m_eat">Breakfast</string>
-    <string name="m_teeth">Brush teeth</string>
-    <string name="m_teeth_face">Brush teeth and face routine</string>
-    <string name="m_shave">Shave</string>
-    <string name="m_shower_shave">Shower and Shave</string>
-
-    <!-- daily tasks -->
-    <string name="d_math">Practice math</string>
-    <string name="d_code">Code for one hour</string>
-    <string name="d_sleep">Go to bed by 11.00</string>
-    <string name="d_diary">Write in Diary</string>
-
-    <!-- titles -->
+    <!-- Task progress titles -->
     <string name="progressTitle">Progression</string>
     <string name="dailyTitle">Daily</string>
     <string name="yesterdayTitle">Yesterday</string>
@@ -52,7 +23,6 @@
     <string name="deleteTask">Delete task</string>
     <string name="removeTask">Remove task</string>
     <string name="generalSettings">General</string>
-    <string name="TempTaskTitle">Temporary Tasks</string>
 
     <!-- create task -->
     <string name="taskName">Task name</string>
@@ -91,7 +61,7 @@
     <string name="save">Save</string>
 
     <string name="textDay">Select day for repeating task</string>
-    <string name="title_activity_year_goals">YearGoals</string>
+
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>

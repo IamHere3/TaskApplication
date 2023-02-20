@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -215,15 +216,15 @@ public class Settings extends SaveClass {
         // Checks which fragment is visible
         if (editTask != null && editTask.isVisible())
         {
-            EditTasksSave();
+            EditTasksSave(view);
         }
         else if (newTask != null && newTask.isVisible())
         {
-            newTaskCreation();
+            newTaskCreation(view);
         }
         else if (genSettings != null && genSettings.isVisible())
         {
-            GeneralSettingsSave();
+            GeneralSettingsSave(view);
         }
         else
         {
@@ -235,7 +236,7 @@ public class Settings extends SaveClass {
 
     //region $executeFunctions
 
-    private void newTaskCreation()
+    private void newTaskCreation(View view)
     {
         // Loads tasks
         Set<String> setMorningRoutine = LoadSharedStrArray("MorningRoutine", new HashSet<>());
@@ -392,11 +393,22 @@ public class Settings extends SaveClass {
 
             if(MonValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("MonTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> MonTasks = LoadSharedStrArray("MornMonTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    MonTasks.add(newStringTask);
 
-                SaveSharedStrArray("MonTask", MonTasks);
+                    SaveSharedStrArray("MornMonTask", MonTasks);
+                }
+                else
+                {
+                    Set<String> MonTasks = LoadSharedStrArray("EveMonTask", new HashSet<>());
+
+                    MonTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveMonTask", MonTasks);
+                }
 
                 daySelect = true;
 
@@ -405,11 +417,22 @@ public class Settings extends SaveClass {
             }
             if (TueValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("TueTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> TueTasks = LoadSharedStrArray("MornTueTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    TueTasks.add(newStringTask);
 
-                SaveSharedStrArray("TueTask", MonTasks);
+                    SaveSharedStrArray("MornTueTask", TueTasks);
+                }
+                else if(eveningValue.isChecked())
+                {
+                    Set<String> TueTasks = LoadSharedStrArray("EveTueTask", new HashSet<>());
+
+                    TueTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveTueTask", TueTasks);
+                }
 
                 daySelect = true;
 
@@ -418,11 +441,22 @@ public class Settings extends SaveClass {
             }
             if (WedValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("WedTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> WedTasks = LoadSharedStrArray("MornWedTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    WedTasks.add(newStringTask);
 
-                SaveSharedStrArray("WedTask", MonTasks);
+                    SaveSharedStrArray("MornWedTask", WedTasks);
+                }
+                else if(eveningValue.isChecked())
+                {
+                    Set<String> WedTasks = LoadSharedStrArray("EveWedTask", new HashSet<>());
+
+                    WedTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveWedTask", WedTasks);
+                }
 
                 daySelect = true;
 
@@ -431,11 +465,22 @@ public class Settings extends SaveClass {
             }
             if (ThrValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("ThrTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> ThrTasks = LoadSharedStrArray("MornThrTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    ThrTasks.add(newStringTask);
 
-                SaveSharedStrArray("ThrTask", MonTasks);
+                    SaveSharedStrArray("MornThrTask", ThrTasks);
+                }
+                else if(eveningValue.isChecked())
+                {
+                    Set<String> ThrTasks = LoadSharedStrArray("EveThrTask", new HashSet<>());
+
+                    ThrTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveThrTask", ThrTasks);
+                }
 
                 daySelect = true;
 
@@ -444,11 +489,22 @@ public class Settings extends SaveClass {
             }
             if (FriValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("FriTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> FriTasks = LoadSharedStrArray("MornFriTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    FriTasks.add(newStringTask);
 
-                SaveSharedStrArray("FriTask", MonTasks);
+                    SaveSharedStrArray("MornFriTask", FriTasks);
+                }
+                else if(eveningValue.isChecked())
+                {
+                    Set<String> FriTasks = LoadSharedStrArray("EveFriTask", new HashSet<>());
+
+                    FriTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveFriTask", FriTasks);
+                }
 
                 daySelect = true;
 
@@ -457,11 +513,22 @@ public class Settings extends SaveClass {
             }
             if (SatValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("SatTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> SatTasks = LoadSharedStrArray("MornSatTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    SatTasks.add(newStringTask);
 
-                SaveSharedStrArray("SatTask", MonTasks);
+                    SaveSharedStrArray("MornSatTask", SatTasks);
+                }
+                else if(eveningValue.isChecked())
+                {
+                    Set<String> SatTasks = LoadSharedStrArray("EveSatTask", new HashSet<>());
+
+                    SatTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveSatTask", SatTasks);
+                }
 
                 daySelect = true;
 
@@ -470,11 +537,22 @@ public class Settings extends SaveClass {
             }
             if (SunValue)
             {
-                Set<String> MonTasks = LoadSharedStrArray("SunTask", new HashSet<>());
+                if(morningValue.isChecked())
+                {
+                    Set<String> SunTasks = LoadSharedStrArray("MornSunTask", new HashSet<>());
 
-                MonTasks.add(newStringTask);
+                    SunTasks.add(newStringTask);
 
-                SaveSharedStrArray("SunTask", MonTasks);
+                    SaveSharedStrArray("MornSunTask", SunTasks);
+                }
+                else if(eveningValue.isChecked())
+                {
+                    Set<String> SunTasks = LoadSharedStrArray("EveSunTask", new HashSet<>());
+
+                    SunTasks.add(newStringTask);
+
+                    SaveSharedStrArray("EveSunTask", SunTasks);
+                }
 
                 daySelect = true;
 
@@ -497,7 +575,7 @@ public class Settings extends SaveClass {
     }
     //endregion
 
-    private void EditTasksSave()
+    private void EditTasksSave(View view)
     {
         final TextView textEntry = findViewById(entryId);
         final CheckBox deleteTask = findViewById(deleteCheckboxID);
@@ -562,7 +640,7 @@ public class Settings extends SaveClass {
             Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_LONG);
             toast.show();
 
-            return;
+            EditTaskFragment(view);
         }
         //endregion
 
@@ -604,7 +682,7 @@ public class Settings extends SaveClass {
             Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_LONG);
             toast.show();
 
-            return;
+            EditTaskFragment(view);
         }
         //endregion
 
@@ -651,7 +729,7 @@ public class Settings extends SaveClass {
             Toast toast = Toast.makeText(this, "Day task updated", Toast.LENGTH_LONG);
             toast.show();
 
-            return;
+            EditTaskFragment(view);
         }
         //endregion
 
@@ -709,12 +787,14 @@ public class Settings extends SaveClass {
 
             Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_LONG);
             toast.show();
+
+            EditTaskFragment(view);
         }
         //endregion
     }
 
     // General settings fragment save
-    private void GeneralSettingsSave()
+    private void GeneralSettingsSave(View view)
     {
         final TextView themeText = findViewById(themeID);
         final CheckBox deleteValue = findViewById(deleteThemeID);
@@ -751,7 +831,8 @@ public class Settings extends SaveClass {
                 }
             }
             SaveSharedStrArray("HobbyOptions", newHobbyArray);
-            return;
+
+            GeneralFragment(view);
         }
 
         // Adds the new hobby
@@ -766,6 +847,8 @@ public class Settings extends SaveClass {
 
             Toast toast = Toast.makeText(this, "new hobby added", Toast.LENGTH_LONG);
             toast.show();
+
+            GeneralFragment(view);
         }
     }
 
@@ -784,8 +867,8 @@ public class Settings extends SaveClass {
     //region Fragment updating
 
     public void NewTaskFragment(View view) {
-        FragmentManager EditTasks = getSupportFragmentManager();
-        FragmentTransaction ft = EditTasks.beginTransaction();
+        FragmentManager NewTasks = getSupportFragmentManager();
+        FragmentTransaction ft = NewTasks.beginTransaction();
 
         ft.replace(R.id.FragmentHolder, new NewTask(), "NewTask");
         ft.commit();

@@ -119,8 +119,6 @@ public class MainActivity extends SaveClass {
 
         setUp.putBoolean("Setup", true);
 
-        setUp.putString("currentTheme", "Commitment");
-
         setUp.apply();
     }
 
@@ -187,6 +185,7 @@ public class MainActivity extends SaveClass {
     {
         String Theme = LoadSharedStr("currentTheme", "no theme set");
 
+        // theme system https://www.youtube.com/watch?v=NVGuFdX5guE
         if(!Objects.equals(Theme, "no theme set"))
         {
             Theme = "Season of " + Theme;

@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pinyonscriptregular"
-        android:text="@string/SeasonalTheme"
+        android:text="@string/TaskApp"
         android:textColor="@color/spring"
         android:textSize="32sp"
         app:flow_horizontalAlign="center"
