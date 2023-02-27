@@ -43,7 +43,8 @@
     <string name="taskLengthOneDay">Day length</string>
     <string name="taskLengthPermanent">Permanent length</string>
     <string name="taskPermanent">Permanent</string>
-    <string name="taskOneDay">Today</string>
+    <string name="taskOneDay">One day</string>
+    <string name="taskToday">Today</string>
     <string name="taskTomorrow">Tomorrow</string>
     <string name="taskWeekly">Weekly Repeat</string>
     <string name="taskMonthly">Monthly Repeat</string>

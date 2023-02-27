@@ -10,21 +10,17 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -85,7 +81,7 @@ public class YearGoals extends SaveClass {
                     String yearValue = yearEntry.getText().toString();
 
                     // Save new yearly goal
-                    Set<String> yearGoals = LoadSharedStrArray("goal", new HashSet<>());
+                    Set<String> yearGoals = new HashSet<>(LoadSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref"));
 
                     // Create new ID
                     String IDHolder = RandomStringGeneration();
@@ -94,7 +90,7 @@ public class YearGoals extends SaveClass {
 
                     yearGoals.add(NewEntry);
 
-                    SaveSharedStrArray("goal", yearGoals);
+                    SaveSharedStrArray("LongTermGoals", yearGoals, "sharedPref");
 
                     popUpWin.dismiss();
 
@@ -114,7 +110,7 @@ public class YearGoals extends SaveClass {
 
         });
 
-        Set<String> yearGoals = LoadSharedStrArray("goal", new HashSet<>());
+        Set<String> yearGoals = new HashSet<>(LoadSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref"));
         String[] yearGoalsArray = yearGoals.toArray(new String[0]);
 
         for(String goal : yearGoalsArray)
@@ -185,7 +181,7 @@ public class YearGoals extends SaveClass {
         builder.setMessage(R.string.conformation);
 
         builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-                SaveSharedStrArray("YearGoals", new HashSet<>());
+                SaveSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref");
         });
 
         builder.setNegativeButton(R.string.no, (dialogInterface, i) -> {

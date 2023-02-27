@@ -63,13 +63,13 @@ public class Tasks extends SaveClass {
 
         // Checks for new day
         if (savedDay != day) {
-            updateTempTasks();
+            updateTempTasks(day);
         }
 
         // Loads current tasks
-        Set<String> setMorningRoutine = LoadSharedStrArray("MorningRoutine", new HashSet<>());
-        Set<String> setDayRoutine = LoadSharedStrArray("DayRoutine", new HashSet<>());
-        Set<String> setTempRoutine = LoadSharedStrArray("DayTask", new HashSet<>());
+        Set<String> setMorningRoutine = LoadSharedStrArray("MorningRoutine", new HashSet<>(), "sharedPref");
+        Set<String> setDayRoutine = LoadSharedStrArray("DayRoutine", new HashSet<>(), "sharedPref");
+        Set<String> setTempRoutine = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
 
         // Converts sets to string arrays
         String[] arrayMorningRoutine = setMorningRoutine.toArray(new String[0]);
@@ -167,7 +167,6 @@ public class Tasks extends SaveClass {
         dailyCheckboxes.addView(DailyTitle);
 
         for (String dR : arrayDayRoutine) {
-
             NumberOfTasks++;
             String[] entry = dR.split(",");
 
@@ -202,9 +201,7 @@ public class Tasks extends SaveClass {
                 SaveBoolData(entry[0], ((CheckBox) v).isChecked());
                 updateProgress();
             });
-
             dailyCheckboxes.addView(checkBox);
-
         }
 
         assert currentDayM != null;
@@ -395,7 +392,7 @@ public class Tasks extends SaveClass {
         setProgress();
 
         // load hobbies
-        Set<String> hobbies = LoadSharedStrArray("HobbyOptions", new HashSet<>());
+        Set<String> hobbies = LoadSharedStrArray("HobbyOptions", new HashSet<>(), "sharedPref");
         UpdateText(hobbies, savedDay != day);
     }
 
@@ -710,15 +707,15 @@ public class Tasks extends SaveClass {
         }
     }
 
-    private void updateTempTasks()
+    private void updateTempTasks(int day)
     {
         // Gets tomorrow (now today's tasks)
-        Set<String> TomorrowTasks = LoadSharedStrArray("TomorrowTask", new HashSet<>());
+        Set<String> NewDayTasks = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref");
 
         // Gets old day tasks
-        Set<String> DayTasks = LoadSharedStrArray("DayTask", new HashSet<>());
+        Set<String> DayTasks = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
 
-        // Counts total day tasks and  number of them completed
+        // Counts total day tasks and number of them completed
         for (String countChecks : DayTasks)
         {
             String[] entry = countChecks.split(",");
@@ -740,8 +737,17 @@ public class Tasks extends SaveClass {
         // Clears tomorrow
         oldRemoval.edit().remove("TomorrowTask").apply();
 
+        // Gets week string array
+        Set<String> dayTemp = dayWeek(day);
+
+        // Ensures day temp is not empty
+        if(dayTemp != null)
+        {
+            NewDayTasks.addAll(dayTemp);
+        }
+
         // Updates day tasks with new day
-        SaveSharedStrArray("DayTask", TomorrowTasks);
+        SaveSharedStrArray("DayTask", NewDayTasks, "sharedPref");
     }
 
     private String[] weekDayM(int day)
@@ -749,31 +755,31 @@ public class Tasks extends SaveClass {
         switch (day)
         {
             case(1) :
-                 Set<String> Sun = LoadSharedStrArray("MornSunTask", new HashSet<>());
+                 Set<String> Sun = LoadSharedStrArray("MornSunTask", new HashSet<>(), "WeekT");
                  return Sun.toArray(new String[0]);
 
             case(2) :
-                Set<String> Mon = LoadSharedStrArray("MornMonTask", new HashSet<>());
+                Set<String> Mon = LoadSharedStrArray("MornMonTask", new HashSet<>(), "WeekT");
                 return Mon.toArray(new String[0]);
 
             case(3) :
-                Set<String> Tue = LoadSharedStrArray("MornTueTask", new HashSet<>());
+                Set<String> Tue = LoadSharedStrArray("MornTueTask", new HashSet<>(), "WeekT");
                 return Tue.toArray(new String[0]);
 
             case(4) :
-                Set<String> Wed = LoadSharedStrArray("MornWedTask", new HashSet<>());
+                Set<String> Wed = LoadSharedStrArray("MornWedTask", new HashSet<>(), "WeekT");
                 return Wed.toArray(new String[0]);
 
             case(5) :
-                Set<String> Thr = LoadSharedStrArray("MornThrTask", new HashSet<>());
+                Set<String> Thr = LoadSharedStrArray("MornThrTask", new HashSet<>(), "WeekT");
                 return Thr.toArray(new String[0]);
 
             case(6) :
-                Set<String> Fri = LoadSharedStrArray("MornFriTask", new HashSet<>());
+                Set<String> Fri = LoadSharedStrArray("MornFriTask", new HashSet<>(), "WeekT");
                 return Fri.toArray(new String[0]);
 
             case(7) :
-                Set<String> Sat =  LoadSharedStrArray("MornSatTask", new HashSet<>());
+                Set<String> Sat =  LoadSharedStrArray("MornSatTask", new HashSet<>(), "WeekT");
                 return Sat.toArray(new String[0]);
         }
         return null;
@@ -784,32 +790,75 @@ public class Tasks extends SaveClass {
         switch (day)
         {
             case(1) :
-                Set<String> Sun = LoadSharedStrArray("EveSunTask", new HashSet<>());
+                Set<String> Sun = LoadSharedStrArray("EveSunTask", new HashSet<>(), "WeekT");
                 return Sun.toArray(new String[0]);
 
             case(2) :
-                Set<String> Mon = LoadSharedStrArray("EveMonTask", new HashSet<>());
+                Set<String> Mon = LoadSharedStrArray("EveMonTask", new HashSet<>(), "WeekT");
                 return Mon.toArray(new String[0]);
 
             case(3) :
-                Set<String> Tue = LoadSharedStrArray("EveTueTask", new HashSet<>());
+                Set<String> Tue = LoadSharedStrArray("EveTueTask", new HashSet<>(), "WeekT");
                 return Tue.toArray(new String[0]);
 
             case(4) :
-                Set<String> Wed = LoadSharedStrArray("EveWedTask", new HashSet<>());
+                Set<String> Wed = LoadSharedStrArray("EveWedTask", new HashSet<>(), "WeekT");
                 return Wed.toArray(new String[0]);
 
             case(5) :
-                Set<String> Thr = LoadSharedStrArray("EveThrTask", new HashSet<>());
+                Set<String> Thr = LoadSharedStrArray("EveThrTask", new HashSet<>(), "WeekT");
                 return Thr.toArray(new String[0]);
 
             case(6) :
-                Set<String> Fri = LoadSharedStrArray("EveFriTask", new HashSet<>());
+                Set<String> Fri = LoadSharedStrArray("EveFriTask", new HashSet<>(), "WeekT");
                 return Fri.toArray(new String[0]);
 
             case(7) :
-                Set<String> Sat =  LoadSharedStrArray("EveSatTask", new HashSet<>());
+                Set<String> Sat =  LoadSharedStrArray("EveSatTask", new HashSet<>(), "WeekT");
                 return Sat.toArray(new String[0]);
+        }
+        return null;
+    }
+
+    private Set<String> dayWeek(int day)
+    {
+        SharedPreferences oldRemoval = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
+        switch (day)
+        {
+            case(1) :
+                Set<String> Mon = LoadSharedStrArray("DayMonTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DayMonTask").apply();
+                return Mon;
+
+            case(2) :
+                Set<String> Tue = LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DayTueTask").apply();
+                return Tue;
+
+            case(3) :
+                Set<String> Wed = LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DayWedTask").apply();
+                return Wed;
+
+            case(4) :
+                Set<String> Thr = LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DayThrTask").apply();
+                return Thr;
+
+            case(5) :
+                Set<String> Fri = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DayFriTask").apply();
+                return Fri;
+
+            case(6) :
+                Set<String> Sat = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DaySatTask").apply();
+                return Sat;
+
+            case(7) :
+                Set<String> Sun = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
+                oldRemoval.edit().remove("DaySunTask").apply();
+                return Sun;
         }
         return null;
     }

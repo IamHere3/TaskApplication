@@ -36,9 +36,9 @@ public class MainActivity extends SaveClass {
         String[] Phrases = PhraseArray();
         String[] EnglishPhrases = EnglishPhraseArray();
         String[] Author = Author();
-        String Theme = LoadThemeStr();
+        UpdateThemeStr();
 
-        UpdateText(Phrases, EnglishPhrases, Author, Theme);
+        UpdateText(Phrases, EnglishPhrases, Author);
 
         //region SettingOnClickListeners
 
@@ -81,12 +81,27 @@ public class MainActivity extends SaveClass {
         //endregion
     }
 
+    @Override
+    public void onResume()
+    {
+        // Calls a super class method
+        super.onResume();
+
+        UpdateThemeStr();
+    }
+
     //region $JSONPopulation
 
     // New application population
     protected void compileStartSetArrays() {
         SharedPreferences StringSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor setUp = StringSharedPref.edit();
+
+        /*
+        SharedPreferences MorningR = getSharedPreferences("MorningR", MODE_PRIVATE);
+        SharedPreferences.Editor MorningRe = MorningR.edit();
+
+         */
 
         Set<String> mRSetup = new HashSet<>();
 
@@ -101,6 +116,12 @@ public class MainActivity extends SaveClass {
         dRSetup.add("hobbyTwo,hobbies,100,4");
         dRSetup.add("diary,Write in Diary,0,5");
         dRSetup.add("sleep,Go to bed by 11.00,0,6");
+
+        /*
+        SharedPreferences DayR = getSharedPreferences("DayR", MODE_PRIVATE);
+        SharedPreferences.Editor DayRe = DayR.edit();
+
+         */
 
         setUp.putStringSet("DayRoutine", dRSetup);
 
@@ -120,6 +141,11 @@ public class MainActivity extends SaveClass {
         setUp.putBoolean("Setup", true);
 
         setUp.apply();
+        /*
+        DayRe.apply();
+        MorningRe.apply();
+
+         */
     }
 
     // Initial quotes
@@ -142,7 +168,7 @@ public class MainActivity extends SaveClass {
     //region TextUpdating
 
     // Quote picking and updating
-    private void UpdateText(String[] Phrases, String[] EnglishPhrases, String[] Author, String Theme) {
+    private void UpdateText(String[] Phrases, String[] EnglishPhrases, String[] Author) {
         Random rand = new Random();
         int n = rand.nextInt(Phrases.length);
 
@@ -175,23 +201,21 @@ public class MainActivity extends SaveClass {
             final TextView ClearTranslation = findViewById(R.id.Translation);
             ClearTranslation.setText("");
         }
-
-        final TextView cTheme = findViewById(R.id.SeasonalTheme);
-        cTheme.setText(Theme);
     }
 
     // Theme displaying
-    private String LoadThemeStr()
+    private void UpdateThemeStr()
     {
-        String Theme = LoadSharedStr("currentTheme", "no theme set");
+        String Theme = LoadSharedStr("currentTheme", "App of quotes");
 
         // theme system https://www.youtube.com/watch?v=NVGuFdX5guE
-        if(!Objects.equals(Theme, "no theme set"))
+        if(!Objects.equals(Theme, "App of quotes"))
         {
             Theme = "Season of " + Theme;
         }
 
-        return Theme;
+        final TextView cTheme = findViewById(R.id.SeasonalTheme);
+        cTheme.setText(Theme);
     }
     //endregion
 }

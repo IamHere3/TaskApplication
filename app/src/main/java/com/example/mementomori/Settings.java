@@ -54,6 +54,7 @@ public class Settings extends SaveClass {
     static int dayTask = 2001;
     static int tomorrowTask = 2002;
     static int weeklyTask = 2003;
+    static int oneDayTask = 2004;
 
     // Radio button IDs
     static int MonID = 2500;
@@ -88,7 +89,7 @@ public class Settings extends SaveClass {
     public String[] importMorningData()
     {
         // Loads tasks
-        Set<String> setMorningRoutine = LoadSharedStrArray("MorningRoutine", new HashSet<>());
+        Set<String> setMorningRoutine = LoadSharedStrArray("MorningRoutine", new HashSet<>(), "sharedPref");
 
         // Converts sets to string arrays
         arrayMorningRoutine = setMorningRoutine.toArray(new String[0]);
@@ -98,7 +99,7 @@ public class Settings extends SaveClass {
 
     public String[] importDayData()
     {
-        Set<String> setDayRoutine = LoadSharedStrArray("DayRoutine", new HashSet<>());
+        Set<String> setDayRoutine = new HashSet<>(LoadSharedStrArray("DayRoutine", new HashSet<>(), "sharedPref"));
 
         arrayDayRoutine = setDayRoutine.toArray(new String[0]);
 
@@ -107,7 +108,7 @@ public class Settings extends SaveClass {
 
     public String[] importDailyData()
     {
-        Set<String> setDayRoutine = LoadSharedStrArray("DayTask", new HashSet<>());
+        Set<String> setDayRoutine = new HashSet<>(LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref"));
 
         arrayDailyRoutine = setDayRoutine.toArray(new String[0]);
 
@@ -116,7 +117,7 @@ public class Settings extends SaveClass {
 
     public String[] importHobbies()
     {
-        Set<String> setDayRoutine = LoadSharedStrArray("HobbyOptions", new HashSet<>());
+        Set<String> setDayRoutine = new HashSet<>(LoadSharedStrArray("HobbyOptions", new HashSet<>(), "sharedPref"));
 
         arrayHobby = setDayRoutine.toArray(new String[0]);
 
@@ -125,13 +126,13 @@ public class Settings extends SaveClass {
 
     public String importTheme()
     {
-        return LoadSharedStr("currentTheme", "Holder");
+        return LoadSharedStr("currentTheme", "App of quotes");
     }
 
     public String[] importTotalData()
     {
         // Loads tasks
-        Set<String> setDailyRoutine = LoadSharedStrArray("DayTask", new HashSet<>());
+        Set<String> setDailyRoutine = new HashSet<>(LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref"));
 
         // Gets current day
         Calendar calendar = Calendar.getInstance();
@@ -228,7 +229,7 @@ public class Settings extends SaveClass {
         }
         else
         {
-            Toast toast = Toast.makeText(this, "Nothing detected", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Nothing detected", Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -239,8 +240,8 @@ public class Settings extends SaveClass {
     private void newTaskCreation(View view)
     {
         // Loads tasks
-        Set<String> setMorningRoutine = LoadSharedStrArray("MorningRoutine", new HashSet<>());
-        Set<String> setDayRoutine = LoadSharedStrArray("DayRoutine", new HashSet<>());
+        Set<String> setMorningRoutine = new HashSet<>(LoadSharedStrArray("MorningRoutine", new HashSet<>(), "sharedPref"));
+        Set<String> setDayRoutine = new HashSet<>(LoadSharedStrArray("DayRoutine", new HashSet<>(), "sharedPref"));
 
         String newStringTask;
         String newTaskNameID = "";
@@ -265,17 +266,17 @@ public class Settings extends SaveClass {
         final RadioButton dayTaskR = findViewById(dayTask);
         final RadioButton tomorrowTaskR = findViewById(tomorrowTask);
         final RadioButton weeklyTaskR = findViewById(weeklyTask);
+        final RadioButton oneDayTaskR = findViewById(oneDayTask);
 
         boolean permanentTaskValue = permanentTaskR.isChecked();
         boolean dayTaskValue = dayTaskR.isChecked();
         boolean tomorrowTaskValue = tomorrowTaskR.isChecked();
         boolean weeklyTaskValue = weeklyTaskR.isChecked();
-
-        String holderID = "";
+        boolean oneDayTaskValue = oneDayTaskR.isChecked();
 
         // Error catching
         if (TaskText.contains(",")) {
-            Toast toast = Toast.makeText(this, "Please don't use commas (,)", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Please don't use commas (,)", Toast.LENGTH_SHORT);
             toast.show();
 
             return;
@@ -299,9 +300,9 @@ public class Settings extends SaveClass {
         //region TaskLengthConfiguring
         if(permanentTaskValue)
         {
-            if(eveningValue.isChecked()) {
-
-                Set<String> newEveningArray = LoadSharedStrArray("DayRoutine", new HashSet<>());
+            if(eveningValue.isChecked())
+            {
+                Set<String> eveningArray = new HashSet<>();
 
                 for (String counter : setDayRoutine) {
                     counter = counter.replace("[", "");
@@ -310,40 +311,43 @@ public class Settings extends SaveClass {
                     String[] entry = counter.split(",");
 
                     if (Objects.equals(newTaskNameID, entry[0])) {
-                        Toast toast = Toast.makeText(this, "saveID is already taken please try again", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(this, "saveID is already taken please try again", Toast.LENGTH_SHORT);
                         toast.show();
 
                         return;
                     }
+                    eveningArray.add(counter);
                 }
-                newEveningArray.add(newStringTask);
+                eveningArray.add(newStringTask);
 
-                SaveSharedStrArray("DayRoutine", newEveningArray);
+                SaveSharedStrArray("DayRoutine", eveningArray, "sharedPref");
 
-                Toast toast = Toast.makeText(this, "New task added", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, "New task added", Toast.LENGTH_SHORT);
                 toast.show();
             }
             else if(morningValue.isChecked())
             {
-                Set<String> newMorningArray = LoadSharedStrArray("MorningRoutine", new HashSet<>());
+                Set<String> morningArray = new HashSet<>();
 
                 for(String counter : setMorningRoutine)
                 {
                     counter = counter.replace("[", "");
                     counter = counter.replace("]", "");
 
+                    morningArray.add(counter);
+
                     String[] entry = counter.split(",");
 
                     if (Objects.equals(newTaskNameID, entry[0])) {
-                        Toast toast = Toast.makeText(this, "saveID is already taken please try again", Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(this, "saveID is already taken please try again", Toast.LENGTH_SHORT);
                         toast.show();
 
                         return;
                     }
                 }
-                newMorningArray.add(newStringTask);
+                morningArray.add(newStringTask);
 
-                SaveSharedStrArray("MorningRoutine", newMorningArray);
+                SaveSharedStrArray("MorningRoutine", morningArray, "sharedPref");
 
                 Toast toast = Toast.makeText(this, "New permanent task added", Toast.LENGTH_SHORT);
                 toast.show();
@@ -351,29 +355,133 @@ public class Settings extends SaveClass {
         }
         else if (dayTaskValue)
         {
-            Set<String> dayTask = LoadSharedStrArray("DayTask", new HashSet<>());
+            Set<String> dayTaskHolder = new HashSet<>(LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref"));
 
-            dayTask.add(newStringTask);
+            dayTaskHolder.add(newStringTask);
 
-            SaveSharedStrArray("DayTask", dayTask);
+            SaveSharedStrArray("DayTask", dayTaskHolder, "sharedPref");
 
             Toast toast = Toast.makeText(this, "New one day task added", Toast.LENGTH_SHORT);
             toast.show();
         }
         else if (tomorrowTaskValue)
         {
-            Set<String> tomorrowTask = LoadSharedStrArray("TomorrowTask", new HashSet<>());
+            Set<String> tomorrowTask = new HashSet<>(LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref"));
 
             tomorrowTask.add(newStringTask);
 
-            SaveSharedStrArray("TomorrowTask", tomorrowTask);
+            SaveSharedStrArray("TomorrowTask", tomorrowTask, "sharedPref");
 
             Toast toast = Toast.makeText(this, "Task added for tomorrow", Toast.LENGTH_SHORT);
             toast.show();
         }
+        else if (oneDayTaskValue)
+        {
+            boolean daySelect = false;
+
+            CheckBox Mon = findViewById(MonID);
+            CheckBox Tue = findViewById(TueID);
+            CheckBox Wed = findViewById(WedID);
+            CheckBox Thr = findViewById(ThrID);
+            CheckBox Fri = findViewById(FriID);
+            CheckBox Sat = findViewById(SatID);
+            CheckBox Sun = findViewById(SunID);
+
+            boolean MonValue = Mon.isChecked();
+            boolean TueValue = Tue.isChecked();
+            boolean WedValue = Wed.isChecked();
+            boolean ThrValue = Thr.isChecked();
+            boolean FriValue = Fri.isChecked();
+            boolean SatValue = Sat.isChecked();
+            boolean SunValue = Sun.isChecked();
+
+            if(MonValue)
+            {
+                Set<String> MonDayTask = new HashSet<>(LoadSharedStrArray("DayMonTask", new HashSet<>(), "sharedPref"));
+
+                MonDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DayMonTask", MonDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Monday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(TueValue)
+            {
+                Set<String> TueDayTask = new HashSet<>(LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref"));
+
+                TueDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DayTueTask", TueDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Tuesday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(WedValue)
+            {
+                Set<String> WedDayTask = new HashSet<>(LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref"));
+
+                WedDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DayWedTask", WedDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Wednesday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(ThrValue)
+            {
+                Set<String> ThrDayTask = new HashSet<>(LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref"));
+
+                ThrDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DayThrTask", ThrDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Thursday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(FriValue)
+            {
+                Set<String> FriDayTask = new HashSet<>(LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref"));
+
+                FriDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DayFriTask", FriDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Friday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(SatValue)
+            {
+                Set<String> SatDayTask = new HashSet<>(LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref"));
+
+                SatDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DaySatTask", SatDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Saturday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            else if(SunValue)
+            {
+                Set<String> SunDayTask = new HashSet<>(LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref"));
+
+                SunDayTask.add(newStringTask);
+
+                SaveSharedStrArray("DaySunTask", SunDayTask, "sharedPref");
+
+                Toast toast = Toast.makeText(this, "One day task saved for Sunday", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+            if(!daySelect)
+            {
+                Toast toast = Toast.makeText(this, "Please select day", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
         else if (weeklyTaskValue)
         {
-            Boolean daySelect = false;
+            boolean daySelect = false;
 
             CheckBox Mon = findViewById(MonID);
             CheckBox Tue = findViewById(TueID);
@@ -395,19 +503,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> MonTasks = LoadSharedStrArray("MornMonTask", new HashSet<>());
+                    Set<String> MonTasks = new HashSet<>(LoadSharedStrArray("MornMonTask", new HashSet<>(), "sharedPref"));
 
                     MonTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornMonTask", MonTasks);
+                    SaveSharedStrArray("MornMonTask", MonTasks, "sharedPref");
                 }
                 else
                 {
-                    Set<String> MonTasks = LoadSharedStrArray("EveMonTask", new HashSet<>());
+                    Set<String> MonTasks = new HashSet<>(LoadSharedStrArray("EveMonTask", new HashSet<>(), "sharedPref"));
 
                     MonTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveMonTask", MonTasks);
+                    SaveSharedStrArray("EveMonTask", MonTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -419,19 +527,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> TueTasks = LoadSharedStrArray("MornTueTask", new HashSet<>());
+                    Set<String> TueTasks = new HashSet<>(LoadSharedStrArray("MornTueTask", new HashSet<>(), "sharedPref"));
 
                     TueTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornTueTask", TueTasks);
+                    SaveSharedStrArray("MornTueTask", TueTasks, "sharedPref");
                 }
                 else if(eveningValue.isChecked())
                 {
-                    Set<String> TueTasks = LoadSharedStrArray("EveTueTask", new HashSet<>());
+                    Set<String> TueTasks = new HashSet<>(LoadSharedStrArray("EveTueTask", new HashSet<>(), "sharedPref"));
 
                     TueTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveTueTask", TueTasks);
+                    SaveSharedStrArray("EveTueTask", TueTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -443,19 +551,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> WedTasks = LoadSharedStrArray("MornWedTask", new HashSet<>());
+                    Set<String> WedTasks = new HashSet<>(LoadSharedStrArray("MornWedTask", new HashSet<>(), "sharedPref"));
 
                     WedTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornWedTask", WedTasks);
+                    SaveSharedStrArray("MornWedTask", WedTasks, "sharedPref");
                 }
                 else if(eveningValue.isChecked())
                 {
-                    Set<String> WedTasks = LoadSharedStrArray("EveWedTask", new HashSet<>());
+                    Set<String> WedTasks = new HashSet<>(LoadSharedStrArray("EveWedTask", new HashSet<>(), "sharedPref"));
 
                     WedTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveWedTask", WedTasks);
+                    SaveSharedStrArray("EveWedTask", WedTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -467,19 +575,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> ThrTasks = LoadSharedStrArray("MornThrTask", new HashSet<>());
+                    Set<String> ThrTasks = new HashSet<>(LoadSharedStrArray("MornThrTask", new HashSet<>(), "sharedPref"));
 
                     ThrTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornThrTask", ThrTasks);
+                    SaveSharedStrArray("MornThrTask", ThrTasks, "sharedPref");
                 }
                 else if(eveningValue.isChecked())
                 {
-                    Set<String> ThrTasks = LoadSharedStrArray("EveThrTask", new HashSet<>());
+                    Set<String> ThrTasks = new HashSet<>(LoadSharedStrArray("EveThrTask", new HashSet<>(), "sharedPref"));
 
                     ThrTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveThrTask", ThrTasks);
+                    SaveSharedStrArray("EveThrTask", ThrTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -491,19 +599,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> FriTasks = LoadSharedStrArray("MornFriTask", new HashSet<>());
+                    Set<String> FriTasks = new HashSet<>(LoadSharedStrArray("MornFriTask", new HashSet<>(), "sharedPref"));
 
                     FriTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornFriTask", FriTasks);
+                    SaveSharedStrArray("MornFriTask", FriTasks, "sharedPref");
                 }
                 else if(eveningValue.isChecked())
                 {
-                    Set<String> FriTasks = LoadSharedStrArray("EveFriTask", new HashSet<>());
+                    Set<String> FriTasks = new HashSet<>(LoadSharedStrArray("EveFriTask", new HashSet<>(), "sharedPref"));
 
                     FriTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveFriTask", FriTasks);
+                    SaveSharedStrArray("EveFriTask", FriTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -515,19 +623,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> SatTasks = LoadSharedStrArray("MornSatTask", new HashSet<>());
+                    Set<String> SatTasks = new HashSet<>(LoadSharedStrArray("MornSatTask", new HashSet<>(), "sharedPref"));
 
                     SatTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornSatTask", SatTasks);
+                    SaveSharedStrArray("MornSatTask", SatTasks, "sharedPref");
                 }
                 else if(eveningValue.isChecked())
                 {
-                    Set<String> SatTasks = LoadSharedStrArray("EveSatTask", new HashSet<>());
+                    Set<String> SatTasks = new HashSet<>(LoadSharedStrArray("EveSatTask", new HashSet<>(), "sharedPref"));
 
                     SatTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveSatTask", SatTasks);
+                    SaveSharedStrArray("EveSatTask", SatTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -539,19 +647,19 @@ public class Settings extends SaveClass {
             {
                 if(morningValue.isChecked())
                 {
-                    Set<String> SunTasks = LoadSharedStrArray("MornSunTask", new HashSet<>());
+                    Set<String> SunTasks = new HashSet<>(LoadSharedStrArray("MornSunTask", new HashSet<>(), "sharedPref"));
 
                     SunTasks.add(newStringTask);
 
-                    SaveSharedStrArray("MornSunTask", SunTasks);
+                    SaveSharedStrArray("MornSunTask", SunTasks, "sharedPref");
                 }
                 else if(eveningValue.isChecked())
                 {
-                    Set<String> SunTasks = LoadSharedStrArray("EveSunTask", new HashSet<>());
+                    Set<String> SunTasks = new HashSet<>(LoadSharedStrArray("EveSunTask", new HashSet<>(), "sharedPref"));
 
                     SunTasks.add(newStringTask);
 
-                    SaveSharedStrArray("EveSunTask", SunTasks);
+                    SaveSharedStrArray("EveSunTask", SunTasks, "sharedPref");
                 }
 
                 daySelect = true;
@@ -562,13 +670,13 @@ public class Settings extends SaveClass {
 
             if(!daySelect)
             {
-                Toast toast = Toast.makeText(this, "Please select day", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, "Please select day", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
         else
         {
-            Toast toast = Toast.makeText(this, "Please select a task length", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Please select a task length", Toast.LENGTH_SHORT);
             toast.show();
         }
         //endregion
@@ -585,7 +693,7 @@ public class Settings extends SaveClass {
 
         // Error catching
         if (newText.contains(",")) {
-            Toast toast = Toast.makeText(this, "Please don't use commas (,)", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Please don't use commas (,)", Toast.LENGTH_SHORT);
             toast.show();
 
             return;
@@ -635,9 +743,9 @@ public class Settings extends SaveClass {
         }
 
         if (update) {
-            SaveSharedStrArray("MorningRoutine", newMorningArray);
+            SaveSharedStrArray("MorningRoutine", newMorningArray, "sharedPref");
 
-            Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT);
             toast.show();
 
             EditTaskFragment(view);
@@ -677,9 +785,9 @@ public class Settings extends SaveClass {
         }
 
         if (update) {
-            SaveSharedStrArray("DayRoutine", newEveningArray);
+            SaveSharedStrArray("DayRoutine", newEveningArray, "sharedPref");
 
-            Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT);
             toast.show();
 
             EditTaskFragment(view);
@@ -724,9 +832,9 @@ public class Settings extends SaveClass {
         }
 
         if (update) {
-            SaveSharedStrArray("DayTask", newDailyArray);
+            SaveSharedStrArray("DayTask", newDailyArray, "sharedPref");
 
-            Toast toast = Toast.makeText(this, "Day task updated", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Day task updated", Toast.LENGTH_SHORT);
             toast.show();
 
             EditTaskFragment(view);
@@ -783,9 +891,9 @@ public class Settings extends SaveClass {
         if (update) {
             String dayString = weekDaySaveName(day);
 
-            SaveSharedStrArray(dayString, newWeekArray);
+            SaveSharedStrArray(dayString, newWeekArray, "sharedPref");
 
-            Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "Task updated", Toast.LENGTH_SHORT);
             toast.show();
 
             EditTaskFragment(view);
@@ -806,12 +914,12 @@ public class Settings extends SaveClass {
 
         // Update the theme
         if (!newTheme.equals("")) {
-            String currentTheme = LoadSharedStr("currentTheme", newTheme);
+            String currentTheme = LoadSharedStr("currentTheme", "App of quotes");
 
             if (!currentTheme.equals(newTheme)) {
                 SaveSharedStr("currentTheme", newTheme);
 
-                Toast toast = Toast.makeText(this, "Theme updated", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, "Theme updated", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
@@ -820,32 +928,32 @@ public class Settings extends SaveClass {
         if (deleteOption) {
             Set<String> newHobbyArray = new HashSet<>();
 
-            Set<String> hobbyList = LoadSharedStrArray("HobbyOptions", new HashSet<>());
+            Set<String> hobbyList = new HashSet<>(LoadSharedStrArray("HobbyOptions", new HashSet<>(), "sharedPref"));
 
             for (String hobbyItem : hobbyList) {
                 if (!hobbyItem.equals(hobbySpinTextSelected)) {
                     newHobbyArray.add(hobbyItem);
                 } else {
-                    Toast toast = Toast.makeText(this, "Hobby deleted", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(this, "Hobby deleted", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
-            SaveSharedStrArray("HobbyOptions", newHobbyArray);
+            SaveSharedStrArray("HobbyOptions", newHobbyArray, "sharedPref");
 
             GeneralFragment(view);
         }
 
         // Adds the new hobby
         if (!hobbyValue.equals("")) {
-            Set<String> hobbyList = LoadSharedStrArray("HobbyOptions", new HashSet<>());
+            Set<String> hobbyList = new HashSet<>(LoadSharedStrArray("HobbyOptions", new HashSet<>(), "sharedPref"));
 
             Set<String> hobbyArray = new HashSet<>(hobbyList);
 
             hobbyArray.add(hobbyValue);
 
-            SaveSharedStrArray("HobbyOptions", hobbyArray);
+            SaveSharedStrArray("HobbyOptions", hobbyArray, "sharedPref");
 
-            Toast toast = Toast.makeText(this, "new hobby added", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "new hobby added", Toast.LENGTH_SHORT);
             toast.show();
 
             GeneralFragment(view);
@@ -898,25 +1006,25 @@ public class Settings extends SaveClass {
         switch (day)
         {
             case(1) :
-                return LoadSharedStrArray("SunTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("SunTask", new HashSet<>(), "sharedPref"));
 
             case(2) :
-                return LoadSharedStrArray("MonTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("MonTask", new HashSet<>(), "sharedPref"));
 
             case(3) :
-                return LoadSharedStrArray("TueTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("TueTask", new HashSet<>(), "sharedPref"));
 
             case(4) :
-                return LoadSharedStrArray("WedTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("WedTask", new HashSet<>(), "sharedPref"));
 
             case(5) :
-                return LoadSharedStrArray("ThrTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("ThrTask", new HashSet<>(), "sharedPref"));
 
             case(6) :
-                return LoadSharedStrArray("FriTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("FriTask", new HashSet<>(), "sharedPref"));
 
             case(7) :
-                return LoadSharedStrArray("SatTask", new HashSet<>());
+                return new HashSet<>(LoadSharedStrArray("SatTask", new HashSet<>(), "sharedPref"));
         }
         return null;
     }

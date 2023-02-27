@@ -16,14 +16,12 @@ import java.io.FileOutputStream;
 import java.util.Set;
 
 public class SaveClass extends AppCompatActivity {
-
     public static final String Shared_Pref = "sharedPref";
-
     // ------------------------------------------------------------------------ Shared preferences -------------------------------------------------------
 
     //region saveVariables
 
-    protected void SaveBoolData(String valueName, Boolean Value)
+    protected void SaveBoolData(String valueName, Boolean Value) //, String Shared_Pref)
     {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
@@ -33,7 +31,7 @@ public class SaveClass extends AppCompatActivity {
         editor.apply();
     }
 
-    protected void SaveIntData(String valueName, Integer Value)
+    protected void SaveIntData(String valueName, Integer Value) // , String Shared_Pref)
     {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
@@ -43,7 +41,7 @@ public class SaveClass extends AppCompatActivity {
         editor.apply();
     }
 
-    protected void SaveSharedStr(String valueName, String Value)
+    protected void SaveSharedStr(String valueName, String Value) //, String Shared_Pref)
     {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
@@ -53,7 +51,7 @@ public class SaveClass extends AppCompatActivity {
         editor.apply();
     }
 
-    protected void SaveSharedStrArray(String valueName, Set<String> value)
+    protected void SaveSharedStrArray(String valueName, Set<String> value, String Shared_Pref)
     {
         SharedPreferences UpdateSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor editor = UpdateSharedPref.edit();
@@ -66,25 +64,29 @@ public class SaveClass extends AppCompatActivity {
     //endregion
 
     //region loadVariables
-    protected boolean LoadSharedBoolean(String valueName, Boolean value) {
+    protected boolean LoadSharedBoolean(String valueName, Boolean value) // , String Shared_Pref)
+    {
         SharedPreferences sharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
 
         return sharedPref.getBoolean(valueName, value);
     }
 
-    protected int LoadSharedInt(String valueName, Integer value) {
+    protected int LoadSharedInt(String valueName, Integer value) //, String Shared_Pref)
+    {
         SharedPreferences sharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
 
         return sharedPref.getInt(valueName, value);
     }
 
-    protected String LoadSharedStr(String valueName, String value) {
+    protected String LoadSharedStr(String valueName, String value) // , String Shared_Pref)
+    {
         SharedPreferences sharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
 
         return sharedPref.getString(valueName, value);
     }
 
-    protected Set<String> LoadSharedStrArray(String valueName, Set<String> value) {
+    protected Set<String> LoadSharedStrArray(String valueName, Set<String> value, String Shared_Pref)
+    {
         SharedPreferences sharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
 
         return sharedPref.getStringSet(valueName, value);

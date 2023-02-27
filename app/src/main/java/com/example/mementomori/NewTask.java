@@ -40,6 +40,7 @@ public class NewTask extends Fragment {
     static int dayTask = 2001;
     static int tomorrowTask = 2002;
     static int weeklyTask = 2003;
+    static int oneDayTask = 2004;
 
     static int DayName = 1999;
 
@@ -58,6 +59,12 @@ public class NewTask extends Fragment {
 
     RadioGroup dayGroupTwo, dayGroupOne;
     RadioGroup taskLengthGroupTwo, taskLengthGroupOne;
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -92,10 +99,12 @@ public class NewTask extends Fragment {
 
         TextView selectTaskTitle = new TextView(activity);
         selectTaskTitle.setText(R.string.hobbyCheckBox);
+        selectTaskTitle.setTextColor(getResources().getColor(R.color.white));
 
         CheckBox dynamicToggle = new CheckBox(activity);
         dynamicToggle.setId(hobbyTask);
         dynamicToggle.setText(R.string.hobbyTask);
+        dynamicToggle.setTextColor(getResources().getColor(R.color.white));
 
         // apply
         selectDynamicTaskRow.addView(selectTaskTitle);
@@ -107,6 +116,7 @@ public class NewTask extends Fragment {
         TextView selectTaskType = new TextView(activity);
         selectTaskType.setText(R.string.taskType);
         selectTaskType.setPadding(0,10,0,10);
+        selectTaskType.setTextColor(getResources().getColor(R.color.white));
 
         RadioGroup taskToggles = new RadioGroup(activity);
         taskToggles.setOrientation(LinearLayout.VERTICAL);
@@ -114,11 +124,13 @@ public class NewTask extends Fragment {
         RadioButton MorningToggle = new RadioButton(activity);
         MorningToggle.setId(morningToggle);
         MorningToggle.setText(R.string.r_mor);
+        MorningToggle.setTextColor(getResources().getColor(R.color.white));
 
         RadioButton EveningToggle = new RadioButton(activity);
         EveningToggle.setId(eveningToggle);
         EveningToggle.setChecked(true);
         EveningToggle.setText(R.string.r_dai);
+        EveningToggle.setTextColor(getResources().getColor(R.color.white));
 
         // Apply
         taskToggles.addView(MorningToggle);
@@ -130,6 +142,7 @@ public class NewTask extends Fragment {
         TextView taskLength = new TextView(activity);
         taskLength.setText(R.string.taskLength);
         taskLength.setPadding(0,10,0,10);
+        taskLength.setTextColor(getResources().getColor(R.color.white));
 
         // Radio group for tasks
         RadioGroup taskDayGroup = new RadioGroup(activity);
@@ -138,30 +151,42 @@ public class NewTask extends Fragment {
         // PermanentTag
         TextView PermanentTag = new TextView(activity);
         PermanentTag.setText(R.string.taskLengthPermanent);
+        PermanentTag.setTextColor(getResources().getColor(R.color.white));
 
         // Permanent
         RadioButton permanentTaskRadio = new RadioButton(activity);
         permanentTaskRadio.setText(R.string.taskLengthPermanent);
         permanentTaskRadio.setId(permanentTask);
+        permanentTaskRadio.setTextColor(getResources().getColor(R.color.white));
 
         // Once day a week - popup? set day
         RadioButton weeklyTaskRadio = new RadioButton(activity);
         weeklyTaskRadio.setId(weeklyTask);
         weeklyTaskRadio.setText(R.string.taskWeekly);
+        weeklyTaskRadio.setTextColor(getResources().getColor(R.color.white));
 
         // Temporary text view
         TextView TemporaryTag = new TextView(activity);
         TemporaryTag.setText(R.string.taskLengthOneDay);
+        TemporaryTag.setTextColor(getResources().getColor(R.color.white));
 
-        // One day option
+        // Today option
         RadioButton onDayTaskRadio = new RadioButton(activity);
         onDayTaskRadio.setId(dayTask);
-        onDayTaskRadio.setText(R.string.taskOneDay);
+        onDayTaskRadio.setText(R.string.taskToday);
+        onDayTaskRadio.setTextColor(getResources().getColor(R.color.white));
 
         // Tomorrow one day option
         RadioButton tomorrowTaskRadio = new RadioButton(activity);
         tomorrowTaskRadio.setId(tomorrowTask);
         tomorrowTaskRadio.setText(R.string.taskTomorrow);
+        tomorrowTaskRadio.setTextColor(getResources().getColor(R.color.white));
+
+        // One day task
+        RadioButton oneDayRadio = new RadioButton(activity);
+        oneDayRadio.setId(oneDayTask);
+        oneDayRadio.setText(R.string.taskOneDay);
+        oneDayRadio.setTextColor(getResources().getColor(R.color.white));
 
         taskLengthGroupOne = new RadioGroup(activity);
         taskLengthGroupOne.setOrientation(LinearLayout.VERTICAL);
@@ -179,6 +204,7 @@ public class NewTask extends Fragment {
         taskLengthGroupTwo.addView(TemporaryTag);
         taskLengthGroupTwo.addView(onDayTaskRadio);
         taskLengthGroupTwo.addView(tomorrowTaskRadio);
+        taskLengthGroupTwo.addView(oneDayRadio);
 
         // sets on change listener
         taskLengthGroupOne.setOnCheckedChangeListener(taskLengthGroupOneListener);
@@ -197,6 +223,7 @@ public class NewTask extends Fragment {
         textDays.setText(R.string.textDay);
         textDays.setId(DayName);
         textDays.setPadding(0,10,0,10);
+        textDays.setTextColor(getResources().getColor(R.color.white));
         // textDays.setVisibility(View.INVISIBLE);
 
         CheckBox Mon = new CheckBox(activity);
@@ -258,8 +285,6 @@ public class NewTask extends Fragment {
         tableLayout.addView(DaysTwo);
         tableLayout.addView(DaysThree);
         tableLayout.addView(DaysFour);
-
-
 
         return view;
     }
