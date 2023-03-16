@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AllTasks">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/TaskLayoutHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- morning goals -->
+            <LinearLayout
+                android:id="@+id/morningRoutine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <!-- daily goals -->
+            <LinearLayout
+                android:id="@+id/dailyRoutine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <!-- weekly goals -->
+            <LinearLayout
+                android:id="@+id/weeklyTasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation = "vertical">
+
+            </LinearLayout>
+
+            <!-- one day goals -->
+            <LinearLayout
+                android:id="@+id/dayTasks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation = "vertical">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/ButtonID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="@string/deleteSelected"
+                android:background="@color/clear">
+            </Button>
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

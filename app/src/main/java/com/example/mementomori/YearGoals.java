@@ -181,7 +181,12 @@ public class YearGoals extends SaveClass {
         builder.setMessage(R.string.conformation);
 
         builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
-                SaveSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref");
+            SaveSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref");
+
+            Intent intent = new Intent(YearGoals.this, YearGoals.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransition(0, 0);
         });
 
         builder.setNegativeButton(R.string.no, (dialogInterface, i) -> {

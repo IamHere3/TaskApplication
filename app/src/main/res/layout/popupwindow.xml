@@ -5,6 +5,7 @@
     android:layout_width="240dp"
     android:layout_height="285dp"
     android:id="@+id/PopupWindow"
+    android:background="@color/grey"
     tools:context=".YearGoals">
 
     <TextView

@@ -21,6 +21,7 @@
     <string name="newTask">New task</string>
     <string name="holderText">Holder text</string>
     <string name="deleteTask">Delete task</string>
+    <string name="deleteSelected">Delete selected tasks</string>
     <string name="removeTask">Remove task</string>
     <string name="generalSettings">General</string>
 
@@ -31,6 +32,7 @@
     <string name="saveTask">Name ID</string>
     <string name="task">Set object as dynamic</string>
     <string name="taskType">Set task type</string>
+    <string name="allTasks">View all tasks</string>
 
     <!-- option holder  -->
     <string name="themeName">Edit theme</string>

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,6 +32,9 @@ public class Tasks extends SaveClass {
     double NumberOfTasks = 0;
 
     int UniqueHobbies = 0;
+
+    int currentDayMS, currentDayES, oneDayS;
+
     Integer[] UniqueHobbiesID = new Integer[10];
 
     Button YearGoalsBtn;
@@ -208,10 +212,10 @@ public class Tasks extends SaveClass {
         assert currentDayE != null;
 
         // TempSize = DayTask CurrentDay = WeekdayTask
-        if (arrayTempRoutine.length > 0 || currentDayM.length > 0 || currentDayE.length > 0) {
+        if (arrayTempRoutine.length > 0 || currentDayMS > 0 || currentDayES > 0) {
 
             // If weekly task
-            if (currentDayM.length > 0) {
+            if (currentDayMS > 0) {
                 // Checkbox creation for weekly tasks
                 for (String WeekTaskM : currentDayM) {
                     NumberOfTasks++;
@@ -249,7 +253,7 @@ public class Tasks extends SaveClass {
                 }
             }
 
-            if (currentDayE.length > 0) {
+            if (currentDayES > 0) {
                 // Checkbox creation for weekly tasks
                 for (String WeekTaskE : currentDayE) {
                     NumberOfTasks++;
@@ -741,8 +745,9 @@ public class Tasks extends SaveClass {
         Set<String> dayTemp = dayWeek(day);
 
         // Ensures day temp is not empty
-        if(dayTemp != null)
+        if(oneDayS > 0)
         {
+            assert dayTemp != null;
             NewDayTasks.addAll(dayTemp);
         }
 
@@ -756,30 +761,37 @@ public class Tasks extends SaveClass {
         {
             case(1) :
                  Set<String> Sun = LoadSharedStrArray("MornSunTask", new HashSet<>(), "WeekT");
+                 currentDayMS = Sun.size();
                  return Sun.toArray(new String[0]);
 
             case(2) :
                 Set<String> Mon = LoadSharedStrArray("MornMonTask", new HashSet<>(), "WeekT");
+                currentDayMS = Mon.size();
                 return Mon.toArray(new String[0]);
 
             case(3) :
                 Set<String> Tue = LoadSharedStrArray("MornTueTask", new HashSet<>(), "WeekT");
+                currentDayMS = Tue.size();
                 return Tue.toArray(new String[0]);
 
             case(4) :
                 Set<String> Wed = LoadSharedStrArray("MornWedTask", new HashSet<>(), "WeekT");
+                currentDayMS = Wed.size();
                 return Wed.toArray(new String[0]);
 
             case(5) :
                 Set<String> Thr = LoadSharedStrArray("MornThrTask", new HashSet<>(), "WeekT");
+                currentDayMS = Thr.size();
                 return Thr.toArray(new String[0]);
 
             case(6) :
                 Set<String> Fri = LoadSharedStrArray("MornFriTask", new HashSet<>(), "WeekT");
+                currentDayMS = Fri.size();
                 return Fri.toArray(new String[0]);
 
             case(7) :
                 Set<String> Sat =  LoadSharedStrArray("MornSatTask", new HashSet<>(), "WeekT");
+                currentDayMS = Sat.size();
                 return Sat.toArray(new String[0]);
         }
         return null;
@@ -791,30 +803,37 @@ public class Tasks extends SaveClass {
         {
             case(1) :
                 Set<String> Sun = LoadSharedStrArray("EveSunTask", new HashSet<>(), "WeekT");
+                currentDayES = Sun.size();
                 return Sun.toArray(new String[0]);
 
             case(2) :
                 Set<String> Mon = LoadSharedStrArray("EveMonTask", new HashSet<>(), "WeekT");
+                currentDayES = Mon.size();
                 return Mon.toArray(new String[0]);
 
             case(3) :
                 Set<String> Tue = LoadSharedStrArray("EveTueTask", new HashSet<>(), "WeekT");
+                currentDayES = Tue.size();
                 return Tue.toArray(new String[0]);
 
             case(4) :
                 Set<String> Wed = LoadSharedStrArray("EveWedTask", new HashSet<>(), "WeekT");
+                currentDayES = Wed.size();
                 return Wed.toArray(new String[0]);
 
             case(5) :
                 Set<String> Thr = LoadSharedStrArray("EveThrTask", new HashSet<>(), "WeekT");
+                currentDayES = Thr.size();
                 return Thr.toArray(new String[0]);
 
             case(6) :
                 Set<String> Fri = LoadSharedStrArray("EveFriTask", new HashSet<>(), "WeekT");
+                currentDayES = Fri.size();
                 return Fri.toArray(new String[0]);
 
             case(7) :
                 Set<String> Sat =  LoadSharedStrArray("EveSatTask", new HashSet<>(), "WeekT");
+                currentDayES = Sat.size();
                 return Sat.toArray(new String[0]);
         }
         return null;
@@ -827,39 +846,51 @@ public class Tasks extends SaveClass {
         {
             case(1) :
                 Set<String> Mon = LoadSharedStrArray("DayMonTask", new HashSet<>(), "sharedPref");
+                oneDayS = Mon.size();
                 oldRemoval.edit().remove("DayMonTask").apply();
                 return Mon;
 
             case(2) :
                 Set<String> Tue = LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref");
+                oneDayS = Tue.size();
                 oldRemoval.edit().remove("DayTueTask").apply();
                 return Tue;
 
             case(3) :
                 Set<String> Wed = LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref");
+                oneDayS = Wed.size();
                 oldRemoval.edit().remove("DayWedTask").apply();
                 return Wed;
 
             case(4) :
                 Set<String> Thr = LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref");
+                oneDayS = Thr.size();
                 oldRemoval.edit().remove("DayThrTask").apply();
                 return Thr;
 
             case(5) :
                 Set<String> Fri = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
+                oneDayS = Fri.size();
                 oldRemoval.edit().remove("DayFriTask").apply();
                 return Fri;
 
             case(6) :
                 Set<String> Sat = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
+                oneDayS = Sat.size();
                 oldRemoval.edit().remove("DaySatTask").apply();
                 return Sat;
 
             case(7) :
                 Set<String> Sun = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
+                oneDayS = Sun.size();
                 oldRemoval.edit().remove("DaySunTask").apply();
                 return Sun;
         }
         return null;
+    }
+
+    public void AllTasks(View view) {
+        Intent intent = new Intent(Tasks.this, AllTasks.class);
+        startActivity(intent);
     }
 }

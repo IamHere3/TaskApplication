@@ -97,12 +97,6 @@ public class MainActivity extends SaveClass {
         SharedPreferences StringSharedPref = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
         SharedPreferences.Editor setUp = StringSharedPref.edit();
 
-        /*
-        SharedPreferences MorningR = getSharedPreferences("MorningR", MODE_PRIVATE);
-        SharedPreferences.Editor MorningRe = MorningR.edit();
-
-         */
-
         Set<String> mRSetup = new HashSet<>();
 
         mRSetup.add("wake,Get Up (before 7.30),0,1");
@@ -116,12 +110,6 @@ public class MainActivity extends SaveClass {
         dRSetup.add("hobbyTwo,hobbies,100,4");
         dRSetup.add("diary,Write in Diary,0,5");
         dRSetup.add("sleep,Go to bed by 11.00,0,6");
-
-        /*
-        SharedPreferences DayR = getSharedPreferences("DayR", MODE_PRIVATE);
-        SharedPreferences.Editor DayRe = DayR.edit();
-
-         */
 
         setUp.putStringSet("DayRoutine", dRSetup);
 
@@ -141,11 +129,6 @@ public class MainActivity extends SaveClass {
         setUp.putBoolean("Setup", true);
 
         setUp.apply();
-        /*
-        DayRe.apply();
-        MorningRe.apply();
-
-         */
     }
 
     // Initial quotes
