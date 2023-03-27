@@ -1,6 +1,7 @@
 package com.example.mementomori;
 
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,8 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.time.MonthDay;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,6 +20,19 @@ public class AllTasks extends SaveClass {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tasks);
+
+        // Gets current day passed though new task intent
+        int currentDay = 0;
+        Bundle day = getIntent().getExtras();
+        if(day != null)
+        {
+            currentDay = day.getInt("currentDay");
+        }
+        else
+        {
+            Calendar calendar = Calendar.getInstance();
+            currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+        }
 
         // Loads all permanent tasks
         Set<String> DayRoutine = LoadSharedStrArray("DayRoutine", new HashSet<>(), "sharedPref");
@@ -47,10 +63,6 @@ public class AllTasks extends SaveClass {
         Set<String> FriDay = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
         Set<String> SatDay = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
         Set<String> SunDay = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
-
-        // Loads day temporary tasks
-        Set<String> TomorrowTask = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref");
-        Set<String> DayTask = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
 
         LinearLayout mornRoutineLayout = findViewById(R.id.morningRoutine);
         LinearLayout dailyRoutineLayout = findViewById(R.id.dailyRoutine);
@@ -98,6 +110,14 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                                                        
+                        }
+                    });
 
                     mornRoutineLayout.addView(checkBox);
                 }
@@ -446,7 +466,7 @@ public class AllTasks extends SaveClass {
         dayTasks.addView(oneDay);
 
         //region dailyTasks
-        if(MonDay.size() > 0)
+        if(MonDay.size() > 0 || currentDay == 2 || currentDay == 1)
         {
             TextView MonTempRoutine = new TextView(this);
             MonTempRoutine.setText(R.string.Mon);
@@ -454,22 +474,35 @@ public class AllTasks extends SaveClass {
 
             dayTasks.addView(MonTempRoutine);
 
-            for (String monTempTask : MonDay) {
-                String[] entry = monTempTask.split(",");
+            if(MonDay.size() > 0)
+                {
+                // Adding weekly cued day task
+                for (String monTempTask : MonDay) {
+                    String[] entry = monTempTask.split(",");
 
-                CheckBox checkBox = new CheckBox(this);
+                    CheckBox checkBox = new CheckBox(this);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if(currentDay == 2)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if(currentDay == 1)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(TueDay.size() > 0)
+        if(TueDay.size() > 0 || currentDay == 3 || currentDay == 2)
         {
             TextView TueTempRoutine = new TextView(this);
             TueTempRoutine.setText(R.string.Tue);
@@ -477,22 +510,34 @@ public class AllTasks extends SaveClass {
 
             dayTasks.addView(TueTempRoutine);
 
-            for (String tueTempTask : TueDay) {
-                String[] entry = tueTempTask.split(",");
+            if (TueDay.size() > 0)
+            {
+                for (String tueTempTask : TueDay) {
+                    String[] entry = tueTempTask.split(",");
 
-                CheckBox checkBox = new CheckBox(this);
+                    CheckBox checkBox = new CheckBox(this);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if (currentDay == 3)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if (currentDay == 2)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(WedDay.size() > 0)
+        if(WedDay.size() > 0 || currentDay == 4 || currentDay == 3)
         {
             TextView WedTempRoutine = new TextView(this);
             WedTempRoutine.setText(R.string.Wed);
@@ -500,22 +545,34 @@ public class AllTasks extends SaveClass {
 
             dayTasks.addView(WedTempRoutine);
 
-            for (String wedTempTask : WedDay) {
-                String[] entry = wedTempTask.split(",");
+            if (WedDay.size() > 0)
+            {
+                for (String wedTempTask : WedDay) {
+                    String[] entry = wedTempTask.split(",");
 
-                CheckBox checkBox = new CheckBox(this);
+                    CheckBox checkBox = new CheckBox(this);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if (currentDay == 4)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if (currentDay == 3)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(ThrDay.size() > 0)
+        if(ThrDay.size() > 0 || currentDay == 5 || currentDay == 4)
         {
             TextView ThrTempRoutine = new TextView(this);
             ThrTempRoutine.setText(R.string.Thr);
@@ -523,22 +580,34 @@ public class AllTasks extends SaveClass {
 
             dayTasks.addView(ThrTempRoutine);
 
-            for (String thrTempTask : ThrDay) {
-                String[] entry = thrTempTask.split(",");
+            if (ThrDay.size() > 0)
+            {
+                for (String thrTempTask : ThrDay) {
+                    String[] entry = thrTempTask.split(",");
 
-                CheckBox checkBox = new CheckBox(this);
+                    CheckBox checkBox = new CheckBox(this);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if (currentDay == 5)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if (currentDay == 4)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(FriDay.size() > 0)
+        if(FriDay.size() > 0 || currentDay == 6 || currentDay == 5)
         {
             TextView FriTempRoutine = new TextView(this);
             FriTempRoutine.setText(R.string.Fri);
@@ -546,67 +615,140 @@ public class AllTasks extends SaveClass {
 
             dayTasks.addView(FriTempRoutine);
 
-            for (String friTempTask : FriDay) {
-                String[] entry = friTempTask.split(",");
+            if (FriDay.size() > 0)
+            {
+                for (String friTempTask : FriDay) {
+                    String[] entry = friTempTask.split(",");
 
-                CheckBox checkBox = new CheckBox(this);
+                    CheckBox checkBox = new CheckBox(this);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if (currentDay == 6)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if (currentDay == 5)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(SatDay.size() > 0)
-        {
+        if(SatDay.size() > 0 || currentDay == 7 || currentDay == 6) {
             TextView SatTempRoutine = new TextView(this);
             SatTempRoutine.setText(R.string.Sat);
             SatTempRoutine.setTextSize(20);
 
             dayTasks.addView(SatTempRoutine);
 
-            for (String satTempTask : SatDay) {
-                String[] entry = satTempTask.split(",");
+            if (SatDay.size() > 0)
+            {
+                for (String satTempTask : SatDay) {
+                    String[] entry = satTempTask.split(",");
 
-                CheckBox checkBox = new CheckBox(this);
+                    CheckBox checkBox = new CheckBox(this);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if (currentDay == 7)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if (currentDay == 6)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(SunDay.size() > 0)
-        {
+        if(SunDay.size() > 0 || currentDay == 1 || currentDay == 7) {
             TextView SunTempRoutine = new TextView(this);
             SunTempRoutine.setText(R.string.Sat);
             SunTempRoutine.setTextSize(20);
 
             dayTasks.addView(SunTempRoutine);
+            if (SunDay.size() > 0)
+            {
+                for (String sunTempTask : SunDay) {
+                    String[] entry = sunTempTask.split(",");
 
-            for (String sunTempTask : SunDay) {
-                String[] entry = sunTempTask.split(",");
+                    CheckBox checkBox = new CheckBox(this);
 
-                CheckBox checkBox = new CheckBox(this);
+                    checkBox.setId(Integer.parseInt(entry[3]));
+                    checkBox.setLayoutParams(CheckParams);
 
-                checkBox.setId(Integer.parseInt(entry[3]));
-                checkBox.setLayoutParams(CheckParams);
+                    checkBox.setText(entry[1]);
+                    checkBox.setTextSize(20);
 
-                checkBox.setText(entry[1]);
-                checkBox.setTextSize(20);
-
-                dayTasks.addView(checkBox);
+                    dayTasks.addView(checkBox);
+                }
+            }
+            // Adding one day and tomorrow task
+            if (currentDay == 1)
+            {
+                addOneDay(CheckParams, dayTasks);
+            }
+            else if (currentDay == 7)
+            {
+                addTomorrowDay(CheckParams, dayTasks);
             }
         }
         //endregion
+    }
+
+    private void addOneDay(LinearLayout.LayoutParams CheckParams, LinearLayout dayTasks)
+    {
+        // Loads day temporary tasks
+        Set<String> DayTask = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
+
+        for (String oneDayTemp : DayTask) {
+            String[] entry = oneDayTemp.split(",");
+
+            CheckBox checkBox = new CheckBox(this);
+
+            checkBox.setId(Integer.parseInt(entry[3]));
+            checkBox.setLayoutParams(CheckParams);
+
+            checkBox.setText(entry[1]);
+            checkBox.setTextSize(20);
+
+            dayTasks.addView(checkBox);
+        }
+    }
+
+    private void addTomorrowDay(LinearLayout.LayoutParams CheckParams, LinearLayout dayTasks)
+    {
+        // Loads day temporary tasks
+        Set<String> TomorrowTask = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref");
+
+        for (String day : TomorrowTask) {
+            String[] entry = day.split(",");
+
+            CheckBox checkBox = new CheckBox(this);
+
+            checkBox.setId(Integer.parseInt(entry[3]));
+            checkBox.setLayoutParams(CheckParams);
+
+            checkBox.setText(entry[1]);
+            checkBox.setTextSize(20);
+
+            dayTasks.addView(checkBox);
+        }
     }
 
     private void deleteMethod()

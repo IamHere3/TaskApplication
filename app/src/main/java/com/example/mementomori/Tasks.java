@@ -33,7 +33,7 @@ public class Tasks extends SaveClass {
 
     int UniqueHobbies = 0;
 
-    int currentDayMS, currentDayES, oneDayS;
+    int currentDayMS, currentDayES, oneDayS, day;
 
     Integer[] UniqueHobbiesID = new Integer[10];
 
@@ -59,7 +59,7 @@ public class Tasks extends SaveClass {
 
         // Gets current day
         Calendar calendar = Calendar.getInstance();
-        int day = calendar.get(Calendar.DAY_OF_WEEK);
+        day = calendar.get(Calendar.DAY_OF_WEEK);
 
         // Retrieves weekly repeatable tasks
         String[] currentDayM = weekDayM(day);
@@ -891,6 +891,7 @@ public class Tasks extends SaveClass {
 
     public void AllTasks(View view) {
         Intent intent = new Intent(Tasks.this, AllTasks.class);
+        intent.putExtra("currentDay", day);
         startActivity(intent);
     }
 }

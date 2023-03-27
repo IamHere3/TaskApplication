@@ -244,7 +244,6 @@ public class Settings extends SaveClass {
         Set<String> setDayRoutine = new HashSet<>(LoadSharedStrArray("DayRoutine", new HashSet<>(), "sharedPref"));
 
         String newStringTask;
-        String newTaskNameID = "";
         String newTaskNameID;
 
         // Basic task data retrieving
@@ -402,8 +401,10 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Monday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
-            else if(TueValue)
+            if(TueValue)
             {
                 Set<String> TueDayTask = new HashSet<>(LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref"));
 
@@ -413,8 +414,10 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Tuesday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
-            else if(WedValue)
+            if(WedValue)
             {
                 Set<String> WedDayTask = new HashSet<>(LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref"));
 
@@ -424,8 +427,10 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Wednesday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
-            else if(ThrValue)
+            if(ThrValue)
             {
                 Set<String> ThrDayTask = new HashSet<>(LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref"));
 
@@ -435,8 +440,10 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Thursday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
-            else if(FriValue)
+            if(FriValue)
             {
                 Set<String> FriDayTask = new HashSet<>(LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref"));
 
@@ -446,8 +453,10 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Friday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
-            else if(SatValue)
+            if(SatValue)
             {
                 Set<String> SatDayTask = new HashSet<>(LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref"));
 
@@ -457,8 +466,10 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Saturday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
-            else if(SunValue)
+            if(SunValue)
             {
                 Set<String> SunDayTask = new HashSet<>(LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref"));
 
@@ -468,6 +479,8 @@ public class Settings extends SaveClass {
 
                 Toast toast = Toast.makeText(this, "One day task saved for Sunday", Toast.LENGTH_SHORT);
                 toast.show();
+
+                daySelect = true;
             }
 
             if(!daySelect)
