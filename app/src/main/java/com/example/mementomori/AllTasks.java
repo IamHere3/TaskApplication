@@ -1,5 +1,6 @@
 package com.example.mementomori;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.Gravity;
@@ -8,13 +9,22 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.time.MonthDay;
 import java.util.Calendar;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class AllTasks extends SaveClass {
+
+    // For storing updated Lists
+    Set<String> UpdatedMorningRoutine, UpdatedDayRoutine = new HashSet<>();
+    Set<String> UpdatedMonMRoutine, UpdatedTueMRoutine, UpdatedWedMRoutine, UpdatedThrMRoutine, UpdatedFriMRoutine, UpdatedSatMRoutine, UpdatedSunMRoutine = new HashSet<>();
+    Set<String> UpdatedMonERoutine, UpdatedTueERoutine, UpdatedWedERoutine, UpdatedThrERoutine, UpdatedFriERoutine, UpdatedSatERoutine, UpdatedSunERoutine = new HashSet<>();
+    Set<String> UpdatedMonDay, UpdatedTueDay, UpdatedWedDay, UpdatedThrDay, UpdatedFriDay, UpdatedSatDay, UpdatedSunDay = new HashSet<>();
+    Set<String> UpdatedDayTask, UpdatedTomorrowTask = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +33,7 @@ public class AllTasks extends SaveClass {
 
         // Gets current day passed though new task intent
         int currentDay = 0;
+
         Bundle day = getIntent().getExtras();
         if(day != null)
         {
@@ -115,7 +126,29 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                                                        
+                            for(String e : MorningRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedMorningRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedMorningRoutine.add(ReAdd);
                         }
                     });
 
@@ -141,6 +174,35 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : DayRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedDayRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedDayRoutine.add(ReAdd);
+                        }
+                    });
                     dailyRoutineLayout.addView(checkBox);
                 }
             }
@@ -177,6 +239,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : MonMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedMonMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedMonMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -193,6 +285,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : MonERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedMonERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedMonERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -220,6 +342,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : TueMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedTueMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedTueMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -236,6 +388,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : TueERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedTueERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedTueERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -263,6 +445,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : WedMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedWedMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedWedMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -279,6 +491,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : WedERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedWedERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedWedERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -306,6 +548,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : ThrMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedThrMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedThrMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -322,6 +594,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : ThrERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedThrERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedThrERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -350,6 +652,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : FriMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedFriMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedFriMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -366,6 +698,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : FriERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedFriERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedFriERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -393,6 +755,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : SatMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedSatMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedSatMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -409,6 +801,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : SatERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedSatERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedSatERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -436,6 +858,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : SunMRoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedSunMRoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedSunMRoutine.add(ReAdd);
+                        }
+                    });
+
                     weeklyTasks.addView(checkBox);
                 }
             }
@@ -452,6 +904,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : SunERoutine)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedSunERoutine.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedSunERoutine.add(ReAdd);
+                        }
+                    });
 
                     weeklyTasks.addView(checkBox);
                 }
@@ -488,6 +970,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : MonDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedMonDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedMonDay.add(ReAdd);
+                        }
+                    });
+
                     dayTasks.addView(checkBox);
                 }
             }
@@ -522,6 +1034,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : TueDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedTueDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedTueDay.add(ReAdd);
+                        }
+                    });
 
                     dayTasks.addView(checkBox);
                 }
@@ -558,6 +1100,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : WedDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedWedDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedWedDay.add(ReAdd);
+                        }
+                    });
+
                     dayTasks.addView(checkBox);
                 }
             }
@@ -592,6 +1164,36 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : ThrDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedThrDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedThrDay.add(ReAdd);
+                        }
+                    });
 
                     dayTasks.addView(checkBox);
                 }
@@ -628,6 +1230,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : FriDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedFriDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedFriDay.add(ReAdd);
+                        }
+                    });
+
                     dayTasks.addView(checkBox);
                 }
             }
@@ -662,6 +1294,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : SatDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedSatDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedSatDay.add(ReAdd);
+                        }
+                    });
+
                     dayTasks.addView(checkBox);
                 }
             }
@@ -695,6 +1357,36 @@ public class AllTasks extends SaveClass {
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
+                    // Sets onclick listener
+                    checkBox.setOnClickListener(v -> {
+                        if(((CheckBox) v).isChecked())
+                        {
+                            for(String e : SunDay)
+                            {
+                                String[] listV = e.split(",");
+
+                                if(!Objects.equals(entry[3], listV[3]))
+                                {
+                                    UpdatedSunDay.add(e);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            StringBuilder reAdd = new StringBuilder();
+
+                            for(String e : entry)
+                            {
+                                reAdd.append(e);
+                                reAdd.append(",");
+                            }
+
+                            String ReAdd = reAdd.toString();
+
+                            UpdatedSunDay.add(ReAdd);
+                        }
+                    });
+
                     dayTasks.addView(checkBox);
                 }
             }
@@ -727,6 +1419,36 @@ public class AllTasks extends SaveClass {
             checkBox.setText(entry[1]);
             checkBox.setTextSize(20);
 
+            // Sets onclick listener
+            checkBox.setOnClickListener(v -> {
+                if(((CheckBox) v).isChecked())
+                {
+                    for(String e : DayTask)
+                    {
+                        String[] listV = e.split(",");
+
+                        if(!Objects.equals(entry[3], listV[3]))
+                        {
+                            UpdatedDayTask.add(e);
+                        }
+                    }
+                }
+                else
+                {
+                    StringBuilder reAdd = new StringBuilder();
+
+                    for(String e : entry)
+                    {
+                        reAdd.append(e);
+                        reAdd.append(",");
+                    }
+
+                    String ReAdd = reAdd.toString();
+
+                    UpdatedDayTask.add(ReAdd);
+                }
+            });
+
             dayTasks.addView(checkBox);
         }
     }
@@ -739,6 +1461,7 @@ public class AllTasks extends SaveClass {
         for (String day : TomorrowTask) {
             String[] entry = day.split(",");
 
+
             CheckBox checkBox = new CheckBox(this);
 
             checkBox.setId(Integer.parseInt(entry[3]));
@@ -747,12 +1470,123 @@ public class AllTasks extends SaveClass {
             checkBox.setText(entry[1]);
             checkBox.setTextSize(20);
 
+            // Sets onclick listener
+            checkBox.setOnClickListener(v -> {
+                if(((CheckBox) v).isChecked())
+                {
+                    for(String e : TomorrowTask)
+                    {
+                        String[] listV = e.split(",");
+
+                        if(!Objects.equals(entry[3], listV[3]))
+                        {
+                            UpdatedTomorrowTask.add(e);
+                        }
+                    }
+                }
+                else
+                {
+                    StringBuilder reAdd = new StringBuilder();
+
+                    for(String e : entry)
+                    {
+                        reAdd.append(e);
+                        reAdd.append(",");
+                    }
+
+                    String ReAdd = reAdd.toString();
+
+                    UpdatedTomorrowTask.add(ReAdd);
+                }
+            });
+
             dayTasks.addView(checkBox);
         }
     }
 
     private void deleteMethod()
     {
+        if(UpdatedMorningRoutine != null)
+        {
+            SaveSharedStrArray("MorningRoutine", UpdatedMorningRoutine, "sharedPref");
+        }
+        if(UpdatedDayRoutine != null)
+        {
+            SaveSharedStrArray("DayRoutine", UpdatedDayRoutine, "sharedPref");
+        }
 
+        if(UpdatedMonMRoutine != null)
+        {
+            SaveSharedStrArray("MornMonTask", UpdatedMonMRoutine, "sharedPref");
+        }
+        if(UpdatedTueMRoutine != null)
+        {
+            SaveSharedStrArray("MornTueTask", UpdatedTueMRoutine, "sharedPref");
+        }
+        if(UpdatedWedMRoutine != null)
+        {
+            SaveSharedStrArray("MornWedTask", UpdatedWedMRoutine, "sharedPref");
+        }
+        if(UpdatedThrMRoutine != null)
+        {
+            SaveSharedStrArray("MornThrTask", UpdatedThrMRoutine, "sharedPref");
+        }
+        if(UpdatedFriMRoutine != null)
+        {
+            SaveSharedStrArray("MornFriTask", UpdatedFriMRoutine, "sharedPref");
+        }
+        if(UpdatedSatMRoutine != null)
+        {
+            SaveSharedStrArray("MornSatTask", UpdatedSatMRoutine, "sharedPref");
+        }
+        if(UpdatedSunMRoutine != null)
+        {
+            SaveSharedStrArray("MornSunTask", UpdatedSunMRoutine, "sharedPref");
+        }
+
+        if(UpdatedMonERoutine != null)
+        {
+            SaveSharedStrArray("EveMonTask", UpdatedMonERoutine, "sharedPref");
+        }
+        if(UpdatedTueERoutine != null)
+        {
+            SaveSharedStrArray("EveTueTask", UpdatedTueERoutine, "sharedPref");
+        }
+        if(UpdatedWedERoutine != null)
+        {
+            SaveSharedStrArray("EveWedTask", UpdatedWedERoutine, "sharedPref");
+        }
+        if(UpdatedThrERoutine != null)
+        {
+            SaveSharedStrArray("EveThrTask", UpdatedThrERoutine, "sharedPref");
+        }
+        if(UpdatedFriERoutine != null)
+        {
+            SaveSharedStrArray("EveFriTask", UpdatedFriERoutine, "sharedPref");
+        }
+        if(UpdatedSatERoutine != null)
+        {
+            SaveSharedStrArray("EveSatTask", UpdatedSatERoutine, "sharedPref");
+        }
+        if(UpdatedSunERoutine != null)
+        {
+            SaveSharedStrArray("EveSunTask", UpdatedSunERoutine, "sharedPref");
+        }
+
+        if(UpdatedDayTask != null)
+        {
+            SaveSharedStrArray("DayTask", UpdatedDayTask, "sharedPref");
+        }
+        if(UpdatedTomorrowTask != null)
+        {
+            SaveSharedStrArray("TomorrowTask", UpdatedTomorrowTask, "sharedPref");
+        }
+
+
+        /*
+        // Starts and returns new task view (thus enacting deletedChanges)
+        Intent intent = new Intent(AllTasks.this, Tasks.class);
+        startActivity(intent);
+         */
     }
 }
