@@ -20,16 +20,23 @@ import java.util.Set;
 public class AllTasks extends SaveClass {
 
     // For storing updated Lists
-    Set<String> UpdatedMorningRoutine, UpdatedDayRoutine = new HashSet<>();
-    Set<String> UpdatedMonMRoutine, UpdatedTueMRoutine, UpdatedWedMRoutine, UpdatedThrMRoutine, UpdatedFriMRoutine, UpdatedSatMRoutine, UpdatedSunMRoutine = new HashSet<>();
-    Set<String> UpdatedMonERoutine, UpdatedTueERoutine, UpdatedWedERoutine, UpdatedThrERoutine, UpdatedFriERoutine, UpdatedSatERoutine, UpdatedSunERoutine = new HashSet<>();
-    Set<String> UpdatedMonDay, UpdatedTueDay, UpdatedWedDay, UpdatedThrDay, UpdatedFriDay, UpdatedSatDay, UpdatedSunDay = new HashSet<>();
-    Set<String> UpdatedDayTask, UpdatedTomorrowTask = new HashSet<>();
+    Set<String> UpdatedMorningRoutine, UpdatedDayRoutine;
+    Set<String> UpdatedMonMRoutine, UpdatedTueMRoutine, UpdatedWedMRoutine, UpdatedThrMRoutine, UpdatedFriMRoutine, UpdatedSatMRoutine, UpdatedSunMRoutine;
+    Set<String> UpdatedMonERoutine, UpdatedTueERoutine, UpdatedWedERoutine, UpdatedThrERoutine, UpdatedFriERoutine, UpdatedSatERoutine, UpdatedSunERoutine;
+    Set<String> UpdatedMonDay, UpdatedTueDay, UpdatedWedDay, UpdatedThrDay, UpdatedFriDay, UpdatedSatDay, UpdatedSunDay;
+    Set<String> UpdatedDayTask, UpdatedTomorrowTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_tasks);
+
+        // assigns values (most efficient way found so far)
+        UpdatedMorningRoutine = UpdatedDayRoutine = new HashSet<>();
+        UpdatedMonMRoutine = UpdatedTueMRoutine = UpdatedWedMRoutine = UpdatedThrMRoutine = UpdatedFriMRoutine = UpdatedSatMRoutine = UpdatedSunMRoutine = new HashSet<>();
+        UpdatedMonERoutine = UpdatedTueERoutine = UpdatedWedERoutine = UpdatedThrERoutine = UpdatedFriERoutine = UpdatedSatERoutine = UpdatedSunERoutine = new HashSet<>();
+        UpdatedMonDay = UpdatedTueDay = UpdatedWedDay = UpdatedThrDay = UpdatedFriDay = UpdatedSatDay = UpdatedSunDay = new HashSet<>();
+        UpdatedDayTask = UpdatedTomorrowTask = new HashSet<>();
 
         // Gets current day passed though new task intent
         int currentDay = 0;
@@ -151,7 +158,6 @@ public class AllTasks extends SaveClass {
                             UpdatedMorningRoutine.add(ReAdd);
                         }
                     });
-
                     mornRoutineLayout.addView(checkBox);
                 }
             }
