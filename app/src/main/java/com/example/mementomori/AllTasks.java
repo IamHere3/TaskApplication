@@ -32,11 +32,11 @@ public class AllTasks extends SaveClass {
         setContentView(R.layout.activity_all_tasks);
 
         // assigns values (most efficient way found so far)
-        UpdatedMorningRoutine = UpdatedDayRoutine = new HashSet<>();
-        UpdatedMonMRoutine = UpdatedTueMRoutine = UpdatedWedMRoutine = UpdatedThrMRoutine = UpdatedFriMRoutine = UpdatedSatMRoutine = UpdatedSunMRoutine = new HashSet<>();
-        UpdatedMonERoutine = UpdatedTueERoutine = UpdatedWedERoutine = UpdatedThrERoutine = UpdatedFriERoutine = UpdatedSatERoutine = UpdatedSunERoutine = new HashSet<>();
-        UpdatedMonDay = UpdatedTueDay = UpdatedWedDay = UpdatedThrDay = UpdatedFriDay = UpdatedSatDay = UpdatedSunDay = new HashSet<>();
-        UpdatedDayTask = UpdatedTomorrowTask = new HashSet<>();
+        UpdatedMorningRoutine = UpdatedDayRoutine = null;
+        UpdatedMonMRoutine = UpdatedTueMRoutine = UpdatedWedMRoutine = UpdatedThrMRoutine = UpdatedFriMRoutine = UpdatedSatMRoutine = UpdatedSunMRoutine = null;
+        UpdatedMonERoutine = UpdatedTueERoutine = UpdatedWedERoutine = UpdatedThrERoutine = UpdatedFriERoutine = UpdatedSatERoutine = UpdatedSunERoutine = null;
+        UpdatedMonDay = UpdatedTueDay = UpdatedWedDay = UpdatedThrDay = UpdatedFriDay = UpdatedSatDay = UpdatedSunDay = null;
+        UpdatedDayTask = UpdatedTomorrowTask = null;
 
         // Gets current day passed though new task intent
         int currentDay = 0;
@@ -133,13 +133,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : MorningRoutine)
+                            if (UpdatedMorningRoutine == null)
+                            {
+                                UpdatedMorningRoutine = new HashSet<>();
+
+                                for(String e : MorningRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedMorningRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedMorningRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedMorningRoutine.add(e);
+                                    UpdatedMorningRoutine.remove(e);
                                 }
                             }
                         }
@@ -184,13 +198,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : DayRoutine)
+                            if (UpdatedDayRoutine == null)
+                            {
+                                UpdatedDayRoutine = new HashSet<>();
+
+                                for(String e : DayRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedDayRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedDayRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedDayRoutine.add(e);
+                                    UpdatedDayRoutine.remove(e);
                                 }
                             }
                         }
@@ -249,13 +277,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : MonMRoutine)
+                            if (UpdatedMonMRoutine == null)
+                            {
+                                UpdatedMonMRoutine = new HashSet<>();
+
+                                for(String e : MonMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedMonMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedMonMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedMonMRoutine.add(e);
+                                    UpdatedMonMRoutine.remove(e);
                                 }
                             }
                         }
@@ -296,13 +338,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : MonERoutine)
+                            if (UpdatedMonERoutine == null)
+                            {
+                                UpdatedMonERoutine = new HashSet<>();
+
+                                for(String e : MonERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedMonERoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedMonERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedMonERoutine.add(e);
+                                    UpdatedMonERoutine.remove(e);
                                 }
                             }
                         }
@@ -310,7 +366,7 @@ public class AllTasks extends SaveClass {
                         {
                             StringBuilder reAdd = new StringBuilder();
 
-                            for(String e : entry)
+                            for(String e : UpdatedMonERoutine)
                             {
                                 reAdd.append(e);
                                 reAdd.append(",");
@@ -352,13 +408,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : TueMRoutine)
+                            if (UpdatedTueMRoutine == null)
+                            {
+                                UpdatedTueMRoutine = new HashSet<>();
+
+                                for(String e : TueMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedTueMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedTueMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedTueMRoutine.add(e);
+                                    UpdatedTueMRoutine.remove(e);
                                 }
                             }
                         }
@@ -399,13 +469,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : TueERoutine)
+                            if (UpdatedTueERoutine == null)
+                            {
+                                UpdatedTueERoutine = new HashSet<>();
+
+                                for(String e : TueERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedTueERoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedTueERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedTueERoutine.add(e);
+                                    UpdatedTueERoutine.remove(e);
                                 }
                             }
                         }
@@ -455,13 +539,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : WedMRoutine)
+                            if (UpdatedWedMRoutine == null)
+                            {
+                                UpdatedWedMRoutine = new HashSet<>();
+
+                                for(String e : WedMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedWedMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedWedMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedWedMRoutine.add(e);
+                                    UpdatedWedMRoutine.remove(e);
                                 }
                             }
                         }
@@ -502,13 +600,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : WedERoutine)
+                            if (UpdatedWedERoutine == null)
+                            {
+                                UpdatedWedERoutine = new HashSet<>();
+
+                                for(String e : WedERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedWedERoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedWedERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedWedERoutine.add(e);
+                                    UpdatedWedERoutine.remove(e);
                                 }
                             }
                         }
@@ -558,13 +670,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : ThrMRoutine)
+                            if (UpdatedThrMRoutine == null)
+                            {
+                                UpdatedThrMRoutine = new HashSet<>();
+
+                                for(String e : ThrMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedThrMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedThrMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedThrMRoutine.add(e);
+                                    UpdatedThrMRoutine.remove(e);
                                 }
                             }
                         }
@@ -605,13 +731,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : ThrERoutine)
+                            if (UpdatedThrERoutine == null)
+                            {
+                                UpdatedThrERoutine = new HashSet<>();
+
+                                for(String e : ThrERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedThrERoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedThrERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedThrERoutine.add(e);
+                                    UpdatedThrERoutine.remove(e);
                                 }
                             }
                         }
@@ -662,13 +802,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : FriMRoutine)
+                            if (UpdatedFriMRoutine == null)
+                            {
+                                UpdatedFriMRoutine = new HashSet<>();
+
+                                for(String e : FriMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedFriMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedFriMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedFriMRoutine.add(e);
+                                    UpdatedFriMRoutine.remove(e);
                                 }
                             }
                         }
@@ -709,13 +863,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : FriERoutine)
+                            if (UpdatedFriERoutine == null)
+                            {
+                                UpdatedFriERoutine = new HashSet<>();
+
+                                for(String e : FriERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedFriERoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedFriERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedFriERoutine.add(e);
+                                    UpdatedFriERoutine.remove(e);
                                 }
                             }
                         }
@@ -765,13 +933,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : SatMRoutine)
+                            if (UpdatedSatMRoutine == null)
+                            {
+                                UpdatedSatMRoutine = new HashSet<>();
+
+                                for(String e : SatMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedSatMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedSatMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedSatMRoutine.add(e);
+                                    UpdatedSatMRoutine.remove(e);
                                 }
                             }
                         }
@@ -812,13 +994,28 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : SatERoutine)
+                            if (UpdatedSatERoutine == null)
+                            {
+                                UpdatedSatERoutine = new HashSet<>();
+
+                                for(String e : SatERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedSatERoutine.add(e);
+                                    }
+                                }
+                            }
+
+                            for(String e : UpdatedSatERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedSatERoutine.add(e);
+                                    UpdatedSatERoutine.remove(e);
                                 }
                             }
                         }
@@ -868,13 +1065,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : SunMRoutine)
+                            if (UpdatedSunMRoutine == null)
+                            {
+                                UpdatedSunMRoutine = new HashSet<>();
+
+                                for(String e : SunMRoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedSunMRoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedSunMRoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedSunMRoutine.add(e);
+                                    UpdatedSunMRoutine.remove(e);
                                 }
                             }
                         }
@@ -915,13 +1126,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : SunERoutine)
+                            if (UpdatedSunERoutine == null)
+                            {
+                                UpdatedSunERoutine = new HashSet<>();
+
+                                for(String e : SunERoutine)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedSunERoutine.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedSunERoutine)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedSunERoutine.add(e);
+                                    UpdatedSunERoutine.remove(e);
                                 }
                             }
                         }
@@ -980,13 +1205,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : MonDay)
+                            if (UpdatedMonDay == null)
+                            {
+                                UpdatedMonDay = new HashSet<>();
+
+                                for(String e : MonDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedMonDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedMonDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedMonDay.add(e);
+                                    UpdatedMonDay.remove(e);
                                 }
                             }
                         }
@@ -1045,13 +1284,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : TueDay)
+                            if (UpdatedTueDay == null)
+                            {
+                                UpdatedTueDay = new HashSet<>();
+
+                                for(String e : TueDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedTueDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedTueDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedTueDay.add(e);
+                                    UpdatedTueDay.remove(e);
                                 }
                             }
                         }
@@ -1110,13 +1363,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : WedDay)
+                            if (UpdatedWedDay == null)
+                            {
+                                UpdatedWedDay = new HashSet<>();
+
+                                for(String e : WedDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedWedDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedWedDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedWedDay.add(e);
+                                    UpdatedWedDay.remove(e);
                                 }
                             }
                         }
@@ -1175,13 +1442,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : ThrDay)
+                            if (UpdatedThrDay == null)
+                            {
+                                UpdatedThrDay = new HashSet<>();
+
+                                for(String e : ThrDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedThrDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedThrDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedThrDay.add(e);
+                                    UpdatedThrDay.remove(e);
                                 }
                             }
                         }
@@ -1240,13 +1521,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : FriDay)
+                            if (UpdatedFriDay == null)
+                            {
+                                UpdatedFriDay = new HashSet<>();
+
+                                for(String e : FriDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedFriDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedFriDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedFriDay.add(e);
+                                    UpdatedFriDay.remove(e);
                                 }
                             }
                         }
@@ -1304,13 +1599,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : SatDay)
+                            if (UpdatedSatDay == null)
+                            {
+                                UpdatedSatDay = new HashSet<>();
+
+                                for(String e : SatDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedSatDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedSatDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedSatDay.add(e);
+                                    UpdatedSatDay.remove(e);
                                 }
                             }
                         }
@@ -1367,13 +1676,27 @@ public class AllTasks extends SaveClass {
                     checkBox.setOnClickListener(v -> {
                         if(((CheckBox) v).isChecked())
                         {
-                            for(String e : SunDay)
+                            if (UpdatedSunDay == null)
+                            {
+                                UpdatedSunDay = new HashSet<>();
+
+                                for(String e : SunDay)
+                                {
+                                    String[] listV = e.split(",");
+
+                                    if(!Objects.equals(entry[3], listV[3]))
+                                    {
+                                        UpdatedSunDay.add(e);
+                                    }
+                                }
+                            }
+                            for(String e : UpdatedSunDay)
                             {
                                 String[] listV = e.split(",");
 
-                                if(!Objects.equals(entry[3], listV[3]))
+                                if(Objects.equals(entry[3], listV[3]))
                                 {
-                                    UpdatedSunDay.add(e);
+                                    UpdatedSunDay.remove(e);
                                 }
                             }
                         }
@@ -1429,13 +1752,27 @@ public class AllTasks extends SaveClass {
             checkBox.setOnClickListener(v -> {
                 if(((CheckBox) v).isChecked())
                 {
-                    for(String e : DayTask)
+                    if (UpdatedDayTask == null)
+                    {
+                        UpdatedDayTask = new HashSet<>();
+
+                        for(String e : DayTask)
+                        {
+                            String[] listV = e.split(",");
+
+                            if(!Objects.equals(entry[3], listV[3]))
+                            {
+                                UpdatedDayTask.add(e);
+                            }
+                        }
+                    }
+                    for(String e : UpdatedDayTask)
                     {
                         String[] listV = e.split(",");
 
-                        if(!Objects.equals(entry[3], listV[3]))
+                        if(Objects.equals(entry[3], listV[3]))
                         {
-                            UpdatedDayTask.add(e);
+                            UpdatedDayTask.remove(e);
                         }
                     }
                 }
@@ -1480,13 +1817,27 @@ public class AllTasks extends SaveClass {
             checkBox.setOnClickListener(v -> {
                 if(((CheckBox) v).isChecked())
                 {
-                    for(String e : TomorrowTask)
+                    if (UpdatedTomorrowTask == null)
+                    {
+                        UpdatedTomorrowTask = new HashSet<>();
+
+                        for(String e : TomorrowTask)
+                        {
+                            String[] listV = e.split(",");
+
+                            if(!Objects.equals(entry[3], listV[3]))
+                            {
+                                UpdatedTomorrowTask.add(e);
+                            }
+                        }
+                    }
+                    for(String e : UpdatedTomorrowTask)
                     {
                         String[] listV = e.split(",");
 
-                        if(!Objects.equals(entry[3], listV[3]))
+                        if(Objects.equals(entry[3], listV[3]))
                         {
-                            UpdatedTomorrowTask.add(e);
+                            UpdatedTomorrowTask.remove(e);
                         }
                     }
                 }
@@ -1512,6 +1863,7 @@ public class AllTasks extends SaveClass {
 
     private void deleteMethod()
     {
+        // Permanent
         if(UpdatedMorningRoutine != null)
         {
             SaveSharedStrArray("MorningRoutine", UpdatedMorningRoutine, "sharedPref");
@@ -1521,62 +1873,93 @@ public class AllTasks extends SaveClass {
             SaveSharedStrArray("DayRoutine", UpdatedDayRoutine, "sharedPref");
         }
 
+        // Weekly
         if(UpdatedMonMRoutine != null)
         {
-            SaveSharedStrArray("MornMonTask", UpdatedMonMRoutine, "sharedPref");
+            SaveSharedStrArray("MornMonTask", UpdatedMonMRoutine, "WeekT");
         }
         if(UpdatedTueMRoutine != null)
         {
-            SaveSharedStrArray("MornTueTask", UpdatedTueMRoutine, "sharedPref");
+            SaveSharedStrArray("MornTueTask", UpdatedTueMRoutine, "WeekT");
         }
         if(UpdatedWedMRoutine != null)
         {
-            SaveSharedStrArray("MornWedTask", UpdatedWedMRoutine, "sharedPref");
+            SaveSharedStrArray("MornWedTask", UpdatedWedMRoutine, "WeekT");
         }
         if(UpdatedThrMRoutine != null)
         {
-            SaveSharedStrArray("MornThrTask", UpdatedThrMRoutine, "sharedPref");
+            SaveSharedStrArray("MornThrTask", UpdatedThrMRoutine, "WeekT");
         }
         if(UpdatedFriMRoutine != null)
         {
-            SaveSharedStrArray("MornFriTask", UpdatedFriMRoutine, "sharedPref");
+            SaveSharedStrArray("MornFriTask", UpdatedFriMRoutine, "WeekT");
         }
         if(UpdatedSatMRoutine != null)
         {
-            SaveSharedStrArray("MornSatTask", UpdatedSatMRoutine, "sharedPref");
+            SaveSharedStrArray("MornSatTask", UpdatedSatMRoutine, "WeekT");
         }
         if(UpdatedSunMRoutine != null)
         {
-            SaveSharedStrArray("MornSunTask", UpdatedSunMRoutine, "sharedPref");
+            SaveSharedStrArray("MornSunTask", UpdatedSunMRoutine, "WeekT");
         }
 
         if(UpdatedMonERoutine != null)
         {
-            SaveSharedStrArray("EveMonTask", UpdatedMonERoutine, "sharedPref");
+            SaveSharedStrArray("EveMonTask", UpdatedMonERoutine, "WeekT");
         }
         if(UpdatedTueERoutine != null)
         {
-            SaveSharedStrArray("EveTueTask", UpdatedTueERoutine, "sharedPref");
+            SaveSharedStrArray("EveTueTask", UpdatedTueERoutine, "WeekT");
         }
         if(UpdatedWedERoutine != null)
         {
-            SaveSharedStrArray("EveWedTask", UpdatedWedERoutine, "sharedPref");
+            SaveSharedStrArray("EveWedTask", UpdatedWedERoutine, "WeekT");
         }
         if(UpdatedThrERoutine != null)
         {
-            SaveSharedStrArray("EveThrTask", UpdatedThrERoutine, "sharedPref");
+            SaveSharedStrArray("EveThrTask", UpdatedThrERoutine, "WeekT");
         }
         if(UpdatedFriERoutine != null)
         {
-            SaveSharedStrArray("EveFriTask", UpdatedFriERoutine, "sharedPref");
+            SaveSharedStrArray("EveFriTask", UpdatedFriERoutine, "WeekT");
         }
         if(UpdatedSatERoutine != null)
         {
-            SaveSharedStrArray("EveSatTask", UpdatedSatERoutine, "sharedPref");
+            SaveSharedStrArray("EveSatTask", UpdatedSatERoutine, "WeekT");
         }
         if(UpdatedSunERoutine != null)
         {
-            SaveSharedStrArray("EveSunTask", UpdatedSunERoutine, "sharedPref");
+            SaveSharedStrArray("EveSunTask", UpdatedSunERoutine, "WeekT");
+        }
+
+        // Day
+        if(UpdatedMonDay != null)
+        {
+            SaveSharedStrArray("DayMonTask", UpdatedMonDay, "sharedPref");
+        }
+        if(UpdatedTueDay != null)
+        {
+            SaveSharedStrArray("DayTueTask", UpdatedTueDay, "sharedPref");
+        }
+        if(UpdatedWedDay != null)
+        {
+            SaveSharedStrArray("DayWedTask", UpdatedWedDay, "sharedPref");
+        }
+        if(UpdatedThrDay != null)
+        {
+            SaveSharedStrArray("DayThrTask", UpdatedThrDay, "sharedPref");
+        }
+        if(UpdatedFriDay != null)
+        {
+            SaveSharedStrArray("DayFriTask", UpdatedFriDay, "sharedPref");
+        }
+        if(UpdatedSatDay != null)
+        {
+            SaveSharedStrArray("DaySatTask", UpdatedSatDay, "sharedPref");
+        }
+        if(UpdatedSunDay != null)
+        {
+            SaveSharedStrArray("DaySunTask", UpdatedSunDay, "sharedPref");
         }
 
         if(UpdatedDayTask != null)
@@ -1588,11 +1971,8 @@ public class AllTasks extends SaveClass {
             SaveSharedStrArray("TomorrowTask", UpdatedTomorrowTask, "sharedPref");
         }
 
-
-        /*
         // Starts and returns new task view (thus enacting deletedChanges)
         Intent intent = new Intent(AllTasks.this, Tasks.class);
         startActivity(intent);
-         */
     }
 }
