@@ -60,7 +60,6 @@ public class Tasks extends SaveClass {
         // Gets current day
         Calendar calendar = Calendar.getInstance();
         day = calendar.get(Calendar.DAY_OF_WEEK);
-
         // Retrieves weekly repeatable tasks
         String[] currentDayM = weekDayM(day);
         String[] currentDayE = weekDayE(day);
@@ -845,46 +844,46 @@ public class Tasks extends SaveClass {
         switch (day)
         {
             case(1) :
+                Set<String> Sun = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
+                oneDayS = Sun.size();
+                oldRemoval.edit().remove("DaySunTask").apply();
+                return Sun;
+
+            case(2) :
                 Set<String> Mon = LoadSharedStrArray("DayMonTask", new HashSet<>(), "sharedPref");
                 oneDayS = Mon.size();
                 oldRemoval.edit().remove("DayMonTask").apply();
                 return Mon;
 
-            case(2) :
+            case(3) :
                 Set<String> Tue = LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref");
                 oneDayS = Tue.size();
                 oldRemoval.edit().remove("DayTueTask").apply();
                 return Tue;
 
-            case(3) :
+            case(4) :
                 Set<String> Wed = LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref");
                 oneDayS = Wed.size();
                 oldRemoval.edit().remove("DayWedTask").apply();
                 return Wed;
 
-            case(4) :
+            case(5) :
                 Set<String> Thr = LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref");
                 oneDayS = Thr.size();
                 oldRemoval.edit().remove("DayThrTask").apply();
                 return Thr;
 
-            case(5) :
+            case(6) :
                 Set<String> Fri = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
                 oneDayS = Fri.size();
                 oldRemoval.edit().remove("DayFriTask").apply();
                 return Fri;
 
-            case(6) :
+            case(7) :
                 Set<String> Sat = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
                 oneDayS = Sat.size();
                 oldRemoval.edit().remove("DaySatTask").apply();
                 return Sat;
-
-            case(7) :
-                Set<String> Sun = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
-                oneDayS = Sun.size();
-                oldRemoval.edit().remove("DaySunTask").apply();
-                return Sun;
         }
         return null;
     }

@@ -42,7 +42,7 @@
 
     <!-- task length types -->
     <string name="taskLength">How long task will be around for</string>
-    <string name="taskLengthOneDay">Day length</string>
+    <string name="taskLengthOneDay">One day</string>
     <string name="taskLengthPermanent">Permanent length</string>
     <string name="taskPermanent">Permanent</string>
     <string name="taskOneDay">One day</string>

@@ -2,16 +2,13 @@ package com.example.mementomori;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.time.MonthDay;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Objects;
@@ -25,6 +22,7 @@ public class AllTasks extends SaveClass {
     Set<String> UpdatedMonERoutine, UpdatedTueERoutine, UpdatedWedERoutine, UpdatedThrERoutine, UpdatedFriERoutine, UpdatedSatERoutine, UpdatedSunERoutine;
     Set<String> UpdatedMonDay, UpdatedTueDay, UpdatedWedDay, UpdatedThrDay, UpdatedFriDay, UpdatedSatDay, UpdatedSunDay;
     Set<String> UpdatedDayTask, UpdatedTomorrowTask;
+    Set<String> OneDayTask, TomorrowTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +46,7 @@ public class AllTasks extends SaveClass {
         }
         else
         {
+            // Sunday == 1
             Calendar calendar = Calendar.getInstance();
             currentDay = calendar.get(Calendar.DAY_OF_WEEK);
         }
@@ -81,6 +80,11 @@ public class AllTasks extends SaveClass {
         Set<String> FriDay = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
         Set<String> SatDay = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
         Set<String> SunDay = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
+
+        // Loads today and tomorrow temporary tasks (loads here as is checked before loading day tasks)
+        OneDayTask = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
+        TomorrowTask = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref");
+
 
         LinearLayout mornRoutineLayout = findViewById(R.id.morningRoutine);
         LinearLayout dailyRoutineLayout = findViewById(R.id.dailyRoutine);
@@ -1179,7 +1183,7 @@ public class AllTasks extends SaveClass {
         dayTasks.addView(oneDay);
 
         //region dailyTasks
-        if(MonDay.size() > 0 || currentDay == 2 || currentDay == 1)
+        if(MonDay.size() > 0 || currentDay == 2 && OneDayTask.size() != 0 || currentDay == 3 && TomorrowTask.size() != 0)
         {
             TextView MonTempRoutine = new TextView(this);
             MonTempRoutine.setText(R.string.Mon);
@@ -1249,17 +1253,17 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if(currentDay == 2)
+            if(currentDay == 2 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if(currentDay == 1)
+            else if(currentDay == 3 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(TueDay.size() > 0 || currentDay == 3 || currentDay == 2)
+        if(TueDay.size() > 0 || currentDay == 3 && OneDayTask.size() != 0 || currentDay == 4 && TomorrowTask.size() != 0)
         {
             TextView TueTempRoutine = new TextView(this);
             TueTempRoutine.setText(R.string.Tue);
@@ -1328,17 +1332,17 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if (currentDay == 3)
+            if (currentDay == 3 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if (currentDay == 2)
+            else if (currentDay == 4 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(WedDay.size() > 0 || currentDay == 4 || currentDay == 3)
+        if(WedDay.size() > 0 || currentDay == 4 && OneDayTask.size() != 0 || currentDay == 5 && TomorrowTask.size() != 0)
         {
             TextView WedTempRoutine = new TextView(this);
             WedTempRoutine.setText(R.string.Wed);
@@ -1407,17 +1411,17 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if (currentDay == 4)
+            if (currentDay == 4 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if (currentDay == 3)
+            else if (currentDay == 5 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(ThrDay.size() > 0 || currentDay == 5 || currentDay == 4)
+        if(ThrDay.size() > 0 || currentDay == 5 && OneDayTask.size() != 0 || currentDay == 6 && TomorrowTask.size() != 0)
         {
             TextView ThrTempRoutine = new TextView(this);
             ThrTempRoutine.setText(R.string.Thr);
@@ -1486,17 +1490,17 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if (currentDay == 5)
+            if (currentDay == 5 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if (currentDay == 4)
+            else if (currentDay == 6 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(FriDay.size() > 0 || currentDay == 6 || currentDay == 5)
+        if(FriDay.size() > 0 || currentDay == 6 && OneDayTask.size() != 0 || currentDay == 7 && TomorrowTask.size() != 0)
         {
             TextView FriTempRoutine = new TextView(this);
             FriTempRoutine.setText(R.string.Fri);
@@ -1565,17 +1569,17 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if (currentDay == 6)
+            if (currentDay == 6 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if (currentDay == 5)
+            else if (currentDay == 7 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(SatDay.size() > 0 || currentDay == 7 || currentDay == 6) {
+        if(SatDay.size() > 0 || currentDay == 7 && OneDayTask.size() != 0 || currentDay == 1 && TomorrowTask.size() != 0) {
             TextView SatTempRoutine = new TextView(this);
             SatTempRoutine.setText(R.string.Sat);
             SatTempRoutine.setTextSize(20);
@@ -1643,17 +1647,17 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if (currentDay == 7)
+            if (currentDay == 7 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if (currentDay == 6)
+            else if (currentDay == 1 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
         }
 
-        if(SunDay.size() > 0 || currentDay == 1 || currentDay == 7) {
+        if(SunDay.size() > 0 || currentDay == 1 && OneDayTask.size() != 0 || currentDay == 2 && TomorrowTask.size() != 0) {
             TextView SunTempRoutine = new TextView(this);
             SunTempRoutine.setText(R.string.Sat);
             SunTempRoutine.setTextSize(20);
@@ -1720,11 +1724,11 @@ public class AllTasks extends SaveClass {
                 }
             }
             // Adding one day and tomorrow task
-            if (currentDay == 1)
+            if (currentDay == 1 && OneDayTask.size() != 0)
             {
                 addOneDay(CheckParams, dayTasks);
             }
-            else if (currentDay == 7)
+            else if (currentDay == 2 && TomorrowTask.size() != 0)
             {
                 addTomorrowDay(CheckParams, dayTasks);
             }
@@ -1734,10 +1738,7 @@ public class AllTasks extends SaveClass {
 
     private void addOneDay(LinearLayout.LayoutParams CheckParams, LinearLayout dayTasks)
     {
-        // Loads day temporary tasks
-        Set<String> DayTask = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
-
-        for (String oneDayTemp : DayTask) {
+        for (String oneDayTemp : OneDayTask) {
             String[] entry = oneDayTemp.split(",");
 
             CheckBox checkBox = new CheckBox(this);
@@ -1756,7 +1757,7 @@ public class AllTasks extends SaveClass {
                     {
                         UpdatedDayTask = new HashSet<>();
 
-                        for(String e : DayTask)
+                        for(String e : OneDayTask)
                         {
                             String[] listV = e.split(",");
 
@@ -1798,9 +1799,6 @@ public class AllTasks extends SaveClass {
 
     private void addTomorrowDay(LinearLayout.LayoutParams CheckParams, LinearLayout dayTasks)
     {
-        // Loads day temporary tasks
-        Set<String> TomorrowTask = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref");
-
         for (String day : TomorrowTask) {
             String[] entry = day.split(",");
 

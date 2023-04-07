@@ -150,12 +150,12 @@ public class NewTask extends Fragment {
 
         // PermanentTag
         TextView PermanentTag = new TextView(activity);
-        PermanentTag.setText(R.string.taskLengthPermanent);
+        PermanentTag.setText(R.string.taskPermanent);
         PermanentTag.setTextColor(getResources().getColor(R.color.white));
 
         // Permanent
         RadioButton permanentTaskRadio = new RadioButton(activity);
-        permanentTaskRadio.setText(R.string.taskLengthPermanent);
+        permanentTaskRadio.setText(R.string.taskPermanent);
         permanentTaskRadio.setId(permanentTask);
         permanentTaskRadio.setTextColor(getResources().getColor(R.color.white));
 
