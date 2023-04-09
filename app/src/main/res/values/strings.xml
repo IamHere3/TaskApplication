@@ -41,7 +41,7 @@
     <string name="Author">Author</string>
 
     <!-- task length types -->
-    <string name="taskLength">How long task will be around for</string>
+    <string name="taskLength">Task length type</string>
     <string name="taskLengthOneDay">One day</string>
     <string name="taskLengthPermanent">Permanent length</string>
     <string name="taskPermanent">Permanent</string>
@@ -63,8 +63,7 @@
     <string name="back">Back</string>
     <string name="save">Save</string>
 
-    <string name="textDay">Select day for repeating task</string>
-
+    <string name="textDay">Select day (weekly or one day tasks)</string>
 
     <string name="next">Next</string>
     <string name="previous">Previous</string>

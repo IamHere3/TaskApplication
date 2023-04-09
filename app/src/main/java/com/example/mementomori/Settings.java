@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -188,7 +189,16 @@ public class Settings extends SaveClass {
             }
         }
 
+        int i = 0;
+        int lines = 1;
+        while (taskSpinTextSelected.length() > i)
+        {
+            lines++;
+            i = i + 18;
+        }
+
         dailyP.setText(taskSpinTextSelected);
+        dailyP.setLines(lines);
     }
 
     protected void updateHobbySelected(int spinPositionSelected)

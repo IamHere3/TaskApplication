@@ -52,13 +52,10 @@ public class NewTask extends Fragment {
     static int SatID = 2505;
     static int SunID = 2506;
 
-    static int dayGroupOneID = 2550;
-    static int dayGroupTwoID = 2551;
     static int taskLengthGroupOneID = 2560;
     static int taskLengthGroupTwoID = 2561;
-
-    RadioGroup dayGroupTwo, dayGroupOne;
-    RadioGroup taskLengthGroupTwo, taskLengthGroupOne;
+    static int dayGroupID = 2562;
+    RadioGroup taskLengthGroupTwo, taskLengthGroupOne, dayGroupOne, dayGroupTwo;
 
     @Override
     public void onResume()
@@ -85,10 +82,9 @@ public class NewTask extends Fragment {
 
         EditText editEntry = new EditText(activity);
         editEntry.setId(entryId);
-        editEntry.setSingleLine(false);
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-        editEntry.setLines(2);
+        editEntry.setLines(3);
 
         // apply
         BaseLayout.addView(editText);
@@ -159,7 +155,7 @@ public class NewTask extends Fragment {
         permanentTaskRadio.setId(permanentTask);
         permanentTaskRadio.setTextColor(getResources().getColor(R.color.white));
 
-        // Once day a week - popup? set day
+        // Select day/s will appear when selected
         RadioButton weeklyTaskRadio = new RadioButton(activity);
         weeklyTaskRadio.setId(weeklyTask);
         weeklyTaskRadio.setText(R.string.taskWeekly);
@@ -196,7 +192,7 @@ public class NewTask extends Fragment {
         taskLengthGroupTwo.setOrientation(LinearLayout.VERTICAL);
         taskLengthGroupTwo.setId(taskLengthGroupTwoID);
 
-        // apply radio buttons to radio group
+        // Adds radio buttons to radio group
         taskLengthGroupOne.addView(PermanentTag);
         taskLengthGroupOne.addView(permanentTaskRadio);
         taskLengthGroupOne.addView(weeklyTaskRadio);
@@ -206,9 +202,9 @@ public class NewTask extends Fragment {
         taskLengthGroupTwo.addView(tomorrowTaskRadio);
         taskLengthGroupTwo.addView(oneDayRadio);
 
-        // sets on change listener
-        taskLengthGroupOne.setOnCheckedChangeListener(taskLengthGroupOneListener);
-        taskLengthGroupTwo.setOnCheckedChangeListener(taskLengthGroupTwoListener);
+        // Sets on change listener
+        taskLengthGroupOne.setOnCheckedChangeListener(dayGroupOneListener);
+        taskLengthGroupTwo.setOnCheckedChangeListener(dayGroupTwoListener);
 
         TableLayout taskLengthTable = new TableLayout(activity);
 
@@ -229,88 +225,88 @@ public class NewTask extends Fragment {
         CheckBox Mon = new CheckBox(activity);
         Mon.setId(MonID);
         Mon.setText(R.string.Mon);
-        //Mon.setVisibility(View.INVISIBLE);
+        Mon.setVisibility(View.INVISIBLE);
         CheckBox Tue = new CheckBox(activity);
         Tue.setText(R.string.Tue);
         Tue.setId(TueID);
-        //Tue.setVisibility(View.INVISIBLE);
+        Tue.setVisibility(View.INVISIBLE);
         CheckBox Wed = new CheckBox(activity);
         Wed.setText(R.string.Wed);
         Wed.setId(WedID);
-        //Wed.setVisibility(View.INVISIBLE);
+        Wed.setVisibility(View.INVISIBLE);
         CheckBox Thr = new CheckBox(activity);
         Thr.setText(R.string.Thr);
         Thr.setId(ThrID);
-        //Thr.setVisibility(View.INVISIBLE);
+        Thr.setVisibility(View.INVISIBLE);
         CheckBox Fri = new CheckBox(activity);
         Fri.setText(R.string.Fri);
         Fri.setId(FriID);
-        //Fri.setVisibility(View.INVISIBLE);
+        Fri.setVisibility(View.INVISIBLE);
         CheckBox Sat = new CheckBox(activity);
         Sat.setText(R.string.Sat);
         Sat.setId(SatID);
-        //Sat.setVisibility(View.INVISIBLE);
+        Sat.setVisibility(View.INVISIBLE);
         CheckBox Sun = new CheckBox(activity);
         Sun.setText(R.string.Sun);
         Sun.setId(SunID);
-        //Sun.setVisibility(View.INVISIBLE);
+        Sun.setVisibility(View.INVISIBLE);
 
-        TableRow DaysOne = new TableRow(activity);
+        // Adds checkboxes to button group
+        dayGroupOne = new RadioGroup(activity);
+        dayGroupOne.setOrientation(LinearLayout.VERTICAL);
+        dayGroupOne.setId(dayGroupID);
 
-        DaysOne.addView(Mon);
-        DaysOne.addView(Tue);
+        dayGroupTwo = new RadioGroup(activity);
+        dayGroupTwo.setOrientation(LinearLayout.VERTICAL);
+        dayGroupTwo.setId(dayGroupID);
 
-        TableRow DaysTwo = new TableRow(activity);
+        dayGroupOne.addView(Mon);
+        dayGroupTwo.addView(Tue);
+        dayGroupOne.addView(Wed);
+        dayGroupTwo.addView(Thr);
+        dayGroupOne.addView(Fri);
+        dayGroupTwo.addView(Sat);
+        dayGroupOne.addView(Sun);
 
-        DaysTwo.addView(Wed);
-        DaysTwo.addView(Thr);
+        TableRow daySelection = new TableRow(activity);
 
-        TableRow DaysThree = new TableRow(activity);
+        daySelection.addView(dayGroupOne);
+        daySelection.addView(dayGroupTwo);
 
-        DaysThree.addView(Fri);
-        DaysThree.addView(Sat);
-
-        TableRow DaysFour = new TableRow(activity);
-
-        DaysFour.addView(Sun);
-
-        // apply rows
+        // Apply rows
         tableLayout.addView(BaseLayout);
         tableLayout.addView(selectDynamicTaskRow);
         tableLayout.addView(TaskTypeRow);
         tableLayout.addView(taskLength);
         tableLayout.addView(taskLengthTable);
         tableLayout.addView(textDays);
-        tableLayout.addView(DaysOne);
-        tableLayout.addView(DaysTwo);
-        tableLayout.addView(DaysThree);
-        tableLayout.addView(DaysFour);
+        tableLayout.addView(daySelection);
 
         return view;
     }
 
-    private RadioGroup.OnCheckedChangeListener taskLengthGroupOneListener = new RadioGroup.OnCheckedChangeListener() {
+    private RadioGroup.OnCheckedChangeListener dayGroupOneListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
                 taskLengthGroupTwo.setOnClickListener(null);
                 taskLengthGroupTwo.clearCheck();
-                taskLengthGroupTwo.setOnCheckedChangeListener(taskLengthGroupTwoListener);
+                taskLengthGroupTwo.setOnCheckedChangeListener(dayGroupTwoListener);
                 taskLengthGroupOne.check(checkedId);
 
-                //  TextView textDays = activity.findViewById(DayName);
+                //TextView textDays = activity.findViewById(DayName);
 
-
-                /*
-                CheckBox TueId = dayGroupOne.findViewById(TueID);
+                CheckBox MonId = dayGroupOne.findViewById(MonID);
+                CheckBox TueId = dayGroupTwo.findViewById(TueID);
                 CheckBox WedId = dayGroupOne.findViewById(WedID);
-                CheckBox ThrId = dayGroupOne.findViewById(ThrID);
-                CheckBox FriId = dayGroupTwo.findViewById(FriID);
+                CheckBox ThrId = dayGroupTwo.findViewById(ThrID);
+                CheckBox FriId = dayGroupOne.findViewById(FriID);
                 CheckBox SatId = dayGroupTwo.findViewById(SatID);
-                CheckBox SunId = dayGroupTwo.findViewById(SunID);
+                CheckBox SunId = dayGroupOne.findViewById(SunID);
+
 
                 if (checkedId == weeklyTask) {
-                    // textDays.setVisibility(View.VISIBLE);
+                    //textDays.setVisibility(View.VISIBLE);
 
                     MonId.setVisibility(View.VISIBLE);
                     TueId.setVisibility(View.VISIBLE);
@@ -330,45 +326,52 @@ public class NewTask extends Fragment {
                     SatId.setVisibility(View.INVISIBLE);
                     SunId.setVisibility(View.INVISIBLE);
                 }
-
-                 */
             }
         }
     };
 
 
-    private RadioGroup.OnCheckedChangeListener taskLengthGroupTwoListener = new RadioGroup.OnCheckedChangeListener() {
+    private RadioGroup.OnCheckedChangeListener dayGroupTwoListener = new RadioGroup.OnCheckedChangeListener() {
 
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if (checkedId != -1) {
                 taskLengthGroupOne.setOnClickListener(null);
                 taskLengthGroupOne.clearCheck();
-                taskLengthGroupOne.setOnCheckedChangeListener(taskLengthGroupOneListener);
+                taskLengthGroupOne.setOnCheckedChangeListener(dayGroupOneListener);
                 taskLengthGroupTwo.check(checkedId);
 
                 // TextView textDays = activity.findViewById(DayName);
 
-                /*
                 CheckBox MonId = dayGroupOne.findViewById(MonID);
-                CheckBox TueId = dayGroupOne.findViewById(TueID);
+                CheckBox TueId = dayGroupTwo.findViewById(TueID);
                 CheckBox WedId = dayGroupOne.findViewById(WedID);
-                CheckBox ThrId = dayGroupOne.findViewById(ThrID);
-                CheckBox FriId = dayGroupTwo.findViewById(FriID);
+                CheckBox ThrId = dayGroupTwo.findViewById(ThrID);
+                CheckBox FriId = dayGroupOne.findViewById(FriID);
                 CheckBox SatId = dayGroupTwo.findViewById(SatID);
-                CheckBox SunId = dayGroupTwo.findViewById(SunID);
+                CheckBox SunId = dayGroupOne.findViewById(SunID);
 
-                // textDays.setVisibility(View.INVISIBLE);
+                if(checkedId == oneDayTask) {
+                    //textDays.setVisibility(View.INVISIBLE);
 
-                MonId.setVisibility(View.INVISIBLE);
-                TueId.setVisibility(View.INVISIBLE);
-                WedId.setVisibility(View.INVISIBLE);
-                ThrId.setVisibility(View.INVISIBLE);
-                FriId.setVisibility(View.INVISIBLE);
-                SatId.setVisibility(View.INVISIBLE);
-                SunId.setVisibility(View.INVISIBLE);
-
-                 */
+                    MonId.setVisibility(View.VISIBLE);
+                    TueId.setVisibility(View.VISIBLE);
+                    WedId.setVisibility(View.VISIBLE);
+                    ThrId.setVisibility(View.VISIBLE);
+                    FriId.setVisibility(View.VISIBLE);
+                    SatId.setVisibility(View.VISIBLE);
+                    SunId.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    MonId.setVisibility(View.INVISIBLE);
+                    TueId.setVisibility(View.INVISIBLE);
+                    WedId.setVisibility(View.INVISIBLE);
+                    ThrId.setVisibility(View.INVISIBLE);
+                    FriId.setVisibility(View.INVISIBLE);
+                    SatId.setVisibility(View.INVISIBLE);
+                    SunId.setVisibility(View.INVISIBLE);
+                }
             }
         }
     };

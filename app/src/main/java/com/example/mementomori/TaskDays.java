@@ -76,7 +76,7 @@ public class TaskDays extends Fragment {
         TableLayout.LayoutParams tablePram = new TableLayout.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT);
 
 
-        TableLayout tableLayout = (TableLayout) view.findViewById(R.id.tableFragment);
+        TableLayout tableLayout = view.findViewById(R.id.tableFragment);
         tableLayout.setLayoutParams(tablePram);
 
         TableRow selectTaskRow = new TableRow(activity);
@@ -104,7 +104,6 @@ public class TaskDays extends Fragment {
         }
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
-
 
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
@@ -139,7 +138,6 @@ public class TaskDays extends Fragment {
         EditText editEntry = new EditText(activity);
         editEntry.setText(R.string.holderText);
         editEntry.setId(entryId);
-        editEntry.setSingleLine(false);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(5);
         editEntry.setMaxWidth(width);
