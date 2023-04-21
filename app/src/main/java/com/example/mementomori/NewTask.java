@@ -78,10 +78,12 @@ public class NewTask extends Fragment {
 
         // Edit task
         TextView editText = new TextView(activity);
+        editText.setTextColor(getResources().getColor(R.color.white));
         editText.setText(R.string.taskName);
 
         EditText editEntry = new EditText(activity);
         editEntry.setId(entryId);
+        editEntry.setTextColor(getResources().getColor(R.color.white));
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(3);
@@ -101,6 +103,8 @@ public class NewTask extends Fragment {
         dynamicToggle.setId(hobbyTask);
         dynamicToggle.setText(R.string.hobbyTask);
         dynamicToggle.setTextColor(getResources().getColor(R.color.white));
+        //dynamicToggle.setBackgroundColor();
+       // dynamicToggle.setButtonTintList();
 
         // apply
         selectDynamicTaskRow.addView(selectTaskTitle);

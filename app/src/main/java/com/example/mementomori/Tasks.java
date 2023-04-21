@@ -5,6 +5,8 @@ import static java.lang.String.valueOf;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -16,6 +18,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.CompoundButtonCompat;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -84,6 +89,16 @@ public class Tasks extends SaveClass {
         LinearLayout dailyCheckboxes = findViewById(R.id.dailyRoutine);
         LinearLayout temporaryCheckboxes = findViewById(R.id.temporaryRoutine);
 
+        // Enables colours (this section is set up to try and make it centralise colors for changing themes later on)
+
+        // if shared pref theme == dark else (light
+        // Assigns colour to the check boxes (outline and color of the checkbox)
+        int [][] states = {{}};
+        int [] colors = {getResources().getColor(R.color.white)};
+
+        // sets text color
+        int textColor = getResources().getColor(R.color.white);
+
         // Sets onclick listener
         YearGoalsBtn = findViewById(R.id.yearsGoals);
 
@@ -120,6 +135,7 @@ public class Tasks extends SaveClass {
         MorningTitle.setText(R.string.r_mor);
         MorningTitle.setTextSize(20);
         MorningTitle.setLayoutParams(TitleParams);
+        MorningTitle.setTextColor(textColor);
 
         morningCheckboxes.addView(MorningTitle);
 
@@ -143,7 +159,11 @@ public class Tasks extends SaveClass {
 
             // Sets text
             checkBox.setText(entry[1]);
+            checkBox.setTextColor(textColor);
+            CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+
             checkBox.setTextSize(20);
+            checkBox.setTextAppearance(this, R.style.Theme_MementoMori);
 
             // Sets onclick listener
             checkBox.setOnClickListener(v -> {
@@ -166,6 +186,7 @@ public class Tasks extends SaveClass {
         DailyTitle.setText(R.string.r_dai);
         DailyTitle.setTextSize(20);
         DailyTitle.setLayoutParams(TitleParams);
+        DailyTitle.setTextColor(textColor);
 
         dailyCheckboxes.addView(DailyTitle);
 
@@ -188,6 +209,8 @@ public class Tasks extends SaveClass {
 
             // Sets text
             checkBox.setText(entry[1]);
+            checkBox.setTextColor(textColor);
+            CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
             checkBox.setTextSize(20);
 
             //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
@@ -235,6 +258,7 @@ public class Tasks extends SaveClass {
 
                     // Sets text
                     checkBox.setText(entry[1]);
+                    checkBox.setTextColor(textColor);
                     checkBox.setTextSize(20);
 
                     //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
@@ -274,6 +298,8 @@ public class Tasks extends SaveClass {
                     // Sets text
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+                    CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+                    checkBox.setTextColor(textColor);
 
                     //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 
@@ -318,6 +344,8 @@ public class Tasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+                    CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+                    checkBox.setTextColor(textColor);
 
                     // location on screen
                     checkBox.setLayoutParams(CheckParams);
