@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -66,6 +67,10 @@ public class Settings extends SaveClass {
     static int SatID = 2505;
     static int SunID = 2506;
 
+    // theme colors
+    int textColor;
+    ColorStateList colorStateList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +80,17 @@ public class Settings extends SaveClass {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         setContentView(R.layout.activity_settings);
+
+        // loads theme
+        // if shared pref theme == dark else (light
+        // Assigns colour to the check boxes (outline and color of the checkbox)
+        int [][] states = {{}};
+        int [] colors = {getResources().getColor(R.color.white)};
+
+        colorStateList = new ColorStateList(states, colors);
+
+        // sets text color
+        textColor = getResources().getColor(R.color.white);
 
         // Initial fragment selection
         FragmentManager EditTasks = getSupportFragmentManager();

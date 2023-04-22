@@ -2,9 +2,11 @@ package com.example.mementomori;
 
 import static java.lang.String.valueOf;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
@@ -66,6 +68,9 @@ public class TaskDays extends Fragment {
         // Adjusted screen width (40px of padding in fragment holder) - textview (200ish)
         int width = displayMetrics.widthPixels - 300;
 
+        // Gets current theme
+        int textColor = activity.textColor;
+        ColorStateList colorStateList = activity.colorStateList;
 
         String[] importedMorningData = activity.importMorningData();
         String[] importedDailyData = activity.importDayData();
@@ -84,6 +89,7 @@ public class TaskDays extends Fragment {
 
         TextView selectTaskTitle = new TextView(activity);
         selectTaskTitle.setText(R.string.editTask);
+        selectTaskTitle.setTextColor(textColor);
 
         ArrayList<String> spinnerArray = new ArrayList<String>();
 
@@ -108,6 +114,7 @@ public class TaskDays extends Fragment {
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
         selectTaskDropdown.setId(spinId);
+        // selectTaskDropdown.setDrawingCacheBackgroundColor();
         // Adds some px as interestingly the spinner and editText appears to have different lengths (perhaps) due to drop down button of spinner
         selectTaskDropdown.setMinimumWidth(width + 60);
 
@@ -134,9 +141,11 @@ public class TaskDays extends Fragment {
 
         TextView editText = new TextView(activity);
         editText.setText(R.string.editTask);
+        editText.setTextColor(textColor);
 
         EditText editEntry = new EditText(activity);
         editEntry.setText(R.string.holderText);
+        editEntry.setTextColor(textColor);
         editEntry.setId(entryId);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(5);
@@ -152,10 +161,12 @@ public class TaskDays extends Fragment {
 
         TextView deleteTask = new TextView(activity);
         deleteTask.setText(R.string.deleteTask);
+        deleteTask.setTextColor(textColor);
 
         CheckBox deleteCheckbox = new CheckBox(activity);
         deleteCheckbox.setText(R.string.removeTask);
         deleteCheckbox.setId(deleteCheckboxID);
+        CompoundButtonCompat.setButtonTintList(deleteCheckbox, colorStateList);
 
         deleteTaskRow.addView(deleteTask);
         deleteTaskRow.addView(deleteCheckbox);

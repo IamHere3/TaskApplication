@@ -1,7 +1,9 @@
 package com.example.mementomori;
 
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputFilter;
@@ -70,6 +72,11 @@ public class NewTask extends Fragment {
         // Import json array
         Settings activity = (Settings) getActivity();
 
+        // Gets current theme
+        int textColor = activity.textColor;
+        ColorStateList colorStateList = activity.colorStateList;
+
+        // sets row style
         TableRow.LayoutParams rowPram = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
 
         TableLayout tableLayout = view.findViewById(R.id.tableFragment);
@@ -78,12 +85,12 @@ public class NewTask extends Fragment {
 
         // Edit task
         TextView editText = new TextView(activity);
-        editText.setTextColor(getResources().getColor(R.color.white));
+        editText.setTextColor(textColor);
         editText.setText(R.string.taskName);
 
         EditText editEntry = new EditText(activity);
         editEntry.setId(entryId);
-        editEntry.setTextColor(getResources().getColor(R.color.white));
+        editEntry.setTextColor(textColor);
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(3);
@@ -96,15 +103,15 @@ public class NewTask extends Fragment {
         selectDynamicTaskRow.setLayoutParams(rowPram);
 
         TextView selectTaskTitle = new TextView(activity);
-        selectTaskTitle.setText(R.string.hobbyCheckBox);
-        selectTaskTitle.setTextColor(getResources().getColor(R.color.white));
+        selectTaskTitle.setText(R.string.newTask);
+        selectTaskTitle.setTextColor(textColor);
 
         CheckBox dynamicToggle = new CheckBox(activity);
         dynamicToggle.setId(hobbyTask);
         dynamicToggle.setText(R.string.hobbyTask);
-        dynamicToggle.setTextColor(getResources().getColor(R.color.white));
+        dynamicToggle.setTextColor(textColor);
         //dynamicToggle.setBackgroundColor();
-       // dynamicToggle.setButtonTintList();
+        // dynamicToggle.setButtonTintList();
 
         // apply
         selectDynamicTaskRow.addView(selectTaskTitle);
@@ -116,7 +123,7 @@ public class NewTask extends Fragment {
         TextView selectTaskType = new TextView(activity);
         selectTaskType.setText(R.string.taskType);
         selectTaskType.setPadding(0,10,0,10);
-        selectTaskType.setTextColor(getResources().getColor(R.color.white));
+        selectTaskType.setTextColor(textColor);
 
         RadioGroup taskToggles = new RadioGroup(activity);
         taskToggles.setOrientation(LinearLayout.VERTICAL);
@@ -124,13 +131,15 @@ public class NewTask extends Fragment {
         RadioButton MorningToggle = new RadioButton(activity);
         MorningToggle.setId(morningToggle);
         MorningToggle.setText(R.string.r_mor);
-        MorningToggle.setTextColor(getResources().getColor(R.color.white));
+        CompoundButtonCompat.setButtonTintList(MorningToggle, colorStateList);
+        MorningToggle.setTextColor(textColor);
 
         RadioButton EveningToggle = new RadioButton(activity);
         EveningToggle.setId(eveningToggle);
         EveningToggle.setChecked(true);
         EveningToggle.setText(R.string.r_dai);
-        EveningToggle.setTextColor(getResources().getColor(R.color.white));
+        CompoundButtonCompat.setButtonTintList(EveningToggle, colorStateList);
+        EveningToggle.setTextColor(textColor);
 
         // Apply
         taskToggles.addView(MorningToggle);
@@ -142,7 +151,7 @@ public class NewTask extends Fragment {
         TextView taskLength = new TextView(activity);
         taskLength.setText(R.string.taskLength);
         taskLength.setPadding(0,10,0,10);
-        taskLength.setTextColor(getResources().getColor(R.color.white));
+        taskLength.setTextColor(textColor);
 
         // Radio group for tasks
         RadioGroup taskDayGroup = new RadioGroup(activity);
@@ -151,42 +160,47 @@ public class NewTask extends Fragment {
         // PermanentTag
         TextView PermanentTag = new TextView(activity);
         PermanentTag.setText(R.string.taskPermanent);
-        PermanentTag.setTextColor(getResources().getColor(R.color.white));
+        PermanentTag.setTextColor(textColor);
 
         // Permanent
         RadioButton permanentTaskRadio = new RadioButton(activity);
         permanentTaskRadio.setText(R.string.taskPermanent);
         permanentTaskRadio.setId(permanentTask);
-        permanentTaskRadio.setTextColor(getResources().getColor(R.color.white));
+        permanentTaskRadio.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(permanentTaskRadio, colorStateList);
 
         // Select day/s will appear when selected
         RadioButton weeklyTaskRadio = new RadioButton(activity);
         weeklyTaskRadio.setId(weeklyTask);
         weeklyTaskRadio.setText(R.string.taskWeekly);
-        weeklyTaskRadio.setTextColor(getResources().getColor(R.color.white));
+        weeklyTaskRadio.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(weeklyTaskRadio, colorStateList);
 
         // Temporary text view
         TextView TemporaryTag = new TextView(activity);
         TemporaryTag.setText(R.string.taskLengthOneDay);
-        TemporaryTag.setTextColor(getResources().getColor(R.color.white));
+        TemporaryTag.setTextColor(textColor);
 
         // Today option
         RadioButton onDayTaskRadio = new RadioButton(activity);
         onDayTaskRadio.setId(dayTask);
         onDayTaskRadio.setText(R.string.taskToday);
-        onDayTaskRadio.setTextColor(getResources().getColor(R.color.white));
+        onDayTaskRadio.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(onDayTaskRadio, colorStateList);
 
         // Tomorrow one day option
         RadioButton tomorrowTaskRadio = new RadioButton(activity);
         tomorrowTaskRadio.setId(tomorrowTask);
         tomorrowTaskRadio.setText(R.string.taskTomorrow);
-        tomorrowTaskRadio.setTextColor(getResources().getColor(R.color.white));
+        tomorrowTaskRadio.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(tomorrowTaskRadio, colorStateList);
 
         // One day task
         RadioButton oneDayRadio = new RadioButton(activity);
         oneDayRadio.setId(oneDayTask);
         oneDayRadio.setText(R.string.taskOneDay);
-        oneDayRadio.setTextColor(getResources().getColor(R.color.white));
+        oneDayRadio.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(oneDayRadio, colorStateList);
 
         taskLengthGroupOne = new RadioGroup(activity);
         taskLengthGroupOne.setOrientation(LinearLayout.VERTICAL);
@@ -223,37 +237,51 @@ public class NewTask extends Fragment {
         textDays.setText(R.string.textDay);
         textDays.setId(DayName);
         textDays.setPadding(0,10,0,10);
-        textDays.setTextColor(getResources().getColor(R.color.white));
+        textDays.setTextColor(textColor);
         // textDays.setVisibility(View.INVISIBLE);
 
         CheckBox Mon = new CheckBox(activity);
         Mon.setId(MonID);
         Mon.setText(R.string.Mon);
         Mon.setVisibility(View.INVISIBLE);
+        Mon.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Mon, colorStateList);
         CheckBox Tue = new CheckBox(activity);
         Tue.setText(R.string.Tue);
         Tue.setId(TueID);
         Tue.setVisibility(View.INVISIBLE);
+        Tue.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Tue, colorStateList);
         CheckBox Wed = new CheckBox(activity);
         Wed.setText(R.string.Wed);
         Wed.setId(WedID);
         Wed.setVisibility(View.INVISIBLE);
+        Wed.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Wed, colorStateList);
         CheckBox Thr = new CheckBox(activity);
         Thr.setText(R.string.Thr);
         Thr.setId(ThrID);
         Thr.setVisibility(View.INVISIBLE);
+        Thr.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Thr, colorStateList);
         CheckBox Fri = new CheckBox(activity);
         Fri.setText(R.string.Fri);
         Fri.setId(FriID);
         Fri.setVisibility(View.INVISIBLE);
+        Fri.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Fri, colorStateList);
         CheckBox Sat = new CheckBox(activity);
         Sat.setText(R.string.Sat);
         Sat.setId(SatID);
         Sat.setVisibility(View.INVISIBLE);
+        Sat.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Sat, colorStateList);
         CheckBox Sun = new CheckBox(activity);
         Sun.setText(R.string.Sun);
         Sun.setId(SunID);
         Sun.setVisibility(View.INVISIBLE);
+        Sun.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(Sun, colorStateList);
 
         // Adds checkboxes to button group
         dayGroupOne = new RadioGroup(activity);
