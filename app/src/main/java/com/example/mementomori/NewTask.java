@@ -84,11 +84,12 @@ public class NewTask extends Fragment {
         int deviceDPI = (int)(displayMetrics.density * 160f);
         // px = dp * (dpi/160)
         // Adjusted screen width - 40dp of padding in fragment holder + text-entry)
-        int pixels = (40 + 130) * (deviceDPI / 160);
+        int pixels = 40 * (deviceDPI / 160);
         int width = displayMetrics.widthPixels - pixels;
 
         // Gets current theme
         int textColor = activity.textColor;
+        int backgroundColor = activity.backgroundColor;
         ColorStateList colorStateList = activity.colorStateList;
 
         // sets row style
@@ -96,7 +97,8 @@ public class NewTask extends Fragment {
 
         TableLayout tableLayout = view.findViewById(R.id.tableFragment);
         // Calling in a layout by ID caused a error which could not be fixed
-        TableRow BaseLayout = new TableRow(activity);
+        TableRow newTaskTitle = new TableRow(activity);
+        TableRow newTaskEntry = new TableRow(activity);
 
         // Edit task
         TextView editText = new TextView(activity);
@@ -107,17 +109,24 @@ public class NewTask extends Fragment {
         EditText editEntry = new EditText(activity);
         editEntry.setId(entryId);
         editEntry.setTextColor(textColor);
-        editEntry.setBackgroundColor(getResources().getColor(R.color.dark_grey));
+        editEntry.setBackgroundColor(backgroundColor);
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(3);
         // set 40 char limit (about 3 lines)
         editEntry.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100) });
         editEntry.setWidth(width);
+        //editEntry.setLayoutParams(spanPrams);
 
         // apply
-        BaseLayout.addView(editText);
-        BaseLayout.addView(editEntry);
+        newTaskTitle.addView(editText);
+        newTaskEntry.addView(editEntry);
+
+
+        TableRow.LayoutParams spanPrams = (TableRow.LayoutParams) editText.getLayoutParams();
+        spanPrams.span = 2;
+        editEntry.setLayoutParams(spanPrams);
+
 
         TableRow selectDynamicTaskRow = new TableRow(activity);
         selectDynamicTaskRow.setLayoutParams(rowPram);
@@ -125,6 +134,9 @@ public class NewTask extends Fragment {
         TextView selectTaskTitle = new TextView(activity);
         selectTaskTitle.setText(R.string.newTask);
         selectTaskTitle.setTextColor(textColor);
+
+        TableRow EditTextRow = new TableRow(activity);
+        EditTextRow.setLayoutParams(rowPram);
 
         CheckBox dynamicToggle = new CheckBox(activity);
         dynamicToggle.setId(hobbyTask);
@@ -136,7 +148,7 @@ public class NewTask extends Fragment {
 
         // apply
         selectDynamicTaskRow.addView(selectTaskTitle);
-        selectDynamicTaskRow.addView(dynamicToggle);
+        EditTextRow.addView(dynamicToggle);
 
         TableRow TaskTypeRow = new TableRow(activity);
         TaskTypeRow.setLayoutParams(rowPram);
@@ -327,7 +339,8 @@ public class NewTask extends Fragment {
         daySelection.addView(dayGroupTwo);
 
         // Apply rows
-        tableLayout.addView(BaseLayout);
+        tableLayout.addView(newTaskTitle);
+        tableLayout.addView(newTaskEntry);
         tableLayout.addView(selectDynamicTaskRow);
         tableLayout.addView(TaskTypeRow);
         tableLayout.addView(taskLength);

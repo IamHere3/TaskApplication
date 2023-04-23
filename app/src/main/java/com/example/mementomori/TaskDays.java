@@ -70,6 +70,7 @@ public class TaskDays extends Fragment {
 
         // Gets current theme
         int textColor = activity.textColor;
+        int backgroundColor = activity.backgroundColor;
         ColorStateList colorStateList = activity.colorStateList;
 
         String[] importedMorningData = activity.importMorningData();
@@ -114,7 +115,7 @@ public class TaskDays extends Fragment {
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
         selectTaskDropdown.setId(spinId);
-        selectTaskDropdown.setBackgroundColor(getResources().getColor(R.color.white));
+        // selectTaskDropdown.setBackgroundColor(getResources().getColor(R.color.white));
         // Adds some px as interestingly the spinner and editText appears to have different lengths (perhaps) due to drop down button of spinner
         selectTaskDropdown.setMinimumWidth(width + 60);
 
@@ -150,6 +151,7 @@ public class TaskDays extends Fragment {
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(5);
         editEntry.setMaxWidth(width);
+        editEntry.setBackgroundColor(backgroundColor);
 
         // apply
         editTaskRow.addView(editText);

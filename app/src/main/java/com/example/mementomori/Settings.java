@@ -69,6 +69,7 @@ public class Settings extends SaveClass {
 
     // theme colors
     int textColor;
+    int backgroundColor;
     ColorStateList colorStateList;
 
     @Override
@@ -87,6 +88,9 @@ public class Settings extends SaveClass {
         int [][] states = {{}};
         int [] colors = {getResources().getColor(R.color.white)};
         colorStateList = new ColorStateList(states, colors);
+
+        // sets background color
+        backgroundColor = getResources().getColor(R.color.dark_grey);
 
         // sets text color
         textColor = getResources().getColor(R.color.white);
