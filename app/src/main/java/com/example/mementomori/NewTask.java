@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +74,19 @@ public class NewTask extends Fragment {
         // Import json array
         Settings activity = (Settings) getActivity();
 
+        // testing size
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        assert activity != null;
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        // Screen width
+        //device dpi
+        int deviceDPI = (int)(displayMetrics.density * 160f);
+        // px = dp * (dpi/160)
+        // Adjusted screen width - 40dp of padding in fragment holder + text-entry)
+        int pixels = (40 + 130) * (deviceDPI / 160);
+        int width = displayMetrics.widthPixels - pixels;
+
         // Gets current theme
         int textColor = activity.textColor;
         ColorStateList colorStateList = activity.colorStateList;
@@ -86,14 +101,19 @@ public class NewTask extends Fragment {
         // Edit task
         TextView editText = new TextView(activity);
         editText.setTextColor(textColor);
+        editText.setTextSize(15);
         editText.setText(R.string.taskName);
 
         EditText editEntry = new EditText(activity);
         editEntry.setId(entryId);
         editEntry.setTextColor(textColor);
+        editEntry.setBackgroundColor(getResources().getColor(R.color.dark_grey));
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(3);
+        // set 40 char limit (about 3 lines)
+        editEntry.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100) });
+        editEntry.setWidth(width);
 
         // apply
         BaseLayout.addView(editText);
@@ -110,6 +130,7 @@ public class NewTask extends Fragment {
         dynamicToggle.setId(hobbyTask);
         dynamicToggle.setText(R.string.hobbyTask);
         dynamicToggle.setTextColor(textColor);
+        CompoundButtonCompat.setButtonTintList(dynamicToggle, colorStateList);
         //dynamicToggle.setBackgroundColor();
         // dynamicToggle.setButtonTintList();
 

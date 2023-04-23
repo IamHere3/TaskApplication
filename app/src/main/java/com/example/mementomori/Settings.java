@@ -86,7 +86,6 @@ public class Settings extends SaveClass {
         // Assigns colour to the check boxes (outline and color of the checkbox)
         int [][] states = {{}};
         int [] colors = {getResources().getColor(R.color.white)};
-
         colorStateList = new ColorStateList(states, colors);
 
         // sets text color

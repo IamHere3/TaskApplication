@@ -114,7 +114,7 @@ public class TaskDays extends Fragment {
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
         selectTaskDropdown.setId(spinId);
-        // selectTaskDropdown.setDrawingCacheBackgroundColor();
+        selectTaskDropdown.setBackgroundColor(getResources().getColor(R.color.white));
         // Adds some px as interestingly the spinner and editText appears to have different lengths (perhaps) due to drop down button of spinner
         selectTaskDropdown.setMinimumWidth(width + 60);
 
