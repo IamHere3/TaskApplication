@@ -74,18 +74,9 @@ public class NewTask extends Fragment {
         // Import json array
         Settings activity = (Settings) getActivity();
 
-        // testing size
-        DisplayMetrics displayMetrics = new DisplayMetrics();
+        // width
         assert activity != null;
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
-        // Screen width
-        //device dpi
-        int deviceDPI = (int)(displayMetrics.density * 160f);
-        // px = dp * (dpi/160)
-        // Adjusted screen width - 40dp of padding in fragment holder + text-entry)
-        int pixels = 40 * (deviceDPI / 160);
-        int width = displayMetrics.widthPixels - pixels;
+        int width = activity.width;
 
         // Gets current theme
         int textColor = activity.textColor;
@@ -115,18 +106,17 @@ public class NewTask extends Fragment {
         editEntry.setLines(3);
         // set 40 char limit (about 3 lines)
         editEntry.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100) });
-        editEntry.setWidth(width);
         //editEntry.setLayoutParams(spanPrams);
 
         // apply
         newTaskTitle.addView(editText);
         newTaskEntry.addView(editEntry);
 
-
         TableRow.LayoutParams spanPrams = (TableRow.LayoutParams) editText.getLayoutParams();
         spanPrams.span = 2;
         editEntry.setLayoutParams(spanPrams);
 
+        editEntry.setWidth(width);
 
         TableRow selectDynamicTaskRow = new TableRow(activity);
         selectDynamicTaskRow.setLayoutParams(rowPram);
@@ -341,6 +331,7 @@ public class NewTask extends Fragment {
         // Apply rows
         tableLayout.addView(newTaskTitle);
         tableLayout.addView(newTaskEntry);
+        tableLayout.addView(EditTextRow);
         tableLayout.addView(selectDynamicTaskRow);
         tableLayout.addView(TaskTypeRow);
         tableLayout.addView(taskLength);

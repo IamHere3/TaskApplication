@@ -60,13 +60,9 @@ public class TaskDays extends Fragment {
         // import json array
         Settings activity = (Settings) getActivity();
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        assert activity != null;
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
         // Screen width
-        // Adjusted screen width (40px of padding in fragment holder) - textview (200ish)
-        int width = displayMetrics.widthPixels - 300;
+        assert activity != null;
+        int width = activity.width;
 
         // Gets current theme
         int textColor = activity.textColor;
@@ -115,9 +111,6 @@ public class TaskDays extends Fragment {
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
         selectTaskDropdown.setId(spinId);
-        // selectTaskDropdown.setBackgroundColor(getResources().getColor(R.color.white));
-        // Adds some px as interestingly the spinner and editText appears to have different lengths (perhaps) due to drop down button of spinner
-        selectTaskDropdown.setMinimumWidth(width + 60);
 
         selectTaskDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -137,12 +130,11 @@ public class TaskDays extends Fragment {
         selectTaskRow.addView(selectTaskDropdown);
 
         // edit task
+        TableRow editTaskTitle = new TableRow(activity);
+        editTaskTitle.setLayoutParams(rowPram);
+
         TableRow editTaskRow = new TableRow(activity);
         editTaskRow.setLayoutParams(rowPram);
-
-        TextView editText = new TextView(activity);
-        editText.setText(R.string.editTask);
-        editText.setTextColor(textColor);
 
         EditText editEntry = new EditText(activity);
         editEntry.setText(R.string.holderText);
@@ -150,12 +142,16 @@ public class TaskDays extends Fragment {
         editEntry.setId(entryId);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(5);
-        editEntry.setMaxWidth(width);
         editEntry.setBackgroundColor(backgroundColor);
 
         // apply
-        editTaskRow.addView(editText);
         editTaskRow.addView(editEntry);
+
+        TableRow.LayoutParams newHobbyParams = (TableRow.LayoutParams) editEntry.getLayoutParams();
+        newHobbyParams.span = 2;
+        editEntry.setLayoutParams(newHobbyParams);
+
+        editEntry.setMaxWidth(width);
 
         // edit task
         TableRow deleteTaskRow = new TableRow(activity);
@@ -173,8 +169,11 @@ public class TaskDays extends Fragment {
         deleteTaskRow.addView(deleteTask);
         deleteTaskRow.addView(deleteCheckbox);
 
+        tableLayout.addView(editTaskTitle);
         tableLayout.addView(selectTaskRow);
+
         tableLayout.addView(editTaskRow);
+
         tableLayout.addView(deleteTaskRow);
 
         return view;

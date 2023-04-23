@@ -43,13 +43,8 @@ public class general_settings extends Fragment {
         // import json array
         Settings activity = (Settings) getActivity();
         assert activity != null;
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
         // Screen width
-        // Adjusted screen width (40px of padding in fragment holder) - textview (200ish)
-        int width = displayMetrics.widthPixels - 40;
+        int width = activity.width;
 
         String currentTheme = activity.importTheme();
         String[] hobby = activity.importHobbies();
@@ -101,7 +96,6 @@ public class general_settings extends Fragment {
 
         // Hobbies List
         Spinner hobbySpinner = new Spinner(activity);
-        hobbySpinner.setMinimumWidth(width - 400);
 
         ArrayList<String> hobbySpinnerArray = new ArrayList<String>();
 
@@ -162,7 +156,6 @@ public class general_settings extends Fragment {
         newHobbyText.setSingleLine(false);
         newHobbyText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         newHobbyText.setLines(3);
-        newHobbyText.setWidth(width);
         newHobbyText.setBackgroundColor(backgroundColour);
         newHobbyText.setTextColor(textColor);
 
@@ -171,6 +164,8 @@ public class general_settings extends Fragment {
         TableRow.LayoutParams newHobbyParams = (TableRow.LayoutParams) newHobbyText.getLayoutParams();
         newHobbyParams.span = 2;
         newHobbyText.setLayoutParams(newHobbyParams);
+
+        newHobbyText.setWidth(width);
 
         hobbyNew.addView(newHobby);
 

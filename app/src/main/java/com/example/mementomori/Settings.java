@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
@@ -72,6 +73,8 @@ public class Settings extends SaveClass {
     int backgroundColor;
     ColorStateList colorStateList;
 
+    int width;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +97,18 @@ public class Settings extends SaveClass {
 
         // sets text color
         textColor = getResources().getColor(R.color.white);
+
+        // gets width of device
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        //device dpi
+        int deviceDPI = (int)(displayMetrics.density * 160f);
+        // px = dp * (dpi/160)
+        int pixels = 40 * (deviceDPI / 160);
+
+        // Adjusted screen width (40px of padding in fragment holder)
+        width = displayMetrics.widthPixels - pixels;
 
         // Initial fragment selection
         FragmentManager EditTasks = getSupportFragmentManager();
