@@ -1,6 +1,7 @@
 package com.example.mementomori;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.widget.CompoundButtonCompat;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -23,7 +26,8 @@ public class AllTasks extends SaveClass {
     Set<String> UpdatedMonDay, UpdatedTueDay, UpdatedWedDay, UpdatedThrDay, UpdatedFriDay, UpdatedSatDay, UpdatedSunDay;
     Set<String> UpdatedDayTask, UpdatedTomorrowTask;
     Set<String> OneDayTask, TomorrowTask;
-
+    int textColor;
+    ColorStateList colorStateList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,13 @@ public class AllTasks extends SaveClass {
             // Sunday == 1
             Calendar calendar = Calendar.getInstance();
             currentDay = calendar.get(Calendar.DAY_OF_WEEK);
+        }
+
+        // Gets theme
+        if(day != null)
+        {
+            textColor = day.getInt("textColor");
+            colorStateList = day.getParcelable("colorState");
         }
 
         // Loads all permanent tasks
@@ -112,6 +123,7 @@ public class AllTasks extends SaveClass {
             TextView Perm = new TextView(this);
             Perm.setText(R.string.taskLengthPermanent);
             Perm.setTextSize(20);
+            Perm.setTextColor(textColor);
 
             mornRoutineLayout.addView(Perm);
 
@@ -119,6 +131,7 @@ public class AllTasks extends SaveClass {
                 TextView PermDay = new TextView(this);
                 PermDay.setText(R.string.r_mor);
                 PermDay.setTextSize(20);
+                PermDay.setTextColor(textColor);
 
                 mornRoutineLayout.addView(PermDay);
 
@@ -129,6 +142,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -184,6 +200,7 @@ public class AllTasks extends SaveClass {
                 TextView PermDay = new TextView(this);
                 PermDay.setText(R.string.r_dai);
                 PermDay.setTextSize(20);
+                PermDay.setTextColor(textColor);
 
                 dailyRoutineLayout.addView(PermDay);
 
@@ -197,6 +214,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     // Sets onclick listener
                     checkBox.setOnClickListener(v -> {
@@ -251,6 +271,7 @@ public class AllTasks extends SaveClass {
         TextView WeeklyRoutines = new TextView(this);
         WeeklyRoutines.setText(R.string.taskWeekly);
         WeeklyRoutines.setTextSize(20);
+        WeeklyRoutines.setTextColor(textColor);
 
         weeklyTasks.addView(WeeklyRoutines);
 
@@ -261,6 +282,7 @@ public class AllTasks extends SaveClass {
             TextView MonRoutineW = new TextView(this);
             MonRoutineW.setText(R.string.Mon);
             MonRoutineW.setTextSize(20);
+            MonRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(MonRoutineW);
 
@@ -273,6 +295,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -335,6 +360,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -392,6 +420,7 @@ public class AllTasks extends SaveClass {
             TextView TueRoutineW = new TextView(this);
             TueRoutineW.setText(R.string.Tue);
             TueRoutineW.setTextSize(20);
+            TueRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(TueRoutineW);
 
@@ -404,6 +433,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -466,6 +498,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -523,6 +558,7 @@ public class AllTasks extends SaveClass {
             TextView WedRoutineW = new TextView(this);
             WedRoutineW.setText(R.string.Wed);
             WedRoutineW.setTextSize(20);
+            WedRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(WedRoutineW);
 
@@ -535,6 +571,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -597,6 +636,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -654,6 +696,7 @@ public class AllTasks extends SaveClass {
             TextView ThrRoutineW = new TextView(this);
             ThrRoutineW.setText(R.string.Thr);
             ThrRoutineW.setTextSize(20);
+            ThrRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(ThrRoutineW);
 
@@ -666,6 +709,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -728,6 +774,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -785,6 +834,7 @@ public class AllTasks extends SaveClass {
             TextView FriRoutineW = new TextView(this);
             FriRoutineW.setText(R.string.Fri);
             FriRoutineW.setTextSize(20);
+            FriRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(FriRoutineW);
 
@@ -798,6 +848,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -860,6 +913,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -917,6 +973,7 @@ public class AllTasks extends SaveClass {
             TextView SatRoutineW = new TextView(this);
             SatRoutineW.setText(R.string.Sat);
             SatRoutineW.setTextSize(20);
+            SatRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(SatRoutineW);
 
@@ -929,6 +986,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -991,6 +1051,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -1049,6 +1112,7 @@ public class AllTasks extends SaveClass {
             TextView SunRoutineW = new TextView(this);
             SunRoutineW.setText(R.string.Sun);
             SunRoutineW.setTextSize(20);
+            SunRoutineW.setTextColor(textColor);
 
             weeklyTasks.addView(SunRoutineW);
 
@@ -1061,6 +1125,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1123,6 +1190,9 @@ public class AllTasks extends SaveClass {
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
 
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
+
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
 
@@ -1179,6 +1249,7 @@ public class AllTasks extends SaveClass {
         TextView oneDay = new TextView(this);
         oneDay.setText(R.string.taskOneDay);
         oneDay.setTextSize(20);
+        oneDay.setTextColor(textColor);
 
         dayTasks.addView(oneDay);
 
@@ -1188,6 +1259,7 @@ public class AllTasks extends SaveClass {
             TextView MonTempRoutine = new TextView(this);
             MonTempRoutine.setText(R.string.Mon);
             MonTempRoutine.setTextSize(20);
+            MonTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(MonTempRoutine);
 
@@ -1201,6 +1273,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1268,6 +1343,7 @@ public class AllTasks extends SaveClass {
             TextView TueTempRoutine = new TextView(this);
             TueTempRoutine.setText(R.string.Tue);
             TueTempRoutine.setTextSize(20);
+            TueTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(TueTempRoutine);
 
@@ -1280,6 +1356,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1347,6 +1426,7 @@ public class AllTasks extends SaveClass {
             TextView WedTempRoutine = new TextView(this);
             WedTempRoutine.setText(R.string.Wed);
             WedTempRoutine.setTextSize(20);
+            WedTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(WedTempRoutine);
 
@@ -1359,6 +1439,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1426,6 +1509,7 @@ public class AllTasks extends SaveClass {
             TextView ThrTempRoutine = new TextView(this);
             ThrTempRoutine.setText(R.string.Thr);
             ThrTempRoutine.setTextSize(20);
+            ThrTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(ThrTempRoutine);
 
@@ -1438,6 +1522,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1505,6 +1592,7 @@ public class AllTasks extends SaveClass {
             TextView FriTempRoutine = new TextView(this);
             FriTempRoutine.setText(R.string.Fri);
             FriTempRoutine.setTextSize(20);
+            FriTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(FriTempRoutine);
 
@@ -1517,6 +1605,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1583,6 +1674,7 @@ public class AllTasks extends SaveClass {
             TextView SatTempRoutine = new TextView(this);
             SatTempRoutine.setText(R.string.Sat);
             SatTempRoutine.setTextSize(20);
+            SatTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(SatTempRoutine);
 
@@ -1595,6 +1687,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1661,6 +1756,7 @@ public class AllTasks extends SaveClass {
             TextView SunTempRoutine = new TextView(this);
             SunTempRoutine.setText(R.string.Sat);
             SunTempRoutine.setTextSize(20);
+            SunTempRoutine.setTextColor(textColor);
 
             dayTasks.addView(SunTempRoutine);
             if (SunDay.size() > 0)
@@ -1672,6 +1768,9 @@ public class AllTasks extends SaveClass {
 
                     checkBox.setId(Integer.parseInt(entry[3]));
                     checkBox.setLayoutParams(CheckParams);
+
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
@@ -1746,6 +1845,9 @@ public class AllTasks extends SaveClass {
             checkBox.setId(Integer.parseInt(entry[3]));
             checkBox.setLayoutParams(CheckParams);
 
+            CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+            checkBox.setTextColor(textColor);
+
             checkBox.setText(entry[1]);
             checkBox.setTextSize(20);
 
@@ -1807,6 +1909,9 @@ public class AllTasks extends SaveClass {
 
             checkBox.setId(Integer.parseInt(entry[3]));
             checkBox.setLayoutParams(CheckParams);
+
+            CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+            checkBox.setTextColor(textColor);
 
             checkBox.setText(entry[1]);
             checkBox.setTextSize(20);

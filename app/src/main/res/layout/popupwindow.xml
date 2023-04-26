@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="240dp"
-    android:layout_height="285dp"
+    android:layout_height="wrap_content"
     android:id="@+id/PopupWindow"
     android:background="@color/grey"
     tools:context=".YearGoals">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/addYearGoalTitle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -20,34 +20,9 @@
         android:layout_marginEnd="40dp"
         android:text="@string/yearGoal"
         android:textAlignment="center"
+        android:background="@color/clear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/save"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="227dp"
-        android:layout_marginEnd="13dp"
-        android:layout_toStartOf="@+id/back"
-        android:text="@string/save"
-        tools:layout_editor_absoluteX="252dp"
-        tools:layout_editor_absoluteY="644dp" />
-
-    <Button
-        android:id="@+id/back"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="227dp"
-        android:layout_marginEnd="14dp"
-        android:text="@string/back"
-        tools:layout_editor_absoluteX="252dp"
-        tools:layout_editor_absoluteY="644dp" />
 
 
     <EditText
@@ -60,7 +35,30 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="17dp"
+        android:text="@string/newTask"
         android:gravity="start|top"
         android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="227dp"
+        android:layout_marginEnd="13dp"
+        android:layout_toStartOf="@+id/back"
+        android:text="@string/save" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="227dp"
+        android:layout_marginEnd="14dp"
+        android:text="@string/back" />
 
 </RelativeLayout>

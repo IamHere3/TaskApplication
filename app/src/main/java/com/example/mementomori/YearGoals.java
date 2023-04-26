@@ -1,10 +1,12 @@
 package com.example.mementomori;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.widget.CompoundButtonCompat;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -27,7 +30,9 @@ import java.util.Random;
 import java.util.Set;
 
 public class YearGoals extends SaveClass {
-    
+
+    ColorStateList colorStateList;
+    int textColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,23 +46,46 @@ public class YearGoals extends SaveClass {
         ImageButton addGoalButton = findViewById(R.id.addYearGoalButton);
         ImageButton ResetGoalsButton = findViewById(R.id.resetYearGoals);
 
+        // Gets theme
+        Bundle day = getIntent().getExtras();
+        if(day != null) {
+            colorStateList = day.getParcelable("colorState");
+            textColor = day.getInt("textColor");
+        }
+        else
+        {
+            int [][] states = {{}};
+            int [] colors = {getResources().getColor(R.color.white)};
+            colorStateList = new ColorStateList(states, colors);
+
+            textColor = R.color.white;
+        }
+
         LayoutInflater inflater = (LayoutInflater) YearGoals.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View layout = inflater.inflate(R.layout.popupwindow, null);
 
+        // Finds popup box items and changes their colour
+        TextView Title = layout.findViewById(R.id.addYearGoalTitle);
+        Title.setTextColor(textColor);
+
         EditText yearEntry = layout.findViewById(R.id.yearGoalEdit);
+        yearEntry.setTextColor(textColor);
 
         // Devices screen density
         float density=YearGoals.this.getResources().getDisplayMetrics().density;
 
         // Create focusable popupWindow
-        final PopupWindow popUpWin = new PopupWindow(layout, (int)density*240, (int)density*285, true);
+        final PopupWindow popUpWin = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         ResetGoalsButton.setOnClickListener(view -> {
 
-            AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
+            //AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
 
-            dialog.show();
+            AlertDialog.Builder resetDialog = new AlertDialog.Builder(YearGoals.this);// , R.style.AlertDialogNight);
+
+            resetDialog.create();
+            resetDialog.show();
         });
 
         addGoalButton.setOnClickListener(view -> {
@@ -95,6 +123,9 @@ public class YearGoals extends SaveClass {
                     popUpWin.dismiss();
 
                     Intent intent = new Intent(YearGoals.this, YearGoals.class);
+                    intent.putExtra("textColor", textColor);
+                    intent.putExtra("colorState", colorStateList);
+
                     startActivity(intent);
                     finish();
                     // Stops page slide in when restarting activity
@@ -156,6 +187,7 @@ public class YearGoals extends SaveClass {
 
             TextView GoalREntry = new TextView(this);
             GoalREntry.setText(GoalText);
+            GoalREntry.setTextColor(textColor);
             GoalREntry.setGravity(Gravity.CENTER);
             GoalREntry.setTextSize(20);
             GoalREntry.setSingleLine(false);
@@ -164,6 +196,8 @@ public class YearGoals extends SaveClass {
 
             CheckBox complete = new CheckBox(this);
             complete.setGravity(Gravity.END);
+            complete.setTextColor(textColor);
+            CompoundButtonCompat.setButtonTintList(complete, colorStateList);
             complete.setOnClickListener(v -> SaveBoolData(entry[0], ((CheckBox) v).isChecked()));
 
             complete.setChecked(GoalsValue);

@@ -113,7 +113,11 @@ public class general_settings extends Fragment {
             hobbySpinnerArray.add(entryHolder);
         }
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, hobbySpinnerArray);
+        //loads in th light theme
+        //ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, hobbySpinnerArray);
+
+        // loads in the dark theme
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, hobbySpinnerArray);
 
         hobbySpinner.setAdapter(spinnerArrayAdapter);
         hobbySpinner.setId(hobbySpinID);
@@ -168,7 +172,6 @@ public class general_settings extends Fragment {
         newHobbyText.setWidth(width);
 
         hobbyNew.addView(newHobby);
-
 
         optionHolder.addView(themeTitle);
         optionHolder.addView(themeEdit);

@@ -42,6 +42,9 @@ public class Tasks extends SaveClass {
 
     Integer[] UniqueHobbiesID = new Integer[10];
 
+    // Passed to secondary pages
+    ColorStateList colorStateList;
+    int textColor;
     Button YearGoalsBtn;
 
     @Override
@@ -95,15 +98,18 @@ public class Tasks extends SaveClass {
         // Assigns colour to the check boxes (outline and color of the checkbox)
         int [][] states = {{}};
         int [] colors = {getResources().getColor(R.color.white)};
+        colorStateList = new ColorStateList(states, colors);
 
-        // sets text color
-        int textColor = getResources().getColor(R.color.white);
+        // sets text color (required to be universal to updateProgress can change colour too)
+        textColor = getResources().getColor(R.color.white);
 
         // Sets onclick listener
         YearGoalsBtn = findViewById(R.id.yearsGoals);
 
         YearGoalsBtn.setOnClickListener(view -> {
             Intent intent = new Intent(Tasks.this, YearGoals.class);
+            intent.putExtra("textColor", textColor);
+            intent.putExtra("colorState", colorStateList);
             try {
                 startActivity(intent);
             }
@@ -160,7 +166,7 @@ public class Tasks extends SaveClass {
             // Sets text
             checkBox.setText(entry[1]);
             checkBox.setTextColor(textColor);
-            CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+            CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
 
             checkBox.setTextSize(20);
             checkBox.setTextAppearance(this, R.style.Theme_MementoMori);
@@ -210,7 +216,7 @@ public class Tasks extends SaveClass {
             // Sets text
             checkBox.setText(entry[1]);
             checkBox.setTextColor(textColor);
-            CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+            CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
             checkBox.setTextSize(20);
 
             //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
@@ -298,7 +304,7 @@ public class Tasks extends SaveClass {
                     // Sets text
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
-                    CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
                     checkBox.setTextColor(textColor);
 
                     //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
@@ -344,7 +350,7 @@ public class Tasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
-                    CompoundButtonCompat.setButtonTintList(checkBox, new ColorStateList(states, colors));
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
                     checkBox.setTextColor(textColor);
 
                     // location on screen
@@ -420,7 +426,7 @@ public class Tasks extends SaveClass {
 
         // endregion
 
-        setProgress();
+        setGoalProgress(textColor);
 
         // load hobbies
         Set<String> hobbies = LoadSharedStrArray("HobbyOptions", new HashSet<>(), "sharedPref");
@@ -561,7 +567,8 @@ public class Tasks extends SaveClass {
         dailyP.setText(valueOf(0));
     }
 
-    private void setProgress() {
+    private void setGoalProgress(int textColor) {
+
         // Loads recorded progression
         double DailyProgress = LoadSharedInt("DailyProgression", 0);
         double YesterdayProgress = LoadSharedInt("YesterdayProgression", 0);
@@ -579,6 +586,20 @@ public class Tasks extends SaveClass {
         yesterdayP.setText(valueOf(YesterdayProgress));
         totalP.setText(valueOf(OverallProgress));
         dayP.setText(valueOf(p));
+
+        // Sets color for progress bar
+        yesterdayP.setTextColor(textColor);
+        totalP.setTextColor(textColor);
+        dayP.setTextColor(textColor);
+
+        // Gets and sets titles on progress bar color
+        final TextView dayT = findViewById(R.id.DailyTitle);
+        final TextView yesterdayT = findViewById(R.id.YesterdayTitle);
+        final TextView totalT = findViewById(R.id.TotalTitle);
+
+        dayT.setTextColor(textColor);
+        yesterdayT.setTextColor(textColor);
+        totalT.setTextColor(textColor);
     }
 
     //endregion
@@ -919,6 +940,9 @@ public class Tasks extends SaveClass {
     public void AllTasks(View view) {
         Intent intent = new Intent(Tasks.this, AllTasks.class);
         intent.putExtra("currentDay", day);
+
+        intent.putExtra("textColor", textColor);
+        intent.putExtra("colorState", colorStateList);
         startActivity(intent);
     }
 }

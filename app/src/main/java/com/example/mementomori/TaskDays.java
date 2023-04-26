@@ -106,7 +106,12 @@ public class TaskDays extends Fragment {
             spinnerArray.add(entryHolder);
         }
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        // light theme
+        // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+
+        // dark theme
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, spinnerArray);
 
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
