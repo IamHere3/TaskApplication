@@ -68,6 +68,7 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="yearGoal">Add year goal</string>
+    <string name="yearGoalReset">Reset yearly goals</string>
     <string name="complete">Completed Task</string>
     <string name="completeGoal">Achieved</string>
 

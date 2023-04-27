@@ -5,6 +5,7 @@ import androidx.core.widget.CompoundButtonCompat;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -63,7 +64,7 @@ public class YearGoals extends SaveClass {
 
         LayoutInflater inflater = (LayoutInflater) YearGoals.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View layout = inflater.inflate(R.layout.popupwindow, null);
+        View layout = inflater.inflate(R.layout.popup_add_year_goal, null);
 
         // Finds popup box items and changes their colour
         TextView Title = layout.findViewById(R.id.addYearGoalTitle);
@@ -75,17 +76,43 @@ public class YearGoals extends SaveClass {
         // Devices screen density
         float density=YearGoals.this.getResources().getDisplayMetrics().density;
 
+        // Gets popup box
+
+
+
+
         // Create focusable popupWindow
         final PopupWindow popUpWin = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         ResetGoalsButton.setOnClickListener(view -> {
 
-            //AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
+            AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
 
-            AlertDialog.Builder resetDialog = new AlertDialog.Builder(YearGoals.this);// , R.style.AlertDialogNight);
+            //AlertDialog.Builder resetDialog = new AlertDialog.Builder(YearGoals.this);// , R.style.AlertDialogNight);
 
-            resetDialog.create();
-            resetDialog.show();
+            //resetDialog.create();
+            dialog.show();
+
+            // sets text color
+
+            // gets by id
+            TextView title = (TextView) dialog.findViewById(android.R.id.message);
+            Button yes = (Button) dialog.findViewById(DialogInterface.BUTTON_POSITIVE);
+            Button no = (Button) dialog.findViewById(DialogInterface.BUTTON_NEGATIVE);
+
+            // sets colour
+            if(title != null)
+            {
+                title.setTextColor(textColor);
+            }
+            if(yes != null)
+            {
+                yes.setTextColor(textColor);
+            }
+            if(no != null)
+            {
+                no.setTextColor(textColor);
+            }
         });
 
         addGoalButton.setOnClickListener(view -> {
@@ -210,7 +237,7 @@ public class YearGoals extends SaveClass {
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this); // , R.style.AlertDialogNight);
 
         builder.setMessage(R.string.conformation);
 
