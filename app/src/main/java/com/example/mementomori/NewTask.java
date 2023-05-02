@@ -80,7 +80,7 @@ public class NewTask extends Fragment {
 
         // Gets current theme
         int textColor = activity.textColor;
-        int backgroundColor = activity.backgroundColor;
+        int backgroundColor = activity.boxBackgroundColor;
         ColorStateList colorStateList = activity.colorStateList;
 
         // sets row style
@@ -118,13 +118,6 @@ public class NewTask extends Fragment {
 
         editEntry.setWidth(width);
 
-        TableRow selectDynamicTaskRow = new TableRow(activity);
-        selectDynamicTaskRow.setLayoutParams(rowPram);
-
-        TextView selectTaskTitle = new TextView(activity);
-        selectTaskTitle.setText(R.string.newTask);
-        selectTaskTitle.setTextColor(textColor);
-
         TableRow EditTextRow = new TableRow(activity);
         EditTextRow.setLayoutParams(rowPram);
 
@@ -137,7 +130,6 @@ public class NewTask extends Fragment {
         // dynamicToggle.setButtonTintList();
 
         // apply
-        selectDynamicTaskRow.addView(selectTaskTitle);
         EditTextRow.addView(dynamicToggle);
 
         TableRow TaskTypeRow = new TableRow(activity);
@@ -332,7 +324,6 @@ public class NewTask extends Fragment {
         tableLayout.addView(newTaskTitle);
         tableLayout.addView(newTaskEntry);
         tableLayout.addView(EditTextRow);
-        tableLayout.addView(selectDynamicTaskRow);
         tableLayout.addView(TaskTypeRow);
         tableLayout.addView(taskLength);
         tableLayout.addView(taskLengthTable);

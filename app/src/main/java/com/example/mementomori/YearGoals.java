@@ -1,6 +1,7 @@
 package com.example.mementomori;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.CompoundButtonCompat;
 
 import android.app.Dialog;
@@ -11,22 +12,26 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
@@ -37,6 +42,11 @@ public class YearGoals extends SaveClass {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hides title action bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         setContentView(R.layout.activity_year_goals);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -52,14 +62,10 @@ public class YearGoals extends SaveClass {
         if(day != null) {
             colorStateList = day.getParcelable("colorState");
             textColor = day.getInt("textColor");
-        }
-        else
-        {
-            int [][] states = {{}};
-            int [] colors = {getResources().getColor(R.color.white)};
-            colorStateList = new ColorStateList(states, colors);
 
-            textColor = R.color.white;
+            // Sets background colour
+            LinearLayout backgroundC = findViewById(R.id.background);
+            backgroundC.setBackgroundColor(day.getInt("background"));
         }
 
         LayoutInflater inflater = (LayoutInflater) YearGoals.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -88,9 +94,6 @@ public class YearGoals extends SaveClass {
 
             AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
 
-            //AlertDialog.Builder resetDialog = new AlertDialog.Builder(YearGoals.this);// , R.style.AlertDialogNight);
-
-            //resetDialog.create();
             dialog.show();
 
             // sets text color
@@ -237,9 +240,20 @@ public class YearGoals extends SaveClass {
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this); // , R.style.AlertDialogNight);
+        boolean themeColor = LoadSharedBoolean("DarkTheme", false);
+        AlertDialog.Builder builder;
 
-        builder.setMessage(R.string.conformation);
+        // used answer from to set background https://stackoverflow.com/questions/18346920/change-the-background-color-of-a-pop-up-dialog
+        if(themeColor)
+        {
+            builder = new AlertDialog.Builder(this, R.style.AlertDialogNight);
+        }
+        else
+        {
+            builder = new AlertDialog.Builder(this, R.style.AlertDialogDay);
+        }
+
+        builder.setMessage(R.string.confirmation);
 
         builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
             SaveSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref");

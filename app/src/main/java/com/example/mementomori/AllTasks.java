@@ -5,11 +5,13 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.CompoundButtonCompat;
 
 import java.util.Calendar;
@@ -31,6 +33,11 @@ public class AllTasks extends SaveClass {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hides title action bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         setContentView(R.layout.activity_all_tasks);
 
         // assigns values (most efficient way found so far)
@@ -60,6 +67,10 @@ public class AllTasks extends SaveClass {
         {
             textColor = day.getInt("textColor");
             colorStateList = day.getParcelable("colorState");
+
+            // Sets background colour
+            ConstraintLayout backgroundC = findViewById(R.id.background);
+            backgroundC.setBackgroundColor(day.getInt("background"));
         }
 
         // Loads all permanent tasks
@@ -102,7 +113,8 @@ public class AllTasks extends SaveClass {
         LinearLayout weeklyTasks = findViewById(R.id.weeklyTasks);
         LinearLayout dayTasks = findViewById(R.id.dayTasks);
 
-        Button button = findViewById(R.id.ButtonID);
+        Button button = findViewById(R.id.deleteButton);
+        button.setTextColor(textColor);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

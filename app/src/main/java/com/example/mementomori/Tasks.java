@@ -44,7 +44,7 @@ public class Tasks extends SaveClass {
 
     // Passed to secondary pages
     ColorStateList colorStateList;
-    int textColor;
+    int textColor, backgroundColor;
     Button YearGoalsBtn;
 
     @Override
@@ -57,10 +57,51 @@ public class Tasks extends SaveClass {
 
         setContentView(R.layout.activity_tasks);
 
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         // height adjusted for existing elements
         int height = displayMetrics.heightPixels - 40;
+
+        // loads theme
+        boolean themeColor = LoadSharedBoolean("DarkTheme", false);
+
+        LinearLayout layout = findViewById(R.id.background);
+
+        // if shared pref theme == dark else (light)
+        if(themeColor) {
+            int[][] states = {{}};
+            int[] colors = {getResources().getColor(R.color.white)};
+            colorStateList = new ColorStateList(states, colors);
+
+            // sets background color
+            backgroundColor = getResources().getColor(R.color.dark_grey);
+
+            // sets text color
+            textColor = getResources().getColor(R.color.white);
+        }
+        else
+        {
+            int[][] states = {{}};
+            int[] colors = {getResources().getColor(R.color.teal_700)};
+            colorStateList = new ColorStateList(states, colors);
+
+            // sets background color
+            backgroundColor = getResources().getColor(R.color.light_grey);
+
+            // sets text color
+            textColor = getResources().getColor(R.color.black);
+        }
+
+        // Sets background
+        layout.setBackgroundColor(backgroundColor);
+
+        // Sets all task colour
+        Button allTasksBtn = findViewById(R.id.allTasks);
+        allTasksBtn.setTextColor(textColor);
+
+        // Sets page colour
+        TextView background = findViewById(R.id.progressTitle);
+        background.setTextColor(textColor);
+
 
         // Gets saved and current day
         int savedDay = LoadSharedInt("Day", 0);
@@ -92,17 +133,6 @@ public class Tasks extends SaveClass {
         LinearLayout dailyCheckboxes = findViewById(R.id.dailyRoutine);
         LinearLayout temporaryCheckboxes = findViewById(R.id.temporaryRoutine);
 
-        // Enables colours (this section is set up to try and make it centralise colors for changing themes later on)
-
-        // if shared pref theme == dark else (light
-        // Assigns colour to the check boxes (outline and color of the checkbox)
-        int [][] states = {{}};
-        int [] colors = {getResources().getColor(R.color.white)};
-        colorStateList = new ColorStateList(states, colors);
-
-        // sets text color (required to be universal to updateProgress can change colour too)
-        textColor = getResources().getColor(R.color.white);
-
         // Sets onclick listener
         YearGoalsBtn = findViewById(R.id.yearsGoals);
 
@@ -110,6 +140,7 @@ public class Tasks extends SaveClass {
             Intent intent = new Intent(Tasks.this, YearGoals.class);
             intent.putExtra("textColor", textColor);
             intent.putExtra("colorState", colorStateList);
+            intent.putExtra("background", backgroundColor);
             try {
                 startActivity(intent);
             }
@@ -329,6 +360,7 @@ public class Tasks extends SaveClass {
                 TextView TempTaskTitle = new TextView(this);
                 TempTaskTitle.setText(R.string.r_day);
                 TempTaskTitle.setTextSize(20);
+                TempTaskTitle.setTextColor(textColor);
                 TempTaskTitle.setLayoutParams(TitleParams);
 
                 temporaryCheckboxes.addView(TempTaskTitle);
@@ -943,6 +975,7 @@ public class Tasks extends SaveClass {
 
         intent.putExtra("textColor", textColor);
         intent.putExtra("colorState", colorStateList);
+        intent.putExtra("background", backgroundColor);
         startActivity(intent);
     }
 }

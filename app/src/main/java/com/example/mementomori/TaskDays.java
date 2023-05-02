@@ -66,7 +66,7 @@ public class TaskDays extends Fragment {
 
         // Gets current theme
         int textColor = activity.textColor;
-        int backgroundColor = activity.backgroundColor;
+        int backgroundColor = activity.boxBackgroundColor;
         ColorStateList colorStateList = activity.colorStateList;
 
         String[] importedMorningData = activity.importMorningData();
@@ -106,12 +106,18 @@ public class TaskDays extends Fragment {
             spinnerArray.add(entryHolder);
         }
 
-        // light theme
-        // ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        ArrayAdapter<String> spinnerArrayAdapter;
 
-        // dark theme
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, spinnerArray);
+        if(activity.themeColor)
+        {
+            // dark theme
+            spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, spinnerArray);
+        }
+        else
+        {
+            // light theme
+            spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.light_theme_spinner, spinnerArray);
+        }
 
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
@@ -168,6 +174,7 @@ public class TaskDays extends Fragment {
 
         CheckBox deleteCheckbox = new CheckBox(activity);
         deleteCheckbox.setText(R.string.removeTask);
+        deleteCheckbox.setTextColor(textColor);
         deleteCheckbox.setId(deleteCheckboxID);
         CompoundButtonCompat.setButtonTintList(deleteCheckbox, colorStateList);
 

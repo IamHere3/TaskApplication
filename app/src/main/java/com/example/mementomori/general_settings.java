@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.Fragment;
 
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -33,12 +35,11 @@ public class general_settings extends Fragment {
     int deleteThemeID = 15002;
     int newHobbyID = 15003;
     int hobbySpinID = 15004;
+    int themeSwitchID = 15005;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_general_settings, container, false);
-
-        // load in current theme
 
         // import json array
         Settings activity = (Settings) getActivity();
@@ -49,18 +50,12 @@ public class general_settings extends Fragment {
         String currentTheme = activity.importTheme();
         String[] hobby = activity.importHobbies();
 
-
         // loads theme
-        // if shared pref theme == dark else (light
-        // Assigns colour to the check boxes (outline and color of the checkbox)
-        int [][] states = {{}};
-        int [] colors = {getResources().getColor(R.color.white)};
-        ColorStateList colorStateList = new ColorStateList(states, colors);
 
         // theme text colour
         int textColor = activity.textColor;
         // theme text entry background colour
-        int backgroundColour = activity.backgroundColor;
+        int backgroundColour = activity.boxBackgroundColor;
 
         LinearLayout layout = (LinearLayout) view.findViewById(R.id.FragmentHolder);
 
@@ -116,8 +111,17 @@ public class general_settings extends Fragment {
         //loads in th light theme
         //ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, hobbySpinnerArray);
 
-        // loads in the dark theme
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, hobbySpinnerArray);
+        ArrayAdapter<String> spinnerArrayAdapter;
+        if(activity.themeColor)
+        {
+            // loads in the dark theme
+            spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, hobbySpinnerArray);
+        }
+        else
+        {
+            // loads in the light theme
+            spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.light_theme_spinner, hobbySpinnerArray);
+        }
 
         hobbySpinner.setAdapter(spinnerArrayAdapter);
         hobbySpinner.setId(hobbySpinID);
@@ -140,7 +144,7 @@ public class general_settings extends Fragment {
         deleteHobby.setText(R.string.deleteHobby);
         deleteHobby.setTextColor(textColor);
         deleteHobby.setId(deleteThemeID);
-        CompoundButtonCompat.setButtonTintList(deleteHobby, colorStateList);
+        CompoundButtonCompat.setButtonTintList(deleteHobby, activity.colorStateList);
 
         //hobbySpinnerArray.addView(editCurrentTheme);
         hobbyRow.addView(hobbySpinner);
@@ -173,6 +177,18 @@ public class general_settings extends Fragment {
 
         hobbyNew.addView(newHobby);
 
+        // Adds theme toggle (dark or light)
+        TableRow theme = new TableRow(activity);
+
+        SwitchCompat themeSwitch = new SwitchCompat(activity);
+        themeSwitch.setText(R.string.themeToggle);
+        themeSwitch.setTextColor(textColor);
+        themeSwitch.setId(themeSwitchID);
+        themeSwitch.setChecked(activity.themeColor);
+        CompoundButtonCompat.setButtonTintList(themeSwitch, activity.colorStateList);
+
+        theme.addView(themeSwitch);
+
         optionHolder.addView(themeTitle);
         optionHolder.addView(themeEdit);
 
@@ -180,6 +196,8 @@ public class general_settings extends Fragment {
 
         optionHolder.addView(hobbyNew);
         optionHolder.addView(hobbyNewEntry);
+
+        optionHolder.addView(theme);
 
         return view;
     }

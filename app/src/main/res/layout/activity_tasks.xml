@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/background"
     tools:context=".Tasks"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="24dp"
@@ -138,14 +139,13 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/test"
+                android:id="@+id/allTasks"
                 android:layout_width="match_parent"
                 android:layout_height="76dp"
                 android:background="@color/clear"
                 android:text="@string/allTasks"
                 android:onClick="AllTasks"
                 android:textSize="12sp"
-                android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
             </Button>

@@ -77,7 +77,10 @@
     <string name="cDNewTask">New Task</string>
 
     <!-- alert text -->
-    <string name="conformation">Conformation removal of all year goals</string>
+    <string name="confirmation">Confirmation removal of all year goals</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <!-- theme -->
+    <string name="themeToggle">Dark Theme</string>
 </resources>

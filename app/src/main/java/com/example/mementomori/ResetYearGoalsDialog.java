@@ -16,7 +16,7 @@ public class ResetYearGoalsDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-        builder.setMessage(R.string.conformation);
+        builder.setMessage(R.string.confirmation);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
