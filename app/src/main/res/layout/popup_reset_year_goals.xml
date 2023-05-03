@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="240dp"
-    android:layout_height="285dp"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
     android:id="@+id/PopupWindow"
     android:background="@color/grey"
     tools:context=".YearGoals">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/addYearGoalTitle"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -18,49 +18,31 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="38dp"
         android:layout_marginEnd="40dp"
-        android:text="@string/yearGoal"
+        android:text="@string/yearGoalReset"
         android:textAlignment="center"
+        android:background="@color/clear"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/resetGoalsYes"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="227dp"
-        android:layout_marginEnd="13dp"
-        android:layout_toStartOf="@+id/back"
-        android:text="@string/save"
-        tools:layout_editor_absoluteX="252dp"
-        tools:layout_editor_absoluteY="644dp" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="95dp"
+        android:text="@string/yes" />
 
-    <Button
-        android:id="@+id/back"
+    <Button android:id="@+id/resetGoalsNo"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="227dp"
-        android:layout_marginEnd="14dp"
-        android:text="@string/back"
-        tools:layout_editor_absoluteX="252dp"
-        tools:layout_editor_absoluteY="644dp" />
-
-
-    <EditText
-        android:id="@+id/yearGoalEdit"
-        android:layout_width="208dp"
-        android:layout_height="93dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="17dp"
-        android:gravity="start|top"
-        android:inputType="textMultiLine" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginEnd="20dp"
+        android:layout_toEndOf="@+id/resetGoalsYes"
+        android:text="@string/no" />
 
 </RelativeLayout>

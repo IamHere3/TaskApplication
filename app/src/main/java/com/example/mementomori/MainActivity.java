@@ -3,11 +3,15 @@ package com.example.mementomori;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,12 +21,19 @@ import java.util.Set;
 public class MainActivity extends SaveClass {
 
     Button Tasks, Settings;
+    int backgroundColor;
+    int textColor;
 
     public static final String Shared_Pref = "sharedPref";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hides title action bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         setContentView(R.layout.activity_main);
 
         // Initial setup checker
@@ -31,6 +42,9 @@ public class MainActivity extends SaveClass {
         if (!FirstRun) {
             compileStartSetArrays();
         }
+
+        // load and apply theme
+        theme();
 
         // Strings for quote displaying
         String[] Phrases = PhraseArray();
@@ -87,10 +101,55 @@ public class MainActivity extends SaveClass {
         // Calls a super class method
         super.onResume();
 
+        theme();
         UpdateThemeStr();
     }
 
     //region $JSONPopulation
+
+    protected void theme()
+    {
+        // loads theme
+        boolean themeColor = LoadSharedBoolean("DarkTheme", false);
+
+        // If shared pref theme == dark else (light)
+        if(themeColor) {
+            // Sets background color
+            backgroundColor = getResources().getColor(R.color.dark_grey);
+
+            // Sets text color
+            textColor = getResources().getColor(R.color.white);
+        }
+        else
+        {
+            // Sets background color
+            backgroundColor = getResources().getColor(R.color.light_grey);
+
+            // Sets text color
+            textColor = getResources().getColor(R.color.black);
+        }
+
+        // Gets and sets background
+        ConstraintLayout background = findViewById(R.id.background);
+        background.setBackgroundColor(backgroundColor);
+
+        // Sets text colour
+        final TextView mEPhrase = findViewById(R.id.translationTwo);
+        mEPhrase.setTextColor(textColor);
+
+        final TextView mAPhrase = findViewById(R.id.AuthorTwo);
+        mAPhrase.setTextColor(textColor);
+
+        // Clears primary quote holders
+        final TextView Phrase = findViewById(R.id.Phrase);
+        Phrase.setTextColor(textColor);
+
+        final TextView Author = findViewById(R.id.Author);
+        Author.setTextColor(textColor);
+
+        final TextView Translation = findViewById(R.id.Translation);
+        Translation.setTextColor(textColor);
+    }
 
     // New application population
     protected void compileStartSetArrays() {
@@ -128,6 +187,8 @@ public class MainActivity extends SaveClass {
 
         setUp.putBoolean("Setup", true);
 
+        setUp.putBoolean("DarkTheme", true);
+
         setUp.apply();
     }
 
@@ -158,20 +219,25 @@ public class MainActivity extends SaveClass {
         if(!Phrases[n].equals(""))
         {
             final TextView mPhrase = findViewById(R.id.Phrase);
+            mPhrase.setTextColor(textColor);
             mPhrase.setText(Phrases[n]);
 
             final TextView mEPhrase = findViewById(R.id.Translation);
+            mEPhrase.setTextColor(textColor);
             mEPhrase.setText(EnglishPhrases[n]);
 
             final TextView mAPhrase = findViewById(R.id.Author);
+            mAPhrase.setTextColor(textColor);
             mAPhrase.setText(Author[n]);
         }
         else
         {
             final TextView mEPhrase = findViewById(R.id.translationTwo);
+            mEPhrase.setTextColor(textColor);
             mEPhrase.setText(EnglishPhrases[n]);
 
             final TextView mAPhrase = findViewById(R.id.AuthorTwo);
+            mAPhrase.setTextColor(textColor);
             mAPhrase.setText(Author[n]);
 
             // Clears primary quote holders
@@ -199,6 +265,7 @@ public class MainActivity extends SaveClass {
 
         final TextView cTheme = findViewById(R.id.SeasonalTheme);
         cTheme.setText(Theme);
+        cTheme.setTextColor(textColor);
     }
     //endregion
 }

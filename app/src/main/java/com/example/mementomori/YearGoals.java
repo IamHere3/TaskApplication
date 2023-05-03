@@ -1,36 +1,52 @@
 package com.example.mementomori;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.CompoundButtonCompat;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
 public class YearGoals extends SaveClass {
-    
+
+    ColorStateList colorStateList;
+    int textColor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Hides title action bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Objects.requireNonNull(getSupportActionBar()).hide();
+
         setContentView(R.layout.activity_year_goals);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -41,23 +57,65 @@ public class YearGoals extends SaveClass {
         ImageButton addGoalButton = findViewById(R.id.addYearGoalButton);
         ImageButton ResetGoalsButton = findViewById(R.id.resetYearGoals);
 
+        // Gets theme
+        Bundle day = getIntent().getExtras();
+        if(day != null) {
+            colorStateList = day.getParcelable("colorState");
+            textColor = day.getInt("textColor");
+
+            // Sets background colour
+            LinearLayout backgroundC = findViewById(R.id.background);
+            backgroundC.setBackgroundColor(day.getInt("background"));
+        }
+
         LayoutInflater inflater = (LayoutInflater) YearGoals.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View layout = inflater.inflate(R.layout.popupwindow, null);
+        View layout = inflater.inflate(R.layout.popup_add_year_goal, null);
+
+        // Finds popup box items and changes their colour
+        TextView Title = layout.findViewById(R.id.addYearGoalTitle);
+        Title.setTextColor(textColor);
 
         EditText yearEntry = layout.findViewById(R.id.yearGoalEdit);
+        yearEntry.setTextColor(textColor);
 
         // Devices screen density
         float density=YearGoals.this.getResources().getDisplayMetrics().density;
 
+        // Gets popup box
+
+
+
+
         // Create focusable popupWindow
-        final PopupWindow popUpWin = new PopupWindow(layout, (int)density*240, (int)density*285, true);
+        final PopupWindow popUpWin = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
         ResetGoalsButton.setOnClickListener(view -> {
 
             AlertDialog dialog = (AlertDialog) onCreateDialog(savedInstanceState);
 
             dialog.show();
+
+            // sets text color
+
+            // gets by id
+            TextView title = (TextView) dialog.findViewById(android.R.id.message);
+            Button yes = (Button) dialog.findViewById(DialogInterface.BUTTON_POSITIVE);
+            Button no = (Button) dialog.findViewById(DialogInterface.BUTTON_NEGATIVE);
+
+            // sets colour
+            if(title != null)
+            {
+                title.setTextColor(textColor);
+            }
+            if(yes != null)
+            {
+                yes.setTextColor(textColor);
+            }
+            if(no != null)
+            {
+                no.setTextColor(textColor);
+            }
         });
 
         addGoalButton.setOnClickListener(view -> {
@@ -95,6 +153,9 @@ public class YearGoals extends SaveClass {
                     popUpWin.dismiss();
 
                     Intent intent = new Intent(YearGoals.this, YearGoals.class);
+                    intent.putExtra("textColor", textColor);
+                    intent.putExtra("colorState", colorStateList);
+
                     startActivity(intent);
                     finish();
                     // Stops page slide in when restarting activity
@@ -156,6 +217,7 @@ public class YearGoals extends SaveClass {
 
             TextView GoalREntry = new TextView(this);
             GoalREntry.setText(GoalText);
+            GoalREntry.setTextColor(textColor);
             GoalREntry.setGravity(Gravity.CENTER);
             GoalREntry.setTextSize(20);
             GoalREntry.setSingleLine(false);
@@ -164,6 +226,8 @@ public class YearGoals extends SaveClass {
 
             CheckBox complete = new CheckBox(this);
             complete.setGravity(Gravity.END);
+            complete.setTextColor(textColor);
+            CompoundButtonCompat.setButtonTintList(complete, colorStateList);
             complete.setOnClickListener(v -> SaveBoolData(entry[0], ((CheckBox) v).isChecked()));
 
             complete.setChecked(GoalsValue);
@@ -176,9 +240,20 @@ public class YearGoals extends SaveClass {
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        boolean themeColor = LoadSharedBoolean("DarkTheme", false);
+        AlertDialog.Builder builder;
 
-        builder.setMessage(R.string.conformation);
+        // used answer from to set background https://stackoverflow.com/questions/18346920/change-the-background-color-of-a-pop-up-dialog
+        if(themeColor)
+        {
+            builder = new AlertDialog.Builder(this, R.style.AlertDialogNight);
+        }
+        else
+        {
+            builder = new AlertDialog.Builder(this, R.style.AlertDialogDay);
+        }
+
+        builder.setMessage(R.string.confirmation);
 
         builder.setPositiveButton(R.string.yes, (dialogInterface, i) -> {
             SaveSharedStrArray("LongTermGoals", new HashSet<>(), "sharedPref");

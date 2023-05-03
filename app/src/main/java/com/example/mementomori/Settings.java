@@ -1,16 +1,21 @@
 package com.example.mementomori;
 
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,6 +54,7 @@ public class Settings extends SaveClass {
     static int deleteThemeID = 15002;
     static int newHobbyID = 15003;
     static int hobbySpinID = 15004;
+    int themeSwitchID = 15005;
 
     // Task length variables
     static int permanentTask = 2000;
@@ -66,6 +72,16 @@ public class Settings extends SaveClass {
     static int SatID = 2505;
     static int SunID = 2506;
 
+    boolean themeColor;
+
+    // theme colors
+    int textColor;
+    int backgroundColor;
+    int boxBackgroundColor;
+    ColorStateList colorStateList;
+
+    int width;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +91,59 @@ public class Settings extends SaveClass {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         setContentView(R.layout.activity_settings);
+
+        // loads theme
+        themeColor = LoadSharedBoolean("DarkTheme", false);
+
+        LinearLayout layout = findViewById(R.id.background);
+
+        // if shared pref theme == dark else (light)
+        // Assigns colour to the check boxes (outline and col   or of the checkbox)
+        if(themeColor) {
+            int[][] states = {{}};
+            int[] colors = {getResources().getColor(R.color.white)};
+            colorStateList = new ColorStateList(states, colors);
+
+            // sets background color
+            backgroundColor = getResources().getColor(R.color.dark_grey);
+
+            boxBackgroundColor = getResources().getColor(R.color.white);
+
+            // sets text color
+            textColor = getResources().getColor(R.color.white);
+        }
+        else
+        {
+            int[][] states = {{}};
+            int[] colors = {getResources().getColor(R.color.teal_700)};
+            colorStateList = new ColorStateList(states, colors);
+
+            // sets background color
+            backgroundColor = getResources().getColor(R.color.light_grey);
+
+            boxBackgroundColor = getResources().getColor(R.color.white);
+
+            // sets text color
+            textColor = getResources().getColor(R.color.black);
+        }
+
+        // Updates theme colour
+        layout.setBackgroundColor(backgroundColor);
+
+        TextView settings = findViewById(R.id.settingsText);
+        settings.setTextColor(textColor);
+
+        // gets width of device
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        //device dpi
+        int deviceDPI = (int)(displayMetrics.density * 160f);
+        // px = dp * (dpi/160)
+        int pixels = 40 * (deviceDPI / 160);
+
+        // Adjusted screen width (40px of padding in fragment holder)
+        width = displayMetrics.widthPixels - pixels;
 
         // Initial fragment selection
         FragmentManager EditTasks = getSupportFragmentManager();
@@ -927,7 +996,9 @@ public class Settings extends SaveClass {
         final TextView themeText = findViewById(themeID);
         final CheckBox deleteValue = findViewById(deleteThemeID);
         final TextView hobbyText = findViewById(newHobbyID);
+        final SwitchCompat themeSwitch = findViewById(themeSwitchID);
 
+        boolean themeOption = themeSwitch.isChecked();
         boolean deleteOption = deleteValue.isChecked();
         String newTheme = themeText.getText().toString();
         String hobbyValue = hobbyText.getText().toString();
@@ -977,6 +1048,15 @@ public class Settings extends SaveClass {
             toast.show();
 
             GeneralFragment(view);
+        }
+
+        // Checks theme
+        if(!Objects.equals(themeOption, themeColor))
+        {
+            SaveBoolData("DarkTheme", themeOption);
+
+            finish();
+            startActivity(getIntent());
         }
     }
 

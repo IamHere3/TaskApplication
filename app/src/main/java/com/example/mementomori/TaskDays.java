@@ -2,9 +2,11 @@ package com.example.mementomori;
 
 import static java.lang.String.valueOf;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.widget.CompoundButtonCompat;
 import androidx.fragment.app.Fragment;
 
 import android.text.InputType;
@@ -58,14 +60,14 @@ public class TaskDays extends Fragment {
         // import json array
         Settings activity = (Settings) getActivity();
 
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        assert activity != null;
-        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
         // Screen width
-        // Adjusted screen width (40px of padding in fragment holder) - textview (200ish)
-        int width = displayMetrics.widthPixels - 300;
+        assert activity != null;
+        int width = activity.width;
 
+        // Gets current theme
+        int textColor = activity.textColor;
+        int backgroundColor = activity.boxBackgroundColor;
+        ColorStateList colorStateList = activity.colorStateList;
 
         String[] importedMorningData = activity.importMorningData();
         String[] importedDailyData = activity.importDayData();
@@ -84,6 +86,7 @@ public class TaskDays extends Fragment {
 
         TextView selectTaskTitle = new TextView(activity);
         selectTaskTitle.setText(R.string.editTask);
+        selectTaskTitle.setTextColor(textColor);
 
         ArrayList<String> spinnerArray = new ArrayList<String>();
 
@@ -103,13 +106,22 @@ public class TaskDays extends Fragment {
             spinnerArray.add(entryHolder);
         }
 
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_dropdown_item, spinnerArray);
+        ArrayAdapter<String> spinnerArrayAdapter;
+
+        if(activity.themeColor)
+        {
+            // dark theme
+            spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.night_theme_spinner, spinnerArray);
+        }
+        else
+        {
+            // light theme
+            spinnerArrayAdapter = new ArrayAdapter<String>(activity, R.layout.light_theme_spinner, spinnerArray);
+        }
 
         Spinner selectTaskDropdown = new Spinner(activity);
         selectTaskDropdown.setAdapter(spinnerArrayAdapter);
         selectTaskDropdown.setId(spinId);
-        // Adds some px as interestingly the spinner and editText appears to have different lengths (perhaps) due to drop down button of spinner
-        selectTaskDropdown.setMinimumWidth(width + 60);
 
         selectTaskDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -129,22 +141,28 @@ public class TaskDays extends Fragment {
         selectTaskRow.addView(selectTaskDropdown);
 
         // edit task
+        TableRow editTaskTitle = new TableRow(activity);
+        editTaskTitle.setLayoutParams(rowPram);
+
         TableRow editTaskRow = new TableRow(activity);
         editTaskRow.setLayoutParams(rowPram);
 
-        TextView editText = new TextView(activity);
-        editText.setText(R.string.editTask);
-
         EditText editEntry = new EditText(activity);
         editEntry.setText(R.string.holderText);
+        editEntry.setTextColor(textColor);
         editEntry.setId(entryId);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(5);
-        editEntry.setMaxWidth(width);
+        editEntry.setBackgroundColor(backgroundColor);
 
         // apply
-        editTaskRow.addView(editText);
         editTaskRow.addView(editEntry);
+
+        TableRow.LayoutParams newHobbyParams = (TableRow.LayoutParams) editEntry.getLayoutParams();
+        newHobbyParams.span = 2;
+        editEntry.setLayoutParams(newHobbyParams);
+
+        editEntry.setMaxWidth(width);
 
         // edit task
         TableRow deleteTaskRow = new TableRow(activity);
@@ -152,16 +170,22 @@ public class TaskDays extends Fragment {
 
         TextView deleteTask = new TextView(activity);
         deleteTask.setText(R.string.deleteTask);
+        deleteTask.setTextColor(textColor);
 
         CheckBox deleteCheckbox = new CheckBox(activity);
         deleteCheckbox.setText(R.string.removeTask);
+        deleteCheckbox.setTextColor(textColor);
         deleteCheckbox.setId(deleteCheckboxID);
+        CompoundButtonCompat.setButtonTintList(deleteCheckbox, colorStateList);
 
         deleteTaskRow.addView(deleteTask);
         deleteTaskRow.addView(deleteCheckbox);
 
+        tableLayout.addView(editTaskTitle);
         tableLayout.addView(selectTaskRow);
+
         tableLayout.addView(editTaskRow);
+
         tableLayout.addView(deleteTaskRow);
 
         return view;

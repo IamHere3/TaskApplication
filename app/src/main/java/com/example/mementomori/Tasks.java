@@ -5,6 +5,8 @@ import static java.lang.String.valueOf;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -16,6 +18,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.core.widget.CompoundButtonCompat;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -37,6 +42,9 @@ public class Tasks extends SaveClass {
 
     Integer[] UniqueHobbiesID = new Integer[10];
 
+    // Passed to secondary pages
+    ColorStateList colorStateList;
+    int textColor, backgroundColor;
     Button YearGoalsBtn;
 
     @Override
@@ -49,10 +57,51 @@ public class Tasks extends SaveClass {
 
         setContentView(R.layout.activity_tasks);
 
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         // height adjusted for existing elements
         int height = displayMetrics.heightPixels - 40;
+
+        // loads theme
+        boolean themeColor = LoadSharedBoolean("DarkTheme", false);
+
+        LinearLayout layout = findViewById(R.id.background);
+
+        // if shared pref theme == dark else (light)
+        if(themeColor) {
+            int[][] states = {{}};
+            int[] colors = {getResources().getColor(R.color.white)};
+            colorStateList = new ColorStateList(states, colors);
+
+            // sets background color
+            backgroundColor = getResources().getColor(R.color.dark_grey);
+
+            // sets text color
+            textColor = getResources().getColor(R.color.white);
+        }
+        else
+        {
+            int[][] states = {{}};
+            int[] colors = {getResources().getColor(R.color.teal_700)};
+            colorStateList = new ColorStateList(states, colors);
+
+            // sets background color
+            backgroundColor = getResources().getColor(R.color.light_grey);
+
+            // sets text color
+            textColor = getResources().getColor(R.color.black);
+        }
+
+        // Sets background
+        layout.setBackgroundColor(backgroundColor);
+
+        // Sets all task colour
+        Button allTasksBtn = findViewById(R.id.allTasks);
+        allTasksBtn.setTextColor(textColor);
+
+        // Sets page colour
+        TextView background = findViewById(R.id.progressTitle);
+        background.setTextColor(textColor);
+
 
         // Gets saved and current day
         int savedDay = LoadSharedInt("Day", 0);
@@ -89,6 +138,9 @@ public class Tasks extends SaveClass {
 
         YearGoalsBtn.setOnClickListener(view -> {
             Intent intent = new Intent(Tasks.this, YearGoals.class);
+            intent.putExtra("textColor", textColor);
+            intent.putExtra("colorState", colorStateList);
+            intent.putExtra("background", backgroundColor);
             try {
                 startActivity(intent);
             }
@@ -120,6 +172,7 @@ public class Tasks extends SaveClass {
         MorningTitle.setText(R.string.r_mor);
         MorningTitle.setTextSize(20);
         MorningTitle.setLayoutParams(TitleParams);
+        MorningTitle.setTextColor(textColor);
 
         morningCheckboxes.addView(MorningTitle);
 
@@ -143,7 +196,11 @@ public class Tasks extends SaveClass {
 
             // Sets text
             checkBox.setText(entry[1]);
+            checkBox.setTextColor(textColor);
+            CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+
             checkBox.setTextSize(20);
+            checkBox.setTextAppearance(this, R.style.Theme_MementoMori);
 
             // Sets onclick listener
             checkBox.setOnClickListener(v -> {
@@ -166,6 +223,7 @@ public class Tasks extends SaveClass {
         DailyTitle.setText(R.string.r_dai);
         DailyTitle.setTextSize(20);
         DailyTitle.setLayoutParams(TitleParams);
+        DailyTitle.setTextColor(textColor);
 
         dailyCheckboxes.addView(DailyTitle);
 
@@ -188,6 +246,8 @@ public class Tasks extends SaveClass {
 
             // Sets text
             checkBox.setText(entry[1]);
+            checkBox.setTextColor(textColor);
+            CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
             checkBox.setTextSize(20);
 
             //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
@@ -235,6 +295,7 @@ public class Tasks extends SaveClass {
 
                     // Sets text
                     checkBox.setText(entry[1]);
+                    checkBox.setTextColor(textColor);
                     checkBox.setTextSize(20);
 
                     //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
@@ -274,6 +335,8 @@ public class Tasks extends SaveClass {
                     // Sets text
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     //checkBox.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
 
@@ -297,6 +360,7 @@ public class Tasks extends SaveClass {
                 TextView TempTaskTitle = new TextView(this);
                 TempTaskTitle.setText(R.string.r_day);
                 TempTaskTitle.setTextSize(20);
+                TempTaskTitle.setTextColor(textColor);
                 TempTaskTitle.setLayoutParams(TitleParams);
 
                 temporaryCheckboxes.addView(TempTaskTitle);
@@ -318,6 +382,8 @@ public class Tasks extends SaveClass {
 
                     checkBox.setText(entry[1]);
                     checkBox.setTextSize(20);
+                    CompoundButtonCompat.setButtonTintList(checkBox, colorStateList);
+                    checkBox.setTextColor(textColor);
 
                     // location on screen
                     checkBox.setLayoutParams(CheckParams);
@@ -392,7 +458,7 @@ public class Tasks extends SaveClass {
 
         // endregion
 
-        setProgress();
+        setGoalProgress(textColor);
 
         // load hobbies
         Set<String> hobbies = LoadSharedStrArray("HobbyOptions", new HashSet<>(), "sharedPref");
@@ -533,7 +599,8 @@ public class Tasks extends SaveClass {
         dailyP.setText(valueOf(0));
     }
 
-    private void setProgress() {
+    private void setGoalProgress(int textColor) {
+
         // Loads recorded progression
         double DailyProgress = LoadSharedInt("DailyProgression", 0);
         double YesterdayProgress = LoadSharedInt("YesterdayProgression", 0);
@@ -551,6 +618,20 @@ public class Tasks extends SaveClass {
         yesterdayP.setText(valueOf(YesterdayProgress));
         totalP.setText(valueOf(OverallProgress));
         dayP.setText(valueOf(p));
+
+        // Sets color for progress bar
+        yesterdayP.setTextColor(textColor);
+        totalP.setTextColor(textColor);
+        dayP.setTextColor(textColor);
+
+        // Gets and sets titles on progress bar color
+        final TextView dayT = findViewById(R.id.DailyTitle);
+        final TextView yesterdayT = findViewById(R.id.YesterdayTitle);
+        final TextView totalT = findViewById(R.id.TotalTitle);
+
+        dayT.setTextColor(textColor);
+        yesterdayT.setTextColor(textColor);
+        totalT.setTextColor(textColor);
     }
 
     //endregion
@@ -891,6 +972,10 @@ public class Tasks extends SaveClass {
     public void AllTasks(View view) {
         Intent intent = new Intent(Tasks.this, AllTasks.class);
         intent.putExtra("currentDay", day);
+
+        intent.putExtra("textColor", textColor);
+        intent.putExtra("colorState", colorStateList);
+        intent.putExtra("background", backgroundColor);
         startActivity(intent);
     }
 }
