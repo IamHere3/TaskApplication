@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class MainActivity extends SaveClass {
     Button Tasks, Settings;
     int backgroundColor;
     int textColor;
+    int SeasonColor;
 
     public static final String Shared_Pref = "sharedPref";
 
@@ -127,6 +129,27 @@ public class MainActivity extends SaveClass {
 
             // Sets text color
             textColor = getResources().getColor(R.color.black);
+        }
+
+        // Sets Title based on season
+        Calendar calendar = Calendar.getInstance();
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        if(weekOfYear <= 13)
+        {
+            SeasonColor = getResources().getColor(R.color.spring);
+        }
+        else if (weekOfYear <= 26)
+        {
+            SeasonColor = getResources().getColor(R.color.summer);
+        }
+        else if (weekOfYear <= 39)
+        {
+            SeasonColor = getResources().getColor(R.color.autumn);
+        }
+        else
+        {
+            SeasonColor = getResources().getColor(R.color.christmas);
         }
 
         // Gets and sets background
@@ -265,7 +288,7 @@ public class MainActivity extends SaveClass {
 
         final TextView cTheme = findViewById(R.id.SeasonalTheme);
         cTheme.setText(Theme);
-        cTheme.setTextColor(textColor);
+        cTheme.setTextColor(SeasonColor);
     }
     //endregion
 }
