@@ -92,7 +92,7 @@ public class Tasks extends SaveClass {
         }
 
         // Sets background
-        layout.setBackgroundColor(backgroundColor);
+        layout.setBackgroundColor(getResources().getColor(R.color.light_grey));
 
         // Sets all task colour
         Button allTasksBtn = findViewById(R.id.allTasks);

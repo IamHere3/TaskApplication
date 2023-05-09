@@ -3,11 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/clear"
+    android:id="@+id/background"
     tools:context=".TaskDays">
         <TableLayout
             android:id="@+id/tableFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/clear">
         <!-- dynamically made backend -->
         </TableLayout>
 </LinearLayout>

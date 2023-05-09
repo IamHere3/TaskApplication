@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -80,8 +81,13 @@ public class NewTask extends Fragment {
 
         // Gets current theme
         int textColor = activity.textColor;
-        int backgroundColor = activity.boxBackgroundColor;
+        int boxBackgroundColor = activity.boxBackgroundColor;
+        int backgroundColor = activity.backgroundColor;
         ColorStateList colorStateList = activity.colorStateList;
+
+        // updates background
+        LinearLayout layout = view.findViewById(R.id.background);
+        layout.setBackgroundColor(backgroundColor);
 
         // sets row style
         TableRow.LayoutParams rowPram = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
@@ -100,7 +106,7 @@ public class NewTask extends Fragment {
         EditText editEntry = new EditText(activity);
         editEntry.setId(entryId);
         editEntry.setTextColor(textColor);
-        editEntry.setBackgroundColor(backgroundColor);
+        editEntry.setBackgroundColor(boxBackgroundColor);
         editEntry.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
         editEntry.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
         editEntry.setLines(3);

@@ -107,7 +107,7 @@ public class MainActivity extends SaveClass {
         UpdateThemeStr();
     }
 
-    //region $JSONPopulation
+    //region JSONPopulation
 
     protected void theme()
     {
@@ -289,6 +289,13 @@ public class MainActivity extends SaveClass {
         final TextView cTheme = findViewById(R.id.SeasonalTheme);
         cTheme.setText(Theme);
         cTheme.setTextColor(SeasonColor);
+    }
+    //endregion
+
+    //region CreateNotification
+    public void CreateNotification()
+    {
+        Intent myIntent = new Intent(this, NotificationCreator.class);
     }
     //endregion
 }
