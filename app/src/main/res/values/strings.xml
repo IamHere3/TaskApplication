@@ -73,6 +73,7 @@
     <string name="completeGoal">Achieved</string>
 
     <!-- content description -->
+    <string name="yearGoalsTitle">yearly goals</string>
     <string name="cDReset">Reset</string>
     <string name="cDNewTask">New Task</string>
 

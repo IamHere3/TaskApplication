@@ -92,7 +92,7 @@ public class Tasks extends SaveClass {
         }
 
         // Sets background
-        layout.setBackgroundColor(getResources().getColor(R.color.light_grey));
+        layout.setBackgroundColor(backgroundColor);
 
         // Sets all task colour
         Button allTasksBtn = findViewById(R.id.allTasks);
@@ -101,7 +101,6 @@ public class Tasks extends SaveClass {
         // Sets page colour
         TextView background = findViewById(R.id.progressTitle);
         background.setTextColor(textColor);
-
 
         // Gets saved and current day
         int savedDay = LoadSharedInt("Day", 0);
@@ -132,6 +131,13 @@ public class Tasks extends SaveClass {
         LinearLayout morningCheckboxes = findViewById(R.id.morningRoutine);
         LinearLayout dailyCheckboxes = findViewById(R.id.dailyRoutine);
         LinearLayout temporaryCheckboxes = findViewById(R.id.temporaryRoutine);
+
+        // Sets onclick listener for all tasks
+        allTasksBtn.setOnClickListener(view ->
+        {
+            AllTasks();
+        });
+
 
         // Sets onclick listener
         YearGoalsBtn = findViewById(R.id.yearsGoals);
@@ -969,7 +975,7 @@ public class Tasks extends SaveClass {
         return null;
     }
 
-    public void AllTasks(View view) {
+    public void AllTasks() {
         Intent intent = new Intent(Tasks.this, AllTasks.class);
         intent.putExtra("currentDay", day);
 

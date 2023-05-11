@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:id="@+id/background"
     tools:context=".Tasks"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="24dp"
     android:orientation="vertical">
 
 
@@ -15,20 +13,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/yearsGoals"
             android:layout_width="match_parent"
             android:layout_height="76dp"
+            android:contentDescription="@string/yearGoalsTitle"
             android:background="@color/clear"
-            android:onClick="YearTasks"
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-        </Button>
+        </androidx.appcompat.widget.AppCompatButton>
 
         <TextView
             android:id="@+id/progressTitle"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
+            android:layout_height="30dp"
             android:text="@string/progressTitle"
             android:textAlignment="center"
             android:textSize="20sp"
@@ -45,8 +45,8 @@
 
                 <TextView
                     android:id="@+id/DailyTitle"
-                    android:layout_width="117dp"
-                    android:layout_height="24dp"
+                    android:layout_height="24sp"
+                    android:textSize="20sp"
                     android:text="@string/dailyTitle"
                     android:textAlignment="center"
                     app:layout_constraintStart_toStartOf="parent"
@@ -54,18 +54,18 @@
 
                 <TextView
                     android:id="@+id/YesterdayTitle"
-                    android:layout_width="117dp"
-                    android:layout_height="24dp"
+                    android:layout_height="24sp"
                     android:text="@string/yesterdayTitle"
+                    android:textSize="20sp"
                     android:textAlignment="center"
                     app:layout_constraintStart_toEndOf="@+id/DailyTitle"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/TotalTitle"
-                    android:layout_width="117dp"
-                    android:layout_height="24dp"
+                    android:layout_height="24sp"
                     android:text="@string/totalTitle"
+                    android:textSize="20sp"
                     android:textAlignment="center"
                     app:layout_constraintStart_toEndOf="@+id/YesterdayTitle"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -144,7 +144,6 @@
                 android:layout_height="76dp"
                 android:background="@color/clear"
                 android:text="@string/allTasks"
-                android:onClick="AllTasks"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

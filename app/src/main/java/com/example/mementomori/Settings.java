@@ -107,7 +107,7 @@ public class Settings extends SaveClass {
             // sets background color
             backgroundColor = getResources().getColor(R.color.dark_grey);
 
-            boxBackgroundColor = getResources().getColor(R.color.white);
+            boxBackgroundColor = getResources().getColor(R.color.light_grey);
 
             // sets text color
             textColor = getResources().getColor(R.color.white);
