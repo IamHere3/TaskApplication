@@ -1,9 +1,14 @@
 package com.example.mementomori;
 
+import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -35,6 +42,8 @@ public class MainActivity extends SaveClass {
         // Hides title action bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         Objects.requireNonNull(getSupportActionBar()).hide();
+
+        NotificationCreator notification = new NotificationCreator();
 
         setContentView(R.layout.activity_main);
 
@@ -95,6 +104,34 @@ public class MainActivity extends SaveClass {
             }
         });
         //endregion
+
+        // Creates notification
+        Intent intent = new Intent(this, NotificationCreator.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1");
+
+        // required for notification to show
+        builder.setSmallIcon(R.drawable.appicon);
+        builder.setContentTitle("Daily Reminder to complete your tasks");
+        builder.setContentText("context text?");
+
+        // used for application version lower then 7.1
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationChannel channel = new NotificationChannel("1", "ReminderNotification", NotificationCompat.PRIORITY_DEFAULT);
+        channel.setDescription("This notification is used to create and send a notification about a specific task / tasks you wish to complete");
+
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+
+
+        NotificationManagerCompat notificationManagers = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManagers.notify(1, builder.build());
     }
 
     @Override
