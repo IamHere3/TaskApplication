@@ -59,6 +59,14 @@
                 android:text="@string/deleteSelected"
                 android:background="@color/clear">
             </Button>
+
+            <Button
+                android:id="@+id/AddNotificationButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/CreateNotification"
+                android:background="@color/clear">
+            </Button>
         </LinearLayout>
     </ScrollView>
 

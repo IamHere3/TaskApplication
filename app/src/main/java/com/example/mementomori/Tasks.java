@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.CompoundButtonCompat;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Objects;
@@ -38,7 +39,7 @@ public class Tasks extends SaveClass {
 
     int UniqueHobbies = 0;
 
-    int currentDayMS, currentDayES, oneDayS, day;
+    int currentDayMS, currentDayES, oneDayS, oneDayT, day;
 
     Integer[] UniqueHobbiesID = new Integer[10];
 
@@ -46,6 +47,10 @@ public class Tasks extends SaveClass {
     ColorStateList colorStateList;
     int textColor, backgroundColor;
     Button YearGoalsBtn;
+
+    //Arrays for storing weekly data
+    private Set<String> weekDayTasks = new HashSet<String>();
+    private Set<String> weekDayNotifications = new HashSet<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -642,14 +647,14 @@ public class Tasks extends SaveClass {
 
     //endregion
 
-    private void savedDailyTasks(boolean reset, int day, String[] allTasks, String[] DayTempTasks, String[]  WeeklyTemporaryTasksM, String[] WeeklyTemporaryTasksE) {
-
+    private void savedDailyTasks(boolean reset, int day, String[] allTasks, String[] DayTempTasks, String[]  WeeklyTemporaryTasksM, String[] WeeklyTemporaryTasksE)
+    {
         // Resets daily task value if no checkboxes are checked
         boolean ErrorHandling = true;
 
         // Main tasks
-        for (String CheckBox : allTasks) {
-
+        for (String CheckBox : allTasks)
+        {
             String[] entry = CheckBox.split(",");
 
             DayTotalTasks++;
@@ -657,7 +662,8 @@ public class Tasks extends SaveClass {
             boolean CheckBoxValue = LoadSharedBoolean(entry[0], false);
             int resID = getResources().getIdentifier(entry[3], "id", getPackageName());
 
-            if (CheckBoxValue) {
+            if (CheckBoxValue)
+            {
                 // If new day
                 if (reset) {
                     TotalTasksComplete++;
@@ -802,6 +808,9 @@ public class Tasks extends SaveClass {
         // Gets tomorrow (now today's tasks)
         Set<String> NewDayTasks = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "sharedPref");
 
+        // Loads tomorrow Notifications
+        Set<String> NewDayNotifications = LoadSharedStrArray("TomorrowTask", new HashSet<>(), "Notifications");
+
         // Gets old day tasks
         Set<String> DayTasks = LoadSharedStrArray("DayTask", new HashSet<>(), "sharedPref");
 
@@ -827,18 +836,33 @@ public class Tasks extends SaveClass {
         // Clears tomorrow
         oldRemoval.edit().remove("TomorrowTask").apply();
 
-        // Gets week string array
-        Set<String> dayTemp = dayWeek(day);
+        SharedPreferences oldNoteRemoval = getSharedPreferences("Notifications", MODE_PRIVATE);
+        // Clears day
+        oldNoteRemoval.edit().remove("DayTask").apply();
+
+        // Clears tomorrow
+        oldNoteRemoval.edit().remove("TomorrowTask").apply();
+
+        // Sets week day notification and tasks
+        dayWeek(day);
 
         // Ensures day temp is not empty
         if(oneDayS > 0)
         {
-            assert dayTemp != null;
-            NewDayTasks.addAll(dayTemp);
+            assert weekDayTasks != null;
+            NewDayTasks.addAll(weekDayTasks);
+        }
+        // Ensures notifications temp is not empty
+        if(oneDayT > 0)
+        {
+            assert weekDayNotifications != null;
+            NewDayNotifications.addAll(weekDayNotifications);
         }
 
         // Updates day tasks with new day
         SaveSharedStrArray("DayTask", NewDayTasks, "sharedPref");
+        // Updates notifications with new day
+        SaveSharedStrArray("DayNotifications", NewDayNotifications, "Notifications");
     }
 
     private String[] weekDayM(int day)
@@ -925,54 +949,82 @@ public class Tasks extends SaveClass {
         return null;
     }
 
-    private Set<String> dayWeek(int day)
+    private void dayWeek(int day)
     {
         SharedPreferences oldRemoval = getSharedPreferences(Shared_Pref, MODE_PRIVATE);
+        SharedPreferences oldRemovalT = getSharedPreferences("Notifications", MODE_PRIVATE);
         switch (day)
         {
             case(1) :
-                Set<String> Sun = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
-                oneDayS = Sun.size();
+                Set<String> SunD = LoadSharedStrArray("DaySunTask", new HashSet<>(), "sharedPref");
+                Set<String> SunT = LoadSharedStrArray("DaySunTask", new HashSet<>(), "Notifications");
+                oneDayS = SunD.size();
+                oneDayT = SunT.size();
                 oldRemoval.edit().remove("DaySunTask").apply();
-                return Sun;
+                oldRemovalT.edit().remove("DaySunTask").apply();
+                weekDayTasks = SunD;
+                weekDayNotifications = SunD;
 
             case(2) :
-                Set<String> Mon = LoadSharedStrArray("DayMonTask", new HashSet<>(), "sharedPref");
-                oneDayS = Mon.size();
+                Set<String> MonD = LoadSharedStrArray("DayMonTask", new HashSet<>(), "sharedPref");
+                Set<String> MonT = LoadSharedStrArray("DayMonTask", new HashSet<>(), "Notifications");
+                oneDayS = MonD.size();
+                oneDayT = MonT.size();
                 oldRemoval.edit().remove("DayMonTask").apply();
-                return Mon;
+                oldRemovalT.edit().remove("DayMonTask").apply();
+                weekDayTasks = MonD;
+                weekDayNotifications = MonT;
 
             case(3) :
-                Set<String> Tue = LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref");
-                oneDayS = Tue.size();
+                Set<String> TueD = LoadSharedStrArray("DayTueTask", new HashSet<>(), "sharedPref");
+                Set<String> TueT = LoadSharedStrArray("DayTueTask", new HashSet<>(), "Notifications");
+                oneDayS = TueD.size();
+                oneDayT = TueT.size();
                 oldRemoval.edit().remove("DayTueTask").apply();
-                return Tue;
+                oldRemovalT.edit().remove("DayTueTask").apply();
+                weekDayTasks = TueD;
+                weekDayNotifications = TueT;
 
             case(4) :
-                Set<String> Wed = LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref");
-                oneDayS = Wed.size();
+                Set<String> WedD = LoadSharedStrArray("DayWedTask", new HashSet<>(), "sharedPref");
+                Set<String> WedT = LoadSharedStrArray("DayTueTask", new HashSet<>(), "Notifications");
+                oneDayS = WedD.size();
+                oneDayT = WedT.size();
                 oldRemoval.edit().remove("DayWedTask").apply();
-                return Wed;
+                oldRemovalT.edit().remove("DayWedTask").apply();
+                weekDayTasks = WedD;
+                weekDayNotifications = WedT;
 
             case(5) :
-                Set<String> Thr = LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref");
-                oneDayS = Thr.size();
+                Set<String> ThrD = LoadSharedStrArray("DayThrTask", new HashSet<>(), "sharedPref");
+                Set<String> ThrT = LoadSharedStrArray("DayThrTask", new HashSet<>(), "Notifications");
+                oneDayS = ThrD.size();
+                oneDayT = ThrT.size();
                 oldRemoval.edit().remove("DayThrTask").apply();
-                return Thr;
+                oldRemovalT.edit().remove("DayThrTask").apply();
+                weekDayTasks = ThrD;
+                weekDayNotifications = ThrT;
 
             case(6) :
-                Set<String> Fri = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
-                oneDayS = Fri.size();
+                Set<String> FriD = LoadSharedStrArray("DayFriTask", new HashSet<>(), "sharedPref");
+                Set<String> FriT = LoadSharedStrArray("DayFriTask", new HashSet<>(), "Notifications");
+                oneDayS = FriD.size();
+                oneDayT = FriT.size();
                 oldRemoval.edit().remove("DayFriTask").apply();
-                return Fri;
+                oldRemovalT.edit().remove("DayFriTask").apply();
+                weekDayTasks = FriD;
+                weekDayNotifications = FriT;
 
             case(7) :
-                Set<String> Sat = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
-                oneDayS = Sat.size();
+                Set<String> SatD = LoadSharedStrArray("DaySatTask", new HashSet<>(), "sharedPref");
+                Set<String> SatT = LoadSharedStrArray("DaySatTask", new HashSet<>(), "Notifications");
+                oneDayS = SatD.size();
+                oneDayS = SatT.size();
                 oldRemoval.edit().remove("DaySatTask").apply();
-                return Sat;
+                oldRemovalT.edit().remove("DaySatTask").apply();
+                weekDayTasks = SatD;
+                weekDayNotifications = SatT;
         }
-        return null;
     }
 
     public void AllTasks() {

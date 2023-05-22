@@ -1,18 +1,29 @@
 package com.example.mementomori;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewDebug;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.widget.CompoundButtonCompat;
+
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.util.Calendar;
 import java.util.HashSet;
@@ -29,7 +40,9 @@ public class AllTasks extends SaveClass {
     Set<String> UpdatedDayTask, UpdatedTomorrowTask;
     Set<String> OneDayTask, TomorrowTask;
     int textColor;
+    int hour, min;
     ColorStateList colorStateList;
+    private MaterialTimePicker timePicker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,14 +126,27 @@ public class AllTasks extends SaveClass {
         LinearLayout weeklyTasks = findViewById(R.id.weeklyTasks);
         LinearLayout dayTasks = findViewById(R.id.dayTasks);
 
-        Button button = findViewById(R.id.deleteButton);
-        button.setTextColor(textColor);
-        button.setOnClickListener(new View.OnClickListener() {
+        // sets delete button onclick listener
+        Button deleteButton = findViewById(R.id.deleteButton);
+        deleteButton.setTextColor(textColor);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deleteMethod();
             }
         });
+
+        // sets notification onclick listener
+        Button createNoteButton = findViewById(R.id.AddNotificationButton);
+        createNoteButton.setTextColor(textColor);
+        createNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Runs though notification save system
+                createNotificationMethod();
+            }
+        });
+
 
         // Creates Layout parameters
         // Checkboxes
@@ -2089,5 +2115,159 @@ public class AllTasks extends SaveClass {
         // Starts and returns new task view (thus enacting deletedChanges)
         Intent intent = new Intent(AllTasks.this, Tasks.class);
         startActivity(intent);
+    }
+
+    private void createNotificationMethod()
+    {
+        // Permanent
+        if(UpdatedMorningRoutine != null)
+        {
+            // Selects time
+            OpenTimePicker("Morning routine");
+            // Adds time to notification system
+            UpdatedMorningRoutine.add(String.valueOf(min) + "," + String.valueOf(hour));
+            // Saves time
+            SaveSharedStrArray("MorningRoutine", UpdatedMorningRoutine, "Notifications");
+        }
+        if(UpdatedDayRoutine != null)
+        {
+            SaveSharedStrArray("DayRoutine", UpdatedDayRoutine, "Notifications");
+        }
+
+        // Weekly
+        if(UpdatedMonMRoutine != null)
+        {
+            SaveSharedStrArray("MornMonTask", UpdatedMonMRoutine, "Notifications");
+        }
+        if(UpdatedTueMRoutine != null)
+        {
+            SaveSharedStrArray("MornTueTask", UpdatedTueMRoutine, "Notifications");
+        }
+        if(UpdatedWedMRoutine != null)
+        {
+            SaveSharedStrArray("MornWedTask", UpdatedWedMRoutine, "Notifications");
+        }
+        if(UpdatedThrMRoutine != null)
+        {
+            SaveSharedStrArray("MornThrTask", UpdatedThrMRoutine, "Notifications");
+        }
+        if(UpdatedFriMRoutine != null)
+        {
+            SaveSharedStrArray("MornFriTask", UpdatedFriMRoutine, "Notifications");
+        }
+        if(UpdatedSatMRoutine != null)
+        {
+            SaveSharedStrArray("MornSatTask", UpdatedSatMRoutine, "Notifications");
+        }
+        if(UpdatedSunMRoutine != null)
+        {
+            SaveSharedStrArray("MornSunTask", UpdatedSunMRoutine, "Notifications");
+        }
+
+        if(UpdatedMonERoutine != null)
+        {
+            SaveSharedStrArray("EveMonTask", UpdatedMonERoutine, "Notifications");
+        }
+        if(UpdatedTueERoutine != null)
+        {
+            SaveSharedStrArray("EveTueTask", UpdatedTueERoutine, "Notifications");
+        }
+        if(UpdatedWedERoutine != null)
+        {
+            SaveSharedStrArray("EveWedTask", UpdatedWedERoutine, "Notifications");
+        }
+        if(UpdatedThrERoutine != null)
+        {
+            SaveSharedStrArray("EveThrTask", UpdatedThrERoutine, "Notifications");
+        }
+        if(UpdatedFriERoutine != null)
+        {
+            SaveSharedStrArray("EveFriTask", UpdatedFriERoutine, "Notifications");
+        }
+        if(UpdatedSatERoutine != null)
+        {
+            SaveSharedStrArray("EveSatTask", UpdatedSatERoutine, "Notifications");
+        }
+        if(UpdatedSunERoutine != null)
+        {
+            SaveSharedStrArray("EveSunTask", UpdatedSunERoutine, "Notifications");
+        }
+
+        // Day
+        if(UpdatedMonDay != null)
+        {
+            SaveSharedStrArray("DayMonTask", UpdatedMonDay, "Notifications");
+        }
+        if(UpdatedTueDay != null)
+        {
+            SaveSharedStrArray("DayTueTask", UpdatedTueDay, "Notifications");
+        }
+        if(UpdatedWedDay != null)
+        {
+            SaveSharedStrArray("DayWedTask", UpdatedWedDay, "Notifications");
+        }
+        if(UpdatedThrDay != null)
+        {
+            SaveSharedStrArray("DayThrTask", UpdatedThrDay, "Notifications");
+        }
+        if(UpdatedFriDay != null)
+        {
+            SaveSharedStrArray("DayFriTask", UpdatedFriDay, "Notifications");
+        }
+        if(UpdatedSatDay != null)
+        {
+            SaveSharedStrArray("DaySatTask", UpdatedSatDay, "Notifications");
+        }
+        if(UpdatedSunDay != null)
+        {
+            SaveSharedStrArray("DaySunTask", UpdatedSunDay, "Notifications");
+        }
+
+        if(UpdatedDayTask != null)
+        {
+            SaveSharedStrArray("DayTask", UpdatedDayTask, "Notifications");
+        }
+        if(UpdatedTomorrowTask != null)
+        {
+            SaveSharedStrArray("TomorrowTask", UpdatedTomorrowTask, "Notifications");
+        }
+
+        // Starts and returns new task view (thus enacting deletedChanges)
+        Intent intent = new Intent(AllTasks.this, Tasks.class);
+        startActivity(intent);
+    }
+
+    private void CreateDelayNotification(int hour, int min)
+    {
+        String test = "if you see this the delay worked";
+        Intent notification = new Intent(this, DelayNotificationCreator.class);
+        notification.putExtra("ContextText", test);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, notification, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        // time is something * seconds * min * hours ?
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
+                1000L * 60 * min * hour, pendingIntent);
+    }
+
+    private void OpenTimePicker(String title)
+    {
+        timePicker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setTitleText(title + "reminder")
+                .setHour(12)
+                .setMinute(0)
+                .build();
+        timePicker.addOnPositiveButtonClickListener(dialog ->
+        {
+           hour = timePicker.getHour();
+           min = timePicker.getMinute();
+
+            // creates notification
+            CreateDelayNotification(hour, min);
+        });
+
+        timePicker.show(getSupportFragmentManager(), "NotificationTimePicker");
     }
 }

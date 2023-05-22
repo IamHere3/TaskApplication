@@ -22,6 +22,7 @@
     <string name="holderText">Holder text</string>
     <string name="deleteTask">Delete task</string>
     <string name="deleteSelected">Delete selected tasks</string>
+    <string name="CreateNotification">Create reminder notification</string>
     <string name="removeTask">Remove task</string>
     <string name="generalSettings">General</string>
 
